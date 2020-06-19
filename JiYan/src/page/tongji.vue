@@ -1,24 +1,29 @@
 <template>
   <div class="tongji">
-    <div>
-      <el-col :span="12">
-        <el-autocomplete
-        class="inline-input"
-        :fetch-suggestions="querySearch"
-        placeholder="请输入课程名称"
-        @select="handleSelect"
+    <header_></header_>
+    <div> 
+      <br>
+      <div>
+        <el-col :span="20">
+          <el-autocomplete
+          class="inline-input"
+          :fetch-suggestions="querySearch"
+          placeholder="请输入课程名称"
+          @select="handleSelect"
         ></el-autocomplete>
-      </el-col>
+        </el-col>
+      </div>
       <br>
       <br>
+      <div class="whole">
       <br>
-      <h2>{{title}}</h2>
+      <h2><center>{{title}}</center></h2>
       <el-table
           :data="listData"
           border
           :span-method="objectSpanMethod"
           class="tableArea"
-          style="width: 100%">
+          style="width: 90%">
           
           <el-table-column
             prop="scoreItem"
@@ -48,22 +53,27 @@
             </template>
           </el-table-column >
       </el-table>
+      </div>
       <br>
       <br>
       <p align='left'>&emsp;&emsp;备注（任课教师在授课方面的优点或特色）：</p>
       <el-input v-model="input1" placeholder="请输入内容"></el-input>
       <p align='left'>&emsp;&emsp;备注（任课教师令我不满意的地方）：</p>
       <el-input v-model="input2" placeholder="请输入内容"></el-input>
+      </div>
       <br>
       <br>
       <br>
-      <el-button type="primary" round @click="postScore">提交</el-button>
-    </div>
+      <div style="text-align:center"> 
+        <el-button type="primary" round @click="postScore">提交</el-button>
+      </div>
+    
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import header_ from '../components/header'
 
     export default {
       name: 'myNeedDeal',
@@ -227,6 +237,19 @@ import axios from 'axios'
     for (var i=0;i<12;i++){
       this.dafen[i]=70
     }
-  }
+  },
+
+  components: {
+      header_
+  },
 }
 </script>
+
+<style scoped>
+  .whole {
+    background-color : rgb(201, 226, 252);
+  }
+  .tableArea {
+    margin-left: 5%;
+  }
+</style>
