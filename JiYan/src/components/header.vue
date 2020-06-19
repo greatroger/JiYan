@@ -11,8 +11,8 @@
         <div class="title">同济大学课程信息综合系统</div>
         <div class="sub-title">Faster · Easier · Smarter</div>
         <div class="header__button">
-          <el-button plain="true" id="button_1">查看课程信息</el-button>
-          <el-button plain="true" id="button_2">教师评价</el-button>
+          <el-button id="button_1">查看课程信息</el-button>
+          <el-button id="button_2">教师评价</el-button>
         </div>
       </el-main>
     </el-container>
@@ -51,7 +51,7 @@
       .background_img {
         position: absolute;
         transform-origin: center;
-        transform: scale(1.5, 0.98) translateY(-330px) translateX(140px);
+        transform: scale(1.5, 0.98) translateY(-350px) translateX(140px);
         object-fit: cover;
         z-index:-1;
       }
@@ -74,23 +74,27 @@
       }
       #button_1{
         border-radius: 0;
+        background: transparent;
         border: 2px solid #c08b10;
         width: 140px;
+        opacity: 0.7;
+        color: black;
       }
       #button_1:hover{
         background-color: #c08b10;
-        color: black;
         opacity: 0.7;
       }
       #button_2{
         border-radius: 0;
         border: 2px solid #c08b10;
+        background: transparent;
         float: right;
+        color: black;
         width: 140px;
+        opacity: 0.7;
       }
       #button_2:hover{
         background-color: #c08b10;
-        color: black;
         opacity: 0.7;
       }
     }

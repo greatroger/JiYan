@@ -2,26 +2,269 @@
   <div>
     <header_></header_>
     <div class="form__style">
+      <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+        <el-form-item label="课程代码" prop="courseId">
+          <el-input v-model="ruleForm.courseId"></el-input>
+        </el-form-item>
+        <el-form-item label="课程名称" prop="courseName">
+          <el-input v-model="ruleForm.courseName"></el-input>
+        </el-form-item>
+        <el-form-item label="学历层次" prop="level">
+          <el-select v-model="ruleForm.level" value="">
+            <el-option label="本科" value="undergraduate"></el-option>
+            <el-option label="硕士" value="postgraduate"></el-option>
+            <el-option label="博士" value="phd"></el-option>
+          </el-select>
+        </el-form-item>
+        <br/>
+        <el-form-item label="开课院系" prop="department">
+          <el-input v-model="ruleForm.department"></el-input>
+        </el-form-item>
+        <el-form-item label="课程性质" prop="kind">
+          <el-select v-model="ruleForm.kind" value="">
+            <el-option label="必修" value="compulsory"></el-option>
+            <el-option label="选修" value="elective"></el-option>
+            <el-option label="重修" value="rebuild"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="任课教师" prop="teacher">
+          <el-input v-model="ruleForm.teacher"></el-input>
+        </el-form-item>
+        <el-button class="form__button" type="primary" @click="submitForm('ruleForm')">查询</el-button>
+      </el-form>
+    </div>
 
+    <div class="course_info">
+      <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
+          <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
+            <el-card class="course_container" :body-style="{ padding: '0px' }">
+              <div class="course_image" :class="card_dynamic_bkg[key*3 + index]">
+                <img src="../assets/more.png" alt="">
+              </div>
+              <br/>
+              <div class="container_span" :class="card_dynamic[key*3 + index]">
+                <span>{{ course_list[key*3 + index].courseName }}</span>
+                <span>{{ course_list[key*3 + index].courseId }}</span>
+              </div>
+              <div class="container_span_2">
+                <span>{{ course_list[key*3 + index].courseName }}
+                  <span>{{ course_list[key*3 + index].courseId }}</span>
+                </span>
+                <br/>
+                <span style="font-size:14px;">2011-2012</span>
+              </div>
+              <div class="span_icon">
+                <i class="el-icon-goods"></i>
+                <i class="el-icon-edit-outline"></i>
+                <i class="el-icon-bell"></i>
+              </div>
+            </el-card>
+          </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
   import header_ from '../components/header'
+
   export default {
     name: 'CourseInfo',
-    data () {
-      return {
-        msg: 'Welcome to Your Vue.js App'
+
+    computed: {
+      course_item() {
+        let items = [];
+        this.course_list.forEach((i, key) => {
+          let item = Math.floor(key/3);
+          if(!items[item]) {
+            items[item] = []
+          }
+          items[item].push(item);
+        });
+        return items;
       }
     },
+
+    data () {
+      return {
+        ruleForm: {
+          courseId: '',
+          courseName: '',
+          level: '',
+          department: '',
+          kind: '',
+          teacher: ''
+        },
+        course_list: [],
+        course_len:0,
+        rules: {
+          courseId: [
+            { required: true, trigger: 'blur' }
+          ]
+        },
+        card_dynamic: [],
+        card_dynamic_bkg: []
+      }
+    },
+
     components: {
       header_
+    },
+
+    created: function() {
+      this.get_course_all();
+    },
+
+    mounted: function() {
+      setTimeout(() => {
+        this.random_color();
+      }, 1000);
+    },
+
+    methods: {
+      get_course_all: function() {
+        this.$axios({
+          method: 'get',
+          url: '/course/all',
+          headers: {},
+          params: {}
+        }).then((response) => {
+          this.course_list = response.data;
+          this.course_len = response.data.length;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+
+      random_color: function() {
+        for(let i = 0; i < this.course_len; i++){
+          this.card_dynamic.push('card' + i);
+          this.card_dynamic_bkg.push('card_bkg' + i);
+        }
+      },
+
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if(valid) {
+            console.log("submit");
+          }else {
+            console.log("error submit!");
+            return false;
+          }
+        });
+      }
     }
   }
 </script>
 
 <style lang="less">
+  .form__style {
+    margin-top: 30px;
+  }
+  .el-input__inner{
+    border-radius: 0;
+    height: 30px;
+    width: 150px;
+    border-color: #7f7f7f;
+  }
+  .form__button{
+    background-color: #a7a7a7;
+    height: 30px;
+    margin-left: 30px;
+    margin-top: 5px;
+    border-color: #7f7f7f;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 5px;
+  }
+  .form__button:hover{
+    background-color: #d9d9d9;
+    border-color: #7f7f7f;
+  }
+  .course_container {
+    width: 330px;
+  }
+  .course_info {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .el-row {
+    margin-top: 30px;
+  }
+  .course_image {
+    width: 100%;
+    height: 150px;
+    display: block;
+    background-color: #2b3580;
+    img {
+      float: right;
+      margin-top: 10px;
+      width: 30px;
+      height: 30px;
+      color: white;
+    }
+    img:hover{
+      cursor: pointer;
+    }
+  }
+  .container_span {
+    width: 90%;
+    margin: 0 auto;
+    span {
+      font-weight: bolder;
+
+    }
+  }
+  .container_span_2 {
+    width: 90%;
+    margin: 0 auto;
+    span {
+      color: #b4b4b4;
+      font-size: 16px;
+      display: inline;
+    }
+  }
+  .span_icon {
+    width: 90%;
+    margin: 0 auto;
+    height: 40px;
+    padding-top: 10px;
+    i {
+      margin-right: 40px;
+    }
+    i:hover{
+      cursor: pointer;
+    }
+  }
+  .card0{
+    color: #2b3580;
+  }
+  .card_bkg0{
+    background-color: #2b3580;
+  }
+  .card1{
+    color: #e24868;
+  }
+  .card_bkg1{
+    background-color: #e24868;
+  }
+  .card2{
+    color: darkslategray;
+  }
+  .card_bkg2{
+    background-color: darkslategray;
+  }
+  .card3{
+    color: #7f7f7f;
+  }
+  .card_bkg3{
+    background-color: #7f7f7f;
+  }
+  .card4{
+    color: antiquewhite;
+  }
+  .card_bkg4{
+    background-color: antiquewhite;
+  }
 
 </style>

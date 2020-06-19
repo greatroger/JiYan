@@ -5,10 +5,15 @@ import App from './App'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.prototype.$axios = axios;
+axios.defaults.baseURL = '/api';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.withCredentials = true;
 
 /* eslint-disable no-new */
 new Vue({

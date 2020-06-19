@@ -46,7 +46,7 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
-# TypeScript cache
+# TypeScript caches
 *.tsbuildinfo
 
 # Optional npm cache directory
@@ -88,3 +88,5 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+.idea/workspace.xml
