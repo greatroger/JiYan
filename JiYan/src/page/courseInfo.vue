@@ -132,7 +132,7 @@
           this.course_list = response.data;
           this.course_len = response.data.length;
         }).catch((error) => {
-          console.log(error);
+          alert(error);
         })
       },
 
