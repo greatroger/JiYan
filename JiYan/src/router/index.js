@@ -4,6 +4,7 @@ import CourseInfo from '../page/courseInfo'
 import Comment from '../page/comment'
 import forumMain from '../page/forum_main'
 import forumDetail from '../page/forum_detail'
+import login from '../page/login'
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
         icon: '',
         noCache: true
       }
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:login
     }
   ]
 })
