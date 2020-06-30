@@ -7,10 +7,10 @@
           <span>话题</span>
         </el-container>
         <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
-          <el-col :span="5">
+          <el-col :span="3">
             <span class="span_num">{{ index }}</span>
           </el-col>
-          <el-col :span="5" class="span_2">
+          <el-col :span="3" class="span_2">
             <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId)">{{ item.topicName  }}</span>
             <br/>
             <span class="span_des">{{ item.description }}</span>
@@ -31,9 +31,19 @@
           </div>
         </div>
         <div class="main_right_2">
-          <span class="row_1"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-          <br/><br/><br/>
-          <span class="row_2"><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
+          <el-row>
+            <el-col :span="24" class="row_1">
+              <span><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
+              <span style="float: right;">9</span>
+            </el-col>
+          </el-row>
+          <br/><br/>
+          <el-row>
+            <el-col :span="24" class="row_2">
+              <span ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
+              <span style="float:right;">9</span>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -74,7 +84,7 @@
             }
             console.log(response);
           }).catch((error) => {
-            alert.log(error);
+            alert("接口异常");
           })
         },
         convert_timestamp: function(timestamp) {
@@ -101,20 +111,21 @@
     }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .main{
     background-color: #e8e8e8;
     width: 100%;
     height: 1300px;
-    margin: 0 auto;
+    margin-top: 20px;
+    /*margin: 0 auto;*/
   }
   .main_left {
     float: left;
     width: 70%;
     margin-left: 20px;
+    margin-top: 20px;
     .main_left_title{
       height: 50px;
-      margin-top: 20px;
       background-color: #ffffff;
       span {
         font-size: 23px;
@@ -163,7 +174,7 @@
         height: 130px;
         position: relative;
         margin-top: 10px;
-        margin-left: 160px;
+        margin-left: 250px;
         img {
           /*width: 150px;*/
           /*height: 130px;*/
@@ -208,9 +219,9 @@
       height: 200px;
       .row_1 {
         position: relative;
+        width: 80%;
         top: 50px;
         left: 30px;
-        height: 50px;
         font-size: 20px;
       }
       .row_1:hover{
@@ -219,9 +230,9 @@
       }
       .row_2 {
         position: relative;
+        width: 80%;
         top: 50px;
         left: 30px;
-        width: 400px;
         font-size: 20px;
       }
       .row_2:hover{

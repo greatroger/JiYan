@@ -118,7 +118,7 @@
     mounted: function() {
       setTimeout(() => {
         this.random_color();
-      }, 1000);
+      }, 500);
     },
 
     methods: {
@@ -129,6 +129,7 @@
           headers: {},
           params: {}
         }).then((response) => {
+          console.log(response);
           this.course_list = response.data;
           this.course_len = response.data.length;
         }).catch((error) => {
@@ -157,11 +158,11 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .form__style {
     margin-top: 30px;
   }
-  .el-input__inner{
+  .form__style /deep/ .el-input__inner{
     border-radius: 0;
     height: 30px;
     width: 150px;

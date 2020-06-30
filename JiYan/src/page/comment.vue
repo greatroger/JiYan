@@ -1,7 +1,7 @@
 <template>
   <div class="tongji">
     <header_></header_>
-    <div> 
+    <div>
       <br>
       <div>
         <el-col :span="20">
@@ -24,7 +24,7 @@
           :span-method="objectSpanMethod"
           class="tableArea"
           style="width: 90%">
-          
+
           <el-table-column
             prop="scoreItem"
             label="评分项目"
@@ -37,12 +37,12 @@
             align="left"
             width="650"
             />
-          <el-table-column
-            label="测试">
-            <template slot-scope="scope2">
-              <el-button @click="printIndex(scope2.$index)">查看Index</el-button>
-            </template>
-          </el-table-column >
+<!--          <el-table-column-->
+<!--            label="测试">-->
+<!--            <template slot-scope="scope2">-->
+<!--              <el-button @click="printIndex(scope2.$index)">查看Index</el-button>-->
+<!--            </template>-->
+<!--          </el-table-column >-->
           <el-table-column
             label="打分">
             <template slot-scope="scope">
@@ -64,10 +64,10 @@
       <br>
       <br>
       <br>
-      <div style="text-align:center"> 
+      <div style="text-align:center">
         <el-button type="primary" round @click="postScore">提交</el-button>
       </div>
-    
+
   </div>
 </template>
 
@@ -86,10 +86,10 @@ import header_ from '../components/header'
       position: 0,
       listData: [],
       courses:[],
-      title:"XXX课程评价（课程代码：xxx  |  任课教师：xxx  |  开课学院：xxx）"
+      title:"课程评价（课程代码：|  任课教师：|  开课学院：）"
     }
   },
- 
+
   methods: {
     querySearch(queryString, cb) {
         var courses_ = this.courses;
@@ -112,51 +112,51 @@ import header_ from '../components/header'
   		this.listData = [
   		  {
           scoreItem: "教学内容",
-          scoreContent: "知识与能力要求符合学生实际",        
+          scoreContent: "知识与能力要求符合学生实际",
         },
         {
           scoreItem: "教学内容",
-          scoreContent: "知识与能力要求与课程相关度高",   
+          scoreContent: "知识与能力要求与课程相关度高",
         },
         {
           scoreItem: "教学内容",
-          scoreContent: "知识讲授正确，具有科学性和系统性",          
+          scoreContent: "知识讲授正确，具有科学性和系统性",
         },
         {
           scoreItem: "教学内容",
-          scoreContent: "知识容量和密度适中，深浅有度，重点突出",        
+          scoreContent: "知识容量和密度适中，深浅有度，重点突出",
         },
         {
           scoreItem: "教学过程",
-          scoreContent: "教学日程安排合理，没有平时讲课松懈，期末赶进度，飞速讲课的情况",      
+          scoreContent: "教学日程安排合理，没有平时讲课松懈，期末赶进度，飞速讲课的情况",
         },
         {
           scoreItem: "教学过程",
-          scoreContent: "教学环节安排合理，知识衔接自然",    
+          scoreContent: "教学环节安排合理，知识衔接自然",
         },
         {
           scoreItem: "教学过程",
-          scoreContent: "注重理论与实践相结合，学生能切实体会理论的价值",  
+          scoreContent: "注重理论与实践相结合，学生能切实体会理论的价值",
         },
         {
           scoreItem: "教学过程",
-          scoreContent: "课堂信息反馈及时，处理问题应变能力强",     
+          scoreContent: "课堂信息反馈及时，处理问题应变能力强",
         },
         {
           scoreItem: "教师素质",
-          scoreContent: "教态自然，语言表述清晰，富有感染力，仪表端庄大方",       
+          scoreContent: "教态自然，语言表述清晰，富有感染力，仪表端庄大方",
         },
         {
           scoreItem: "教师素质",
-          scoreContent: "不把私事带入到课堂教学中",      
+          scoreContent: "不把私事带入到课堂教学中",
         },
          {
           scoreItem: "教学结果",
-          scoreContent: "课堂气氛活跃，学生积极主动参与学习的全过程",        
+          scoreContent: "课堂气氛活跃，学生积极主动参与学习的全过程",
         },
         {
           scoreItem: "教学结果",
-          scoreContent: "大多数学生能正确掌握知识，并能运用所学知识解决简单的实际问题",       
+          scoreContent: "大多数学生能正确掌握知识，并能运用所学知识解决简单的实际问题",
         },
   		];
 		this.rowspan()
@@ -201,7 +201,7 @@ import header_ from '../components/header'
     handleSelect(item) {
         console.log(item.value);
         for (let i in this.courses){
-            if (item.value==this.courses[i].courseName){
+            if (item.value===this.courses[i].courseName){
               console.log(i);
               this.title=this.courses[i].courseName+"课程评价（课程代码："+this.courses[i].courseId+"  |  任课教师："+this.courses[i].ownerName+"  |  开课学院："+this.courses[i].academy+"）";
             }
@@ -210,7 +210,7 @@ import header_ from '../components/header'
     postScore(){
       //平均得分
       var totalScore=0;
-      for (var i=0;i<12;i++){     
+      for (var i=0;i<12;i++){
         totalScore=totalScore+this.dafen[i];
       }
       var postScore=totalScore/240;
@@ -245,11 +245,19 @@ import header_ from '../components/header'
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .inline-input {
+    width: 400px;
+    margin-left: 70px;
+  }
   .whole {
     background-color : rgb(201, 226, 252);
   }
   .tableArea {
     margin-left: 5%;
+  }
+  .el-input{
+    width: 80%;
+    margin-left: 30px;
   }
 </style>

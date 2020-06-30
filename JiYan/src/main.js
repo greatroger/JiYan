@@ -13,7 +13,7 @@ Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 /* eslint-disable no-new */
 new Vue({

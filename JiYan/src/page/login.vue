@@ -7,18 +7,19 @@
                     <strong>统一身份认证</strong>
                 </h1>
                 <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm">
-                    <p id="error" class="error"></p>
-                    <p class="username">
-                        <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" @input="change($event)"></el-input>
-                    </p>
-                    <p>
-                        <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" @input="change($event)"></el-input>
-                    </p>
-                    <p style="padding:2px 10px 0px; "></p>
-                    <p class="form_submit">
-                        <button @click="postLogin" type="button" style="display: block;text-align: center;color: #fff;font-size: 16px;background-color: #48c6e7;border: none;margin: 30px 0 0 0;padding: 11px 10px 12px;box-sizing: border-box;width: 100%;cursor: pointer;-webkit-appearance: none;text-decoration: none;user-select: none;white-space: pre;align-items: flex-start;">登录</button>
-                    </p>
-                    <p style="padding:11px 10px 12px; "></p>
+<!--                    <p id="error" class="error"></p>-->
+                  <el-form-item prop="username">
+                    <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" style="width: 150%; border-radius: 0"></el-input>
+                  </el-form-item>
+                  <br/><br/>
+                  <el-form-item prop="password">
+                    <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" style="width: 150%; border-radius: 0"></el-input>
+                  </el-form-item>
+                  <p style="padding:2px 10px 0; "></p>
+                  <p class="form_submit">
+                      <button @click="postLogin('ruleForm')" type="button" style="display: block;text-align: center;color: #fff;font-size: 16px;background-color: #48c6e7;border: none;margin: 30px 0 0 0;padding: 11px 10px 12px;box-sizing: border-box;width: 100%;cursor: pointer;-webkit-appearance: none;text-decoration: none;user-select: none;white-space: pre;align-items: flex-start;">登录</button>
+                  </p>
+                  <p style="padding:11px 10px 12px; "></p>
                 </el-form>
             </div>
         </div>
@@ -35,21 +36,49 @@ export default {
         ruleForm: {
           username:'',
           password:'',
+        },
+
+        rules: {
+          username: [
+            { required: true, message: '请输入学号', trigger: 'blur'},
+            { len: 7, message: '学号长度为7个数字', trigger: 'blur'}
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur'},
+          ]
         }
       }
     },
     methods:{
-        change(e){
-            this.$forceUpdate()
-        },
-        postLogin(){
-            axios({
+        postLogin(name){
+          this.$refs[name].validate((valid) => {
+            if(valid) {
+              axios({
                 method: 'post',
                 url: 'http://180.76.234.230:8080/login',
-                data: {name:1750000,password:123456 }
-            }).then((response) => {
-            console.log(response);
-            });
+                data: {
+                  name:this.ruleForm.username,
+                  password:this.ruleForm.password
+                }
+              }).then((response) => {
+                console.log(response);
+                this.$store.state.user = response.data.result;
+                if(response.data.status === 404){
+                  alert(response.data.msg);
+                }else if(response.status === 200){
+                  alert("登录成功");
+                  this.$router.push({
+                    path: `/courseInfo`
+                  })
+                }
+              }).catch(() => {
+                alert("接口异常，请重试");
+              });
+            }else{
+              return false;
+            }
+          })
+
         }
     }
 }
@@ -57,11 +86,11 @@ export default {
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     body.login{
         margin:0;
         padding:0;
-        background:url(../assets/login_background.jpg) no-repeat center 
+        background:url(../assets/login_background.jpg) no-repeat center
             center fixed;
         -webkit-background-size:cover;
         -moz-background-size:cover;
@@ -163,7 +192,7 @@ export default {
         line-height: 20px;
         margin: 0 0 3px 0;
         padding: 11px 10px 12px;
-        width: 100%;
+        width: 160%;
         box-sizing: border-box;
         border: none;
         border-radius: 0;
@@ -191,5 +220,6 @@ export default {
         border: none;
         border-radius: 0;
     }
+
 }
 </style>

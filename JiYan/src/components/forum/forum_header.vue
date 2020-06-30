@@ -3,12 +3,12 @@
     <div class="top_header">
       <img src="../../assets/tongji_badge.png" alt="" class="badge">
       <div class="user">
-        <el-dropdown>
+        <el-dropdown @command="handleClick">
           <img src="../../assets/user.png" alt="" class="user">
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>登录</el-dropdown-item>
-            <el-dropdown-item>注册</el-dropdown-item>
-            <el-dropdown-item>消息</el-dropdown-item>
+            <el-dropdown-item command="login" v-if="!this.$store.state.user.name">登录</el-dropdown-item>
+            <el-dropdown-item command="logout" v-if="this.$store.state.user.name">退出</el-dropdown-item>
+<!--            <el-dropdown-item>消息</el-dropdown-item>-->
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -24,10 +24,25 @@
 <script>
     export default {
       name: "forum_header",
+      inject: ['reload'],
       data() {
           return {
             select_input: ''
           }
+      },
+      methods: {
+        handleClick: function(command){
+          console.log(command);
+          if(command === 'logout'){
+            this.$store.state.user = {};
+            this.reload();
+            alert("退出成功！");
+          }else if(command === 'login'){
+            this.$router.push({
+              path: '/'
+            })
+          }
+        }
       }
     }
 </script>
