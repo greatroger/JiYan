@@ -1,8 +1,13 @@
 <template>
   <div>
-    <header_></header_>
+    <mainheader_></mainheader_>
+    <banner_></banner_>
+
+
     <div class="form__style">
       <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+        <el-row>
+          <el-col :span="16" :offset="4">
         <el-form-item label="课程代码" prop="courseId">
           <el-input v-model="ruleForm.courseId"></el-input>
         </el-form-item>
@@ -16,7 +21,11 @@
             <el-option label="博士" value="phd"></el-option>
           </el-select>
         </el-form-item>
-        <br/>
+        </el-col>
+      </el-row>
+
+              <el-row>
+          <el-col :span="16" :offset="4">
         <el-form-item label="开课院系" prop="department">
           <el-input v-model="ruleForm.department"></el-input>
         </el-form-item>
@@ -30,13 +39,20 @@
         <el-form-item label="任课教师" prop="teacher">
           <el-input v-model="ruleForm.teacher"></el-input>
         </el-form-item>
+        </el-col>
+        </el-row>
+
+          <el-row>
+          <el-col :span="4" :offset="10">
         <el-button class="form__button" type="primary" @click="submitForm('ruleForm')">查询</el-button>
+        </el-col>
+        </el-row>
       </el-form>
     </div>
 
     <div class="course_info">
-      <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
-          <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
+      <el-row :gutter="18" v-for="(item,key) of course_item" :key="key">
+          <el-col :span="4" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
             <el-card class="course_container" :body-style="{ padding: '0px' }">
               <div class="course_image" :class="card_dynamic_bkg[key*3 + index]">
                 <img src="../assets/more.png" alt="">
@@ -67,7 +83,8 @@
 
 <script>
   import header_ from '../components/header'
-
+  import mainheader_ from '../components/main_header'
+  import banner_ from '../components/main_banner'
   export default {
     name: 'CourseInfo',
 
@@ -108,7 +125,9 @@
     },
 
     components: {
-      header_
+      header_,
+      mainheader_,
+      banner_
     },
 
     created: function() {
@@ -118,7 +137,7 @@
     mounted: function() {
       setTimeout(() => {
         this.random_color();
-      }, 1000);
+      }, 500);
     },
 
     methods: {
@@ -129,10 +148,11 @@
           headers: {},
           params: {}
         }).then((response) => {
+          console.log(response);
           this.course_list = response.data;
           this.course_len = response.data.length;
         }).catch((error) => {
-          console.log(error);
+          alert(error);
         })
       },
 
@@ -157,11 +177,11 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .form__style {
     margin-top: 30px;
   }
-  .el-input__inner{
+  .form__style /deep/ .el-input__inner{
     border-radius: 0;
     height: 30px;
     width: 150px;
