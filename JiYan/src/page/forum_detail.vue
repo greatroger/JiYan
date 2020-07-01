@@ -6,21 +6,27 @@
       <el-row>
         <el-col :span="18">
           <el-row>
+            <el-col :span="16" :offset="4">
             <div class="topic_name">
               <span>{{ this.$store.state.topic_detail.topicName }}</span>
             </div>
+            </el-col>
           </el-row>
           <el-row>
+            <el-col :span="16" :offset="4">
             <div class="topic_detail">
               <span>{{ this.$store.state.topic_detail.description }}</span>
             </div>
+            </el-col>
           </el-row>
           <el-row>
+            <el-col :span="16" :offset="4">
             <div class="topic_icon">
               <el-button icon="el-icon-edit">写回答</el-button>
               <img src="../assets/discuss.png">
               <span>{{this.answer_list.length}}条回答</span>
             </div>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="6">
@@ -70,7 +76,7 @@
 </template>
 
 <script>
-  import header_ from '../components/forum/forum_header';
+  import header_ from '../components/main_header';
     export default {
       name: "forum_detail",
       components: {

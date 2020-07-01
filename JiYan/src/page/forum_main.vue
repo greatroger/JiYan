@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header_></header_>
+    <mainheader_></mainheader_>
     <div class="main">
       <div class="main_left">
         <el-container class="main_left_title">
@@ -52,10 +52,12 @@
 
 <script>
   import header_ from '../components/forum/forum_header'
+  import mainheader_ from '../components/main_header'
     export default {
       name: "forum_main",
       components: {
         header_,
+        mainheader_
       },
       data(){
         return {
