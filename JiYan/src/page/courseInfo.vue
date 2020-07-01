@@ -53,7 +53,8 @@
     <div class="course_info">
       <el-row :gutter="18" v-for="(item,key) of course_item" :key="key">
           <el-col :span="4" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
-            <el-card class="course_container" :body-style="{ padding: '0px' }">
+            <div @click="toDetail(course_list[key*3 + index].courseId)">
+              <el-card class="course_container" :body-style="{ padding: '0px' }">
               <div class="course_image" :class="card_dynamic_bkg[key*3 + index]">
                 <img src="../assets/more.png" alt="">
               </div>
@@ -75,6 +76,7 @@
                 <i class="el-icon-bell"></i>
               </div>
             </el-card>
+            </div>
           </el-col>
       </el-row>
     </div>
@@ -172,6 +174,13 @@
             return false;
           }
         });
+      },
+
+      toDetail(courseId){
+        this.$store.state.courseId = courseId;
+        this.$router.push({
+            path: `course_detail/${courseId}`
+          })
       }
     }
   }
