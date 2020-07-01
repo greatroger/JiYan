@@ -9,11 +9,11 @@
                 <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm">
 <!--                    <p id="error" class="error"></p>-->
                   <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" style="width: 150%; border-radius: 0"></el-input>
+                    <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" style="width: 130%; border-radius: 0"></el-input>
                   </el-form-item>
                   <br/><br/>
                   <el-form-item prop="password">
-                    <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" style="width: 150%; border-radius: 0"></el-input>
+                    <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" style="width: 130%; border-radius: 0"></el-input>
                   </el-form-item>
                   <p style="padding:2px 10px 0; "></p>
                   <p class="form_submit">
@@ -63,6 +63,7 @@ export default {
               }).then((response) => {
                 console.log(response);
                 this.$store.state.user = response.data.result;
+                console.log(this.$store.state.user);
                 if(response.data.status === 404){
                   alert(response.data.msg);
                 }else if(response.status === 200){

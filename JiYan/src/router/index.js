@@ -14,7 +14,7 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/courseInfo',
       name: 'courseInfo',
       component: CourseInfo
     },
@@ -45,7 +45,7 @@ export default new Router({
       component:login
     },
     {
-      path:'/personInfo/:id',
+      path:'/personInfo/:userId',
       name:'personInfo',
       component:personInfo
     },
