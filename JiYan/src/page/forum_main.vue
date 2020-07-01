@@ -32,15 +32,15 @@
         </div>
         <div class="main_right_2">
           <el-row>
-            <el-col :span="24" class="row_1">
-              <span><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
+            <el-col :span="24" class="row_1" >
+              <span @click="toMyTopic"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
               <span style="float: right;">9</span>
             </el-col>
           </el-row>
           <br/><br/>
           <el-row>
-            <el-col :span="24" class="row_2">
-              <span ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
+            <el-col :span="24" class="row_2" >
+              <span @click="toMyAnswer" ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
               <span style="float:right;">9</span>
             </el-col>
           </el-row>
@@ -108,6 +108,20 @@
           this.$router.push({
             path: `/forum/detail/${topicId}`
           })
+        },
+        toMyTopic(){
+          console.log("userId  "+this.$store.state.user.userId);
+          this.$router.push({
+            path: `/personInfo/${this.$store.state.user.userId}/${"1"}`
+          });
+          
+        },
+        toMyAnswer(){
+           console.log("userId  "+this.$store.state.user.userId);
+          this.$router.push({
+            path: `/personInfo/${this.$store.state.user.userId}/${"0"}`
+          });
+        
         }
       }
     }
