@@ -1,8 +1,9 @@
 <template>
   <div class="tongji">
-    <header_></header_>
+    <mainheader_></mainheader_>
     <div>
       <br>
+      <!--
       <div>
         <el-col :span="20">
           <el-autocomplete
@@ -13,6 +14,7 @@
         ></el-autocomplete>
         </el-col>
       </div>
+      -->
       <br>
       <br>
       <div class="whole">
@@ -74,6 +76,7 @@
 <script>
 import axios from 'axios'
 import header_ from '../components/header'
+import mainheader_ from '../components/main_header'
 
     export default {
       name: 'myNeedDeal',
@@ -240,7 +243,8 @@ import header_ from '../components/header'
   },
 
   components: {
-      header_
+      header_,
+      mainheader_
   },
 }
 </script>

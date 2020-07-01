@@ -45,7 +45,7 @@ export default new Router({
       component:login
     },
     {
-      path:'/personInfo/:userId',
+      path:'/personInfo/:userId/:offset',
       name:'personInfo',
       component:personInfo
     },

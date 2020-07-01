@@ -3,7 +3,7 @@
     <mainheader_>
     </mainheader_>
     <el-row>
-        <el-col :span="16" :offset="4">
+        <el-col :span="18" :offset="3">
             <div class="card">
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
@@ -25,7 +25,7 @@
                             <div class="ProfileHeader-contentHead">
                                 <h5 class="ProfileHeader-title">
                                     <span class="ProfileHeader-name">
-                                        1750000
+                                        {{this.$route.params.name}}
                                     </span>
                                     <span class="ztext ProfileHeader-headline">
                                     </span>
@@ -36,7 +36,7 @@
                                 <div class="ProfileHeader-detail">
                                     <div class="ProfileHeader-detailItem">
                                         <span class="ProfileHeader-detailLabel">
-                                            XXXX
+                                            ?????
                                         </span>
                                         <div class="ProfileHeader-detailValue">
                                         </div>
@@ -51,14 +51,14 @@
         </el-col>
     </el-row>
     <el-row>
-        <el-col :span="16" :offset="4">
+        <el-col :span="18" :offset="3">
             <div style="min-height:600px;display:block;">
-                <el-tabs type="border-card">
+                <el-tabs type="border-card" v-model="activeTab">
                 <!--TODO:这边要动态得到某用户所有回答和提问！！！-->
-                <el-tab-pane label="回答">
+                <el-tab-pane label="提问" name="1">
 
                 </el-tab-pane>
-                <el-tab-pane label="提问">
+                <el-tab-pane label="回答" name="0">
 
                 </el-tab-pane>
                 </el-tabs>
@@ -73,7 +73,7 @@ export default {
     name:'personInfo',
     data(){
         return {
-
+            activeTab:"1"
         };
     },
     methods:{
@@ -85,8 +85,9 @@ export default {
         mainheader_
     },
     mounted(){
-        let user=JSON.parse(sessionStorage.getItem("id"));
-        console.log(user);
+        console.log("userId  "+this.$route.params.userId);
+        this.activeTab=this.$route.params.offset;
+        console.log("offset  "+this.$route.params.offset);
     }
 }
 </script>
