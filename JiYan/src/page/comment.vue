@@ -86,7 +86,8 @@ import header_ from '../components/header'
       position: 0,
       listData: [],
       courses:[],
-      title:"课程评价（课程代码：|  任课教师：|  开课学院：）"
+      title:"课程评价（课程代码：|  任课教师：|  开课学院：）",
+      com_course:''
     }
   },
 
@@ -203,6 +204,7 @@ import header_ from '../components/header'
         for (let i in this.courses){
             if (item.value===this.courses[i].courseName){
               console.log(i);
+              this.com_course=this.courses[i].courseId;
               this.title=this.courses[i].courseName+"课程评价（课程代码："+this.courses[i].courseId+"  |  任课教师："+this.courses[i].ownerName+"  |  开课学院："+this.courses[i].academy+"）";
             }
         }
@@ -213,16 +215,17 @@ import header_ from '../components/header'
       for (var i=0;i<12;i++){
         totalScore=totalScore+this.dafen[i];
       }
-      var postScore=totalScore/240;
-      postScore=postScore.toFixed(2);
-      console.log(postScore);
+      // var postScore=totalScore/240;
+      // postScore=postScore.toFixed(2);
+      console.log(totalScore);
       //其它数据
-      var postText=this.input1+"&&"+input2;
+      var postText=this.input1+"&&"+this.input2;
       //发送post请求
       axios({
         method: 'post',
         url: 'http://180.76.234.230:8080/courseComment',
-        data: { courseId: 3056501, ownerId: "123456", text: "非常好！！",score: 3.9 }
+        withCredentials: true,
+        data: { courseId: this.com_course, ownerId: "123456", text: postText,score: totalScore }
       }).then((response) => {
         console.log(response);
       });

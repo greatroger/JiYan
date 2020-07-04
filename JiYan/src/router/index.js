@@ -47,7 +47,13 @@ export default new Router({
     {
       path:'/personInfo/:userId',
       name:'personInfo',
-      component:personInfo
+      component:personInfo,
+      props: true,
+      meta: {
+        title: 'personInfo',
+        icon: '',
+        noCache: true
+      }
     },
     {
       path:'/uploadDemo',

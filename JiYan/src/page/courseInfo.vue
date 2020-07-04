@@ -1,13 +1,8 @@
 <template>
   <div>
-    <mainheader_></mainheader_>
-    <banner_></banner_>
-
-
+    <header_></header_>
     <div class="form__style">
       <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-row>
-          <el-col :span="16" :offset="4">
         <el-form-item label="课程代码" prop="courseId">
           <el-input v-model="ruleForm.courseId"></el-input>
         </el-form-item>
@@ -21,11 +16,7 @@
             <el-option label="博士" value="phd"></el-option>
           </el-select>
         </el-form-item>
-        </el-col>
-      </el-row>
-
-              <el-row>
-          <el-col :span="16" :offset="4">
+        <br/>
         <el-form-item label="开课院系" prop="department">
           <el-input v-model="ruleForm.department"></el-input>
         </el-form-item>
@@ -39,20 +30,13 @@
         <el-form-item label="任课教师" prop="teacher">
           <el-input v-model="ruleForm.teacher"></el-input>
         </el-form-item>
-        </el-col>
-        </el-row>
-
-          <el-row>
-          <el-col :span="4" :offset="10">
         <el-button class="form__button" type="primary" @click="submitForm('ruleForm')">查询</el-button>
-        </el-col>
-        </el-row>
       </el-form>
     </div>
 
     <div class="course_info">
-      <el-row :gutter="18" v-for="(item,key) of course_item" :key="key">
-          <el-col :span="4" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
+      <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
+          <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
             <el-card class="course_container" :body-style="{ padding: '0px' }">
               <div class="course_image" :class="card_dynamic_bkg[key*3 + index]">
                 <img src="../assets/more.png" alt="">
@@ -82,9 +66,9 @@
 </template>
 
 <script>
+import axios from 'axios'
   import header_ from '../components/header'
-  import mainheader_ from '../components/main_header'
-  import banner_ from '../components/main_banner'
+
   export default {
     name: 'CourseInfo',
 
@@ -125,13 +109,12 @@
     },
 
     components: {
-      header_,
-      mainheader_,
-      banner_
+      header_
     },
 
     created: function() {
       this.get_course_all();
+      this.getTopicById();
     },
 
     mounted: function() {
@@ -172,7 +155,26 @@
             return false;
           }
         });
-      }
+      },
+      getTopicById(){
+            var userId=this.$store.state.user.userId;
+            axios({
+                method: 'post',
+                url: 'http://180.76.234.230:8080/topic/all',
+                data: { "ownerId":userId, "offset":0,"limit":10 }
+            }).then((response) => {
+                console.log(response.data.result);
+                this.$store.state.topic_detail = response.data;
+            });
+
+            axios({
+                method: 'get',
+                url: 'http://180.76.234.230:8080/topicComment/all',
+            }).then((response) => {
+                console.log(response.data);
+                this.$store.state.review_detail = response.data;
+            });
+        }
     }
   }
 </script>

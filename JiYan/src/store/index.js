@@ -5,6 +5,7 @@ Vue.use(Vuex);
 export default new Vuex.Store( {
   state:{
     topic_detail: {},
+    review_detail:{},
     user: {}
   },
   mutations:{
@@ -14,6 +15,6 @@ export default new Vuex.Store( {
 
   },
   actions:{
-
+      
   }
 })
