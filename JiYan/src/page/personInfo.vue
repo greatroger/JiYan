@@ -1,14 +1,13 @@
 <template>
 <div class="main">
-    <mainheader_>
-    </mainheader_>
+    <header_></header_>
     <el-row>
         <el-col :span="18" :offset="3">
             <div class="card">
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -68,7 +67,7 @@
 </div>
 </template>
 <script>
-import mainheader_ from '../components/main_header'
+import header_ from '../components/main_header'
 export default {
     name:'personInfo',
     data(){
@@ -82,7 +81,7 @@ export default {
         }
     },
     components:{
-        mainheader_
+        header_
     },
     mounted(){
         console.log("userId  "+this.$route.params.userId);

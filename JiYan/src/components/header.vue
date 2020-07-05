@@ -1,16 +1,7 @@
 <template>
   <div>
+    <main_banner></main_banner>
     <el-container class="header_container">
-      <el-header style="height: 35px;">
-        <el-dropdown @command="handleClick">
-          <span><i class="el-icon-user"></i>{{ this.$store.state.user.name }}</span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="login" v-if="!this.$store.state.user.name">登录</el-dropdown-item>
-            <el-dropdown-item command="forum" v-if="this.$store.state.user.name">论坛</el-dropdown-item>
-            <el-dropdown-item command="logout" v-if="this.$store.state.user.name">退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-header>
       <el-main class="header2">
         <div style="position: relative">
           <img src="../assets/background.jpg" class="background_img" alt="">
@@ -18,8 +9,8 @@
         <div class="title">同济大学课程信息综合系统</div>
         <div class="sub-title">Faster · Easier · Smarter</div>
         <div class="header__button">
-          <el-button id="button_1" @click="toCourseInfo()">查看课程信息</el-button>
-          <el-button id="button_2" @click="toComment()">教师评价</el-button>
+          <el-button id="button_1" @click="toCourseInfo()">课程信息系统</el-button>
+          <el-button id="button_2" @click="toComment()">论坛系统</el-button>
         </div>
       </el-main>
     </el-container>
@@ -27,6 +18,7 @@
 </template>
 
 <script>
+  import main_banner from './main_banner'
   export default {
     name: 'header_',
     inject: ['reload'],
@@ -34,6 +26,9 @@
       return {
 
       }
+    },
+    components: {
+      main_banner
     },
     methods: {
       toCourseInfo:function(){
@@ -43,7 +38,7 @@
       },
       toComment:function(){
         this.$router.push({
-          path: '/comment'
+          path: '/forum/main'
         })
       },
       handleClick: function(command){
@@ -59,6 +54,10 @@
         }else if(command === 'forum'){
           this.$router.push({
             path: '/forum/main'
+          })
+        }else if(command === 'main'){
+          this.$router.push({
+            path: '/courseInfo'
           })
         }
 

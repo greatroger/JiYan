@@ -20,9 +20,10 @@ export default new Router({
       component: CourseInfo
     },
     {
-      path: '/comment',
+      path: '/comment/:courseId',
       name: 'comment',
-      component: Comment
+      component: Comment,
+      props: true
     },
     {
       path: '/forum/main',

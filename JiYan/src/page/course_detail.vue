@@ -1,7 +1,6 @@
 <template>
 <body class="course_detail">
-    <mainheader_></mainheader_>
-    <banner_></banner_>
+    <header_></header_>
 
     <div class="course">
         <div class="course_info">
@@ -69,8 +68,7 @@
 </template>
 
 <script>
-    import header_ from '../components/header'
-    import mainheader_ from '../components/main_header'
+    import header_ from '../components/main_banner'
 
     export default {
     data() {
@@ -89,7 +87,6 @@
     },
     components: {
         header_,
-        mainheader_,
     },
     created: function(){
         this.courseId = this.$store.state.courseId;
@@ -204,11 +201,11 @@ body::before{
         bottom: 0;
         margin: auto;
         margin-top: 80px;
-    
+
 }
 
 .course_info{
-    
+
     width: 600px;
     display: flex;
     flex-direction: column;

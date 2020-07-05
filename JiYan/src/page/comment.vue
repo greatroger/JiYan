@@ -1,8 +1,7 @@
 <template>
   <div class="tongji">
-    <mainheader_></mainheader_>
+    <header_></header_>
     <div>
-      <br>
       <!--
       <div>
         <el-col :span="20">
@@ -16,6 +15,7 @@
       </div>
       -->
       <br>
+      <h1><center>{{ courseName }}</center></h1>
       <br>
       <div class="whole">
       <br>
@@ -76,9 +76,8 @@
 <script>
 import axios from 'axios'
 import header_ from '../components/header'
-import mainheader_ from '../components/main_header'
 
-    export default {
+export default {
       name: 'myNeedDeal',
   data() {
     return {
@@ -89,8 +88,13 @@ import mainheader_ from '../components/main_header'
       position: 0,
       listData: [],
       courses:[],
-      title:"课程评价（课程代码：|  任课教师：|  开课学院：）"
+      title:"课程评价（课程代码：|  任课教师：|  开课学院：）",
+      courseName: ''
     }
+  },
+
+  created:function(){
+    this.get_courseInfo_()
   },
 
   methods: {
@@ -210,6 +214,21 @@ import mainheader_ from '../components/main_header'
             }
         }
     },
+    get_courseInfo_:function(){
+      this.$axios({
+        method: 'get',
+        url: '/course/selectOne',
+        params: {
+          courseId: this.$route.params.courseId
+        }
+      }).then((response) => {
+        this.courseName = response.data.courseName;
+        this.title = `课程评价（课程代码：${response.data.courseId}|  任课教师：${response.data.ownerName}|  开课学院：${response.data.academy}）`
+
+      }).catch(() => {
+        alert("获取课程信息错误");
+      })
+    },
     postScore(){
       //平均得分
       var totalScore=0;
@@ -244,7 +263,6 @@ import mainheader_ from '../components/main_header'
 
   components: {
       header_,
-      mainheader_
   },
 }
 </script>

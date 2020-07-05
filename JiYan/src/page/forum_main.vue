@@ -1,6 +1,7 @@
 <template>
   <div>
-    <mainheader_></mainheader_>
+    <header_></header_>
+    <forum_header></forum_header>
     <div class="main">
       <div class="main_left">
         <el-container class="main_left_title">
@@ -51,13 +52,13 @@
 </template>
 
 <script>
-  import header_ from '../components/forum/forum_header'
-  import mainheader_ from '../components/main_header'
+  import header_ from '../components/main_header'
+  import forum_header from '../components/forum/forum_header'
     export default {
       name: "forum_main",
       components: {
         header_,
-        mainheader_
+        forum_header
       },
       data(){
         return {
@@ -84,8 +85,7 @@
             for(let i = 0; i < this.topic_list.length; i++) {
               this.topic_list[i].created = this.convert_timestamp(this.topic_list[i].created);
             }
-            console.log(response);
-          }).catch((error) => {
+          }).catch(() => {
             alert("接口异常");
           })
         },
@@ -114,14 +114,14 @@
           this.$router.push({
             path: `/personInfo/${this.$store.state.user.userId}/${"1"}`
           });
-          
+
         },
         toMyAnswer(){
            console.log("userId  "+this.$store.state.user.userId);
           this.$router.push({
             path: `/personInfo/${this.$store.state.user.userId}/${"0"}`
           });
-        
+
         }
       }
     }
@@ -129,11 +129,9 @@
 
 <style lang="less" scoped>
   .main{
-    background-color: #e8e8e8;
+    background-color: #afcae887;
     width: 100%;
-    height: 1300px;
-    margin-top: 20px;
-    /*margin: 0 auto;*/
+    height: 1500px;
   }
   .main_left {
     float: left;

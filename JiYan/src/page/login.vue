@@ -7,15 +7,13 @@
                     <strong>统一身份认证</strong>
                 </h1>
                 <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm">
-<!--                    <p id="error" class="error"></p>-->
                   <el-form-item prop="username">
-                    <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" style="width: 130%; border-radius: 0"></el-input>
+                    <el-input v-model="ruleForm.username" placeholder="用户名" type="text" id="username" name="username" style="width: 150%; border-radius: 0"></el-input>
                   </el-form-item>
                   <br/><br/>
                   <el-form-item prop="password">
-                    <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" style="width: 130%; border-radius: 0"></el-input>
+                    <el-input v-model="ruleForm.password" placeholder="口令" type="password" id="password" name="password" style="width: 150%; border-radius: 0"></el-input>
                   </el-form-item>
-                  <p style="padding:2px 10px 0; "></p>
                   <p class="form_submit">
                       <button @click="postLogin('ruleForm')" type="button" style="display: block;text-align: center;color: #fff;font-size: 16px;background-color: #48c6e7;border: none;margin: 30px 0 0 0;padding: 11px 10px 12px;box-sizing: border-box;width: 100%;cursor: pointer;-webkit-appearance: none;text-decoration: none;user-select: none;white-space: pre;align-items: flex-start;">登录</button>
                   </p>
@@ -61,9 +59,7 @@ export default {
                   password:this.ruleForm.password
                 }
               }).then((response) => {
-                console.log(response);
                 this.$store.state.user = response.data.result;
-                console.log(this.$store.state.user);
                 if(response.data.status === 404){
                   alert(response.data.msg);
                 }else if(response.status === 200){
