@@ -5,7 +5,7 @@ Vue.use(Vuex);
 export default new Vuex.Store( {
   state:{
     topic_detail: {},
-    user: {}
+    user: {},
   },
   mutations:{
 

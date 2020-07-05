@@ -39,9 +39,10 @@
           <el-row class="user">
             <el-col :span="3">
 <!--              <img src="../assets/default_user.png" alt="">-->
+              <img :src="item.url" alt="">
             </el-col>
             <el-col :span="3">
-              <span>匿名用户</span>
+              <span>{{ item.ip }}</span>
             </el-col>
           </el-row>
           <el-row class="user_answer">
@@ -51,7 +52,7 @@
           </el-row>
           <el-row class="user_like">
             <img src="../assets/like.png" alt="" @click="addLike(item.commentId, index)">
-            <span :class="{'has_clicked':clicked_num_list.clicked}">{{ item.likes }}</span>
+            <span :class="{'has_clicked':item.clicked}">{{ item.likes }}</span>
             <span class="time_">{{ item.created }}</span>
           </el-row>
         </div>
@@ -63,10 +64,10 @@
         <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f;"/>
         <el-row class="user">
           <el-col :span="3">
-            <img src="../assets/default_user.png" alt="">
+            <img :src="topic_author.avatar" alt="">
           </el-col>
-          <el-col :span="7">
-            <span>管理员</span>
+          <el-col :span="7" :offset="2">
+            <span>{{ topic_author.nickname }}</span>
           </el-col>
         </el-row>
       </div>
@@ -85,13 +86,15 @@
       data(){
         return {
           answer_list: [],
-          hasClicked: 0,
-          likeId: 0,
+          add_like_result: [],
+          topic_author: []
         }
       },
       created: function(){
         console.log(this.$store.state.user);
         this.get_topic_answer();
+        this.get_topic_author();
+        this.get_user_likes();
       },
       mounted: function(){
 
@@ -111,12 +114,32 @@
             this.answer_list = response.data.result;
             for(let i = 0; i < this.answer_list.length; i++){
               this.answer_list[i].created = this.convert_timestamp(this.answer_list[i].created);
-              this.answer_list[i].push()
-
+              this.answer_list[i].clicked = false;
             }
-            console.log(this.answer_list);
+            console.log(response);
           }).catch((error) =>{
             alert(error);
+          })
+        },
+
+        get_topic_author:function(){
+          this.$axios({
+            method: 'get',
+            url: `/user/selectOne?userId=${this.$route.params.ownerId}`
+          }).then((response) => {
+            console.log(response);
+            this.topic_author = response.data;
+          })
+        },
+
+        get_user_likes:function(){
+          this.$axios({
+            method: 'get',
+            url: '/like/all'
+          }).then((response) => {
+            console.log(response);
+          }).catch(() => {
+            alert("获取用户点赞详情错误");
           })
         },
 
@@ -132,7 +155,7 @@
         },
 
         addLike(comment_id, index){
-          if(this.hasClicked === 0){
+          if(this.answer_list[index].clicked === false){
             this.$axios({
               method: 'post',
               url: 'http://180.76.234.230:8080/like',
@@ -140,27 +163,35 @@
                 commentId: comment_id
               }
             }).then((response) => {
-              this.likeId = response.data.likeId;
-              console.log(this.clicked_num_list);
+              let liked = {};
+              liked.index = index;
+              liked.likeId = response.data.likeId;
+              this.add_like_result.push(liked);
+              this.answer_list[index].clicked = true;
               this.answer_list[index].likes++;
-              this.hasClicked ++;
             }).catch(()=> {
               alert("点赞接口异常，请重试")
             })
           }
-          if(this.hasClicked === 1){
-            this.$axios({
-              method: 'delete',
-              url: `http://180.76.234.230:8080/like?likeId=${this.likeId}`,
-              headers:{
-                'Content-Type': 'text'
+          if(this.answer_list[index].clicked === true){
+            for(let i = 0; i < this.add_like_result.length; i++){
+              console.log(index);
+              if(index === this.add_like_result[i].index){
+                this.$axios({
+                  method: 'delete',
+                  url: `http://180.76.234.230:8080/like?likeId=${this.add_like_result[i].likeId}`,
+                  headers:{
+                    'Content-Type': 'text'
+                  }
+                }).then(() => {
+                  this.answer_list[index].likes--;
+                  this.answer_list[index].clicked = false;
+                }).catch(() => {
+                  // alert("取消点赞接口异常，请重试")
+                })
               }
-            }).then(() => {
-              this.answer_list[index].likes--;
-              this.hasClicked --;
-            }).catch(() => {
-              alert("取消点赞接口异常，请重试")
-            })
+            }
+
           }
         }
       }
