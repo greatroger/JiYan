@@ -1,13 +1,14 @@
 <template>
 <div class="main">
-    <header_></header_>
+    <mainheader_>
+    </mainheader_>
     <el-row>
-        <el-col :span="18" :offset="3">
+        <el-col :span="16" :offset="4">
             <div class="card">
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-
+                            
                         </div>
                     </div>
                 </div>
@@ -15,7 +16,6 @@
                     <div class="ProfileHeader-main">
                         <div class="UserAvatarEditor ProfileHeader-avatar" style="top:-74px;">
                             <div class="UserAvatar">
-                                <!--这边需要换成动态的！！！！！-->
                                 <img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160"
                                     src="../assets/user.png" >
                             </div>
@@ -23,8 +23,8 @@
                         <div class="ProfileHeader-content">
                             <div class="ProfileHeader-contentHead">
                                 <h5 class="ProfileHeader-title">
-                                    <span class="ProfileHeader-name">
-                                        {{this.$route.params.name}}
+                                    <span class="ProfileHeader-name" >
+                                        {{userName}}
                                     </span>
                                     <span class="ztext ProfileHeader-headline">
                                     </span>
@@ -35,7 +35,7 @@
                                 <div class="ProfileHeader-detail">
                                     <div class="ProfileHeader-detailItem">
                                         <span class="ProfileHeader-detailLabel">
-                                            ?????
+                                            {{mail}}
                                         </span>
                                         <div class="ProfileHeader-detailValue">
                                         </div>
@@ -50,43 +50,133 @@
         </el-col>
     </el-row>
     <el-row>
-        <el-col :span="18" :offset="3">
+        <el-col :span="16" :offset="4">
             <div style="min-height:600px;display:block;">
-                <el-tabs type="border-card" v-model="activeTab">
-                <!--TODO:这边要动态得到某用户所有回答和提问！！！-->
-                <el-tab-pane label="提问" name="1">
-
-                </el-tab-pane>
-                <el-tab-pane label="回答" name="0">
-
-                </el-tab-pane>
+                <el-tabs type="border-card">
+                    <el-button @click="getTopicDetail"> 我创建的话题</el-button>
+                    <el-button @click="getReviewDetail">我的回答</el-button>
                 </el-tabs>
+                <div v-if="QuesVisible">
+                    <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
+                        <el-col :span="3">
+                            <span class="span_num">{{ index }}</span>
+                        </el-col>
+                        <el-col :span="3" class="span_2">
+                            <span class="span_name" :class="zero_style[index]">{{ item.topicName  }}</span>
+                            <br/>
+                            <span class="span_des">{{ item.description }}</span>
+                            <br/>
+                            <span class="span_time">{{ item.created }}</span>
+                        </el-col>
+                        <el-col :span="5" class="img_3">
+                        </el-col>
+                    </el-container>
+                </div>
+
+                 <div v-if="ReviewVisivle">
+                    <el-container class="main_left_review" v-for="(item,index) in reviewList" :key="index">
+                        <el-col :span="3">
+                            <span class="span_num">{{ index }}</span>
+                        </el-col>
+                        <el-col :span="3" class="span_2">
+                            <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
+                            <br/>
+                            <span class="span_des" @click="alert1(index)">{{ item.text }}</span>
+                            <br/>
+                            <span class="span_time">点赞数：{{ item.likes }}</span>
+                        </el-col>
+                    </el-container>
+                </div>
             </div>
         </el-col>
     </el-row>
 </div>
 </template>
 <script>
-import header_ from '../components/main_header'
+import axios from 'axios'
+import mainheader_ from '../components/main_header'
 export default {
     name:'personInfo',
     data(){
         return {
-            activeTab:"1"
+            userName:'',
+            mail:'',
+            topic_list_all:[],
+            topic_list:[],
+            reviewList:[],
+            oriText:[],
+            zero_style: [
+            "zero",
+          ],
+            QuesVisible: false,
+            ReviewVisivle:false,
         };
     },
     methods:{
-        handleSelect(key,keyPath){
-            console.log(key,keyPath);
+        getTopicDetail(){
+            this.QuesVisible=true;
+            this.ReviewVisivle=false;
+            this.topic_list=this.$store.state.topic_detail.result;
+            console.log(this.topic_list);
+        },
+        getReviewDetail(){
+            this.ReviewVisivle=true;
+            this.QuesVisible=false;
+            this.reviewList=this.$store.state.review_detail;
+            for (let i = 0; i < this.reviewList.length; i++) {
+                this.oriText[i]=this.reviewList[i].text;
+                for (let j = 0; j < this.topic_list_all.length; j++){
+                    if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
+                        this.reviewList[i].topicId=this.topic_list_all[j].topicName;
+                    }
+                }
+                if (this.reviewList[i].text.length>30){
+                    this.reviewList[i].text=this.reviewList[i].text.substring(0,25)+"...";
+                }
+            }
+            console.log(this.reviewList);
+        },
+        getAllTopic(){
+            this.$axios({
+            method: 'get',
+            url: '/topic',
+            params: {
+              offset: 0,
+              limit: 10
+            }
+          }).then((response) => {
+            this.topic_list_all = response.data.result;
+            for(let i = 0; i < this.topic_list_all.length; i++) {
+              this.topic_list_all[i].created = this.convert_timestamp(this.topic_list_all[i].created);
+            }
+            console.log(response);
+          })
+        },
+        convert_timestamp: function(timestamp) {
+          let date = new Date(timestamp * 1000);
+          let year = date.getFullYear() + '-';
+          let month = (date.getMonth() + 1 > 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+          let day = date.getDate() + '-';
+          let hour = date.getHours() + ':';
+          let minutes = date.getMinutes() + ':';
+          let seconds = date.getSeconds();
+          return year + month + day + hour + minutes + seconds;
+        },
+        alert1(index){
+            alert("完整回答："+this.oriText[index]);
         }
     },
     components:{
-        header_
+        mainheader_
     },
     mounted(){
-        console.log("userId  "+this.$route.params.userId);
-        this.activeTab=this.$route.params.offset;
-        console.log("offset  "+this.$route.params.offset);
+        let user=JSON.parse(sessionStorage.getItem("id"));
+        console.log(user);
+        console.log(this.$store.state.user);
+        this.userName= this.$store.state.user.name;
+        this.mail=this.$store.state.user.mail;
+        this.getTopicDetail();
+        this.getAllTopic();
     }
 }
 </script>
@@ -195,5 +285,83 @@ export default {
     -ms-flex: 1 1;
     flex: 1 1;
     overflow: hidden;
+    }
+
+
+    .main_left_topic {
+      margin-top: 5px;
+      height: 150px;
+      background-color: white;
+      .span_num {
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        color: #e51619;
+        margin-left: 30px;
+      }
+      .span_2 {
+        width: 400px;
+        height: 180px;
+        margin-top: 20px;
+        .span_name {
+          font-size: 18px;
+        }
+        .span_name:hover {
+          color: dodgerblue;
+          cursor: pointer;
+        }
+        .span_des {
+          font-size: 14px;
+          color: #b8b8b8;
+        }
+        .span_time {
+          height: 20px;
+          position: relative;
+          top: 50px;
+          color: #7f7f7f;
+        }
+      }
+      .img_3 {
+        background-color: #dadada;
+        width: 200px;
+        height: 130px;
+        position: relative;
+        margin-top: 10px;
+        margin-left: 250px;
+        
+      }
+    }
+
+    .main_left_review {
+      margin-top: 5px;
+      height: 150px;
+      background-color: white;
+      .span_num {
+        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        color: #e51619;
+        margin-left: 30px;
+      }
+      .span_2 {
+        width: 400px;
+        height: 180px;
+        margin-top: 20px;
+        .span_name {
+          font-size: 18px;
+        }
+        .span_des {
+          height: 20px;
+          font-size: 16px;
+          color: rgb(185, 159, 109);
+        }
+        .span_time {
+          height: 20px;
+          position: relative;
+          top: 50px;
+          font-size: 13px;
+          color: rgb(201, 199, 199);
+        }
+      }
     }
 </style>

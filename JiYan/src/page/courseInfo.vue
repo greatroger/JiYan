@@ -36,8 +36,8 @@
     </div>
 
     <div class="course_info">
-      <el-row :gutter="18" v-for="(item,key) of course_item" :key="key">
-          <el-col :span="4" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
+      <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
+          <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
             <el-card class="course_container" :body-style="{ padding: '0px' }">
               <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
                 <img src="../assets/more.png" alt="">
@@ -67,7 +67,9 @@
 </template>
 
 <script>
+import axios from 'axios'
   import header_ from '../components/header'
+
   export default {
     name: 'CourseInfo',
 
@@ -113,6 +115,7 @@
 
     created: function() {
       this.get_course_all();
+      this.getTopicById();
     },
 
     mounted: function() {
@@ -169,6 +172,25 @@
           }
         });
       },
+      getTopicById(){
+            var userId=this.$store.state.user.userId;
+            axios({
+                method: 'post',
+                url: 'http://180.76.234.230:8080/topic/all',
+                data: { "ownerId":userId, "offset":0,"limit":10 }
+            }).then((response) => {
+                console.log(response.data.result);
+                this.$store.state.topic_detail = response.data;
+            });
+
+            axios({
+                method: 'get',
+                url: 'http://180.76.234.230:8080/topicComment/all',
+            }).then((response) => {
+                console.log(response.data);
+                this.$store.state.review_detail = response.data;
+            });
+        },
 
       toDetail(courseId){
         this.$store.state.courseId = courseId;

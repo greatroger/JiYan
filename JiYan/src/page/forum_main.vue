@@ -19,30 +19,46 @@
             <span class="span_time">{{ item.created }}</span>
           </el-col>
           <el-col :span="5" class="img_3">
-<!--            <img src="../assets/user.png" alt="">-->
           </el-col>
         </el-container>
       </div>
       <div class="main_right">
         <div class="main_right_1">
-          <div class="main_right_1_img">
+          <div class="main_right_1_img" @click="dialogTableVisible = true">
             <img src="../assets/write.png" alt="">
             <br/>
             <span>写问题</span>
           </div>
+          <el-dialog title="创建新话题" :visible.sync="dialogTableVisible">
+            <el-form :model="form">
+              <el-form-item label="标题名称" :label-width="formLabelWidth">
+                <el-input v-model="form.titleName" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="详细描述" :label-width="formLabelWidth" >
+                <el-input v-model="form.description" auto-complete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="toEditor()">确 定</el-button>
+            </div>
+          </el-dialog>
         </div>
         <div class="main_right_2">
           <el-row>
+            <!-- <el-col :span="24" class="row_1">
+              <span><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
+              <span style="float: right;"></span> -->
             <el-col :span="24" class="row_1" >
               <span @click="toMyTopic"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-              <span style="float: right;">9</span>
+              <span style="float: right;">{{count_topic}}</span>
             </el-col>
           </el-row>
           <br/><br/>
           <el-row>
             <el-col :span="24" class="row_2" >
               <span @click="toMyAnswer" ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
-              <span style="float:right;">9</span>
+              <span style="float:right;">{{count_review}}</span>
             </el-col>
           </el-row>
         </div>
@@ -52,6 +68,9 @@
 </template>
 
 <script>
+  // import header_ from '../components/forum/forum_header'
+  // import mainheader_ from '../components/main_header'
+  import axios from 'axios'
   import header_ from '../components/main_header'
   import forum_header from '../components/forum/forum_header'
     export default {
@@ -65,11 +84,23 @@
           topic_list: [],
           zero_style: [
             "zero",
-          ]
+          ],
+          count_topic:0,
+          count_review:0,
+          dialogTableVisible: false,
+          formLabelWidth: '120px',
+          form: {
+            titleName: '',
+            description:''
+          },
+          
         }
       },
+      
       created: function(){
         this.get_topic_all();
+        this.setQuesNum();
+        this.setReviewNum();
       },
       methods: {
         get_topic_all: function() {
@@ -109,6 +140,27 @@
           this.$router.push({
             path: `/forum/detail/${topicId}/${ownerId}`
           })
+        },
+        toEditor:function(){
+          // this.$router.push({
+          //   path: `/editor`
+          // })
+          this.dialogFormVisible = false;
+          axios({
+            method: 'post',
+            url: 'http://180.76.234.230:8080/topic',
+            withCredentials: true,
+            data: { topicName: this.form.titleName, description: this.form.description }
+          }).then((response) => {
+            console.log(response);
+          });
+          
+        },
+        setQuesNum:function(){
+          this.count_topic=this.$store.state.topic_detail.count;
+        },
+        setReviewNum:function(){
+          this.count_review=this.$store.state.review_detail.length;
         },
         toMyTopic(){
           console.log("userId  "+this.$store.state.user.userId);
@@ -190,12 +242,7 @@
         position: relative;
         margin-top: 10px;
         margin-left: 250px;
-        img {
-          /*width: 150px;*/
-          /*height: 130px;*/
-          /*float: right;*/
-          /*margin: 0 auto;*/
-        }
+        
       }
     }
   }
