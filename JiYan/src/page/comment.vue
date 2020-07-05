@@ -2,7 +2,7 @@
   <div class="tongji">
     <header_></header_>
     <div>
-      <br>
+      <!--
       <div>
         <el-col :span="20">
           <el-autocomplete
@@ -13,7 +13,9 @@
         ></el-autocomplete>
         </el-col>
       </div>
+      -->
       <br>
+      <h1><center>{{ courseName }}</center></h1>
       <br>
       <div class="whole">
       <br>
@@ -75,7 +77,7 @@
 import axios from 'axios'
 import header_ from '../components/header'
 
-    export default {
+export default {
       name: 'myNeedDeal',
   data() {
     return {
@@ -87,8 +89,13 @@ import header_ from '../components/header'
       listData: [],
       courses:[],
       title:"课程评价（课程代码：|  任课教师：|  开课学院：）",
-      com_course:''
+      com_course:'',
+      courseName: ''
     }
+  },
+
+  created:function(){
+    this.get_courseInfo_()
   },
 
   methods: {
@@ -209,6 +216,21 @@ import header_ from '../components/header'
             }
         }
     },
+    get_courseInfo_:function(){
+      this.$axios({
+        method: 'get',
+        url: '/course/selectOne',
+        params: {
+          courseId: this.$route.params.courseId
+        }
+      }).then((response) => {
+        this.courseName = response.data.courseName;
+        this.title = `课程评价（课程代码：${response.data.courseId}|  任课教师：${response.data.ownerName}|  开课学院：${response.data.academy}）`
+
+      }).catch(() => {
+        alert("获取课程信息错误");
+      })
+    },
     postScore(){
       //平均得分
       var totalScore=0;
@@ -243,7 +265,7 @@ import header_ from '../components/header'
   },
 
   components: {
-      header_
+      header_,
   },
 }
 </script>

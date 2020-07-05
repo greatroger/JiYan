@@ -8,6 +8,7 @@ import login from '../page/login'
 import personInfo from '../page/personInfo'
 import uploadDemo from '../components/uploadDemo'
 import editor from '../components/editor'
+import courseDetail from '../page/course_detail'
 
 Vue.use(Router);
 
@@ -19,9 +20,10 @@ export default new Router({
       component: CourseInfo
     },
     {
-      path: '/comment',
+      path: '/comment/:courseId',
       name: 'comment',
-      component: Comment
+      component: Comment,
+      props: true
     },
     {
       path: '/forum/main',
@@ -45,7 +47,7 @@ export default new Router({
       component:login
     },
     {
-      path:'/personInfo/:userId',
+      path:'/personInfo/:userId/:offset',
       name:'personInfo',
       component:personInfo,
       props: true,
@@ -64,6 +66,12 @@ export default new Router({
       path:'/editor',
       name:'editor',
       component:editor
+    },
+    {
+      path:'/course_detail/:id',
+      name:'course_detail',
+      component:courseDetail,
+
     }
   ]
 })

@@ -1,6 +1,7 @@
 <template>
   <div>
     <header_></header_>
+
     <div class="form__style">
       <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="课程代码" prop="courseId">
@@ -38,11 +39,11 @@
       <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
           <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
             <el-card class="course_container" :body-style="{ padding: '0px' }">
-              <div class="course_image" :class="card_dynamic_bkg[key*3 + index]">
+              <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
                 <img src="../assets/more.png" alt="">
               </div>
               <br/>
-              <div class="container_span" :class="card_dynamic[key*3 + index]">
+              <div class="container_span" :class="card_dynamic[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
                 <span>{{ course_list[key*3 + index].courseName }}</span>
                 <span>{{ course_list[key*3 + index].courseId }}</span>
               </div>
@@ -51,11 +52,11 @@
                   <span>{{ course_list[key*3 + index].courseId }}</span>
                 </span>
                 <br/>
-                <span style="font-size:14px;">2011-2012</span>
+                <span style="font-size:14px;">2019-2020</span>
               </div>
               <div class="span_icon">
                 <i class="el-icon-goods"></i>
-                <i class="el-icon-edit-outline"></i>
+                <i class="el-icon-edit-outline" @click="toComment(course_list[key*3 + index].courseId)"></i>
                 <i class="el-icon-bell"></i>
               </div>
             </el-card>
@@ -99,8 +100,8 @@ import axios from 'axios'
         course_list: [],
         course_len:0,
         rules: {
-          courseId: [
-            { required: true, trigger: 'blur' }
+          courseName: [
+            // { required: true, trigger: 'blur' }
           ]
         },
         card_dynamic: [],
@@ -149,9 +150,24 @@ import axios from 'axios'
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if(valid) {
-            console.log("submit");
+            this.$axios({
+              method: 'post',
+              url: '/course/matchAll',
+              data: {
+                academy: this.ruleForm.department,
+                courseId: this.ruleForm.courseId,
+                courseName: this.ruleForm.courseName,
+                ownerName: this.ruleForm.teacher,
+                offset: 0,
+                limit: 10
+              }
+            }).then((response) => {
+              this.course_list = response.data.result;
+            }).catch(() => {
+              alert("接口异常，请更换搜索条件")
+            })
           }else {
-            console.log("error submit!");
+            alert("请输入任意条件");
             return false;
           }
         });
@@ -174,7 +190,20 @@ import axios from 'axios'
                 console.log(response.data);
                 this.$store.state.review_detail = response.data;
             });
-        }
+        },
+
+      toDetail(courseId){
+        this.$store.state.courseId = courseId;
+        this.$router.push({
+            path: `/course_detail/${courseId}`
+          })
+      },
+
+      toComment(courseId){
+        this.$router.push({
+          path: `/comment/${courseId}`
+        })
+      }
     }
   }
 </script>
@@ -229,12 +258,17 @@ import axios from 'axios'
       cursor: pointer;
     }
   }
+  .course_image:hover{
+    cursor: pointer;
+  }
   .container_span {
     width: 90%;
     margin: 0 auto;
     span {
       font-weight: bolder;
-
+    }
+    span:hover{
+      cursor: pointer;
     }
   }
   .container_span_2 {

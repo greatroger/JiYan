@@ -6,21 +6,21 @@
       <el-row>
         <el-col :span="18">
           <el-row>
-            <el-col :span="16" :offset="4">
+            <el-col :span="16">
             <div class="topic_name">
               <span>{{ this.$store.state.topic_detail.topicName }}</span>
             </div>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="16" :offset="4">
+            <el-col :span="16">
             <div class="topic_detail">
               <span>{{ this.$store.state.topic_detail.description }}</span>
             </div>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="16" :offset="4">
+            <el-col :span="16">
             <div class="topic_icon">
               <el-button icon="el-icon-edit">写回答</el-button>
               <img src="../assets/discuss.png">
@@ -39,7 +39,6 @@
           <el-row class="user">
             <el-col :span="3">
 <!--              <img src="../assets/default_user.png" alt="">-->
-              <img src="https://whitealbum.oss-cn-beijing.aliyuncs.com/album/JW4ybY_@Angelea-アイ_(あなた)とわたし_00 (290).jpg">
             </el-col>
             <el-col :span="3">
               <span>匿名用户</span>
@@ -51,8 +50,9 @@
             </div>
           </el-row>
           <el-row class="user_like">
-            <img src="../assets/like.png" alt="">
-            <span>{{ item.likes }}</span>
+            <img src="../assets/like.png" alt="" @click="addLike(item.commentId, index)">
+            <span :class="{'has_clicked':clicked_num_list.clicked}">{{ item.likes }}</span>
+            <span class="time_">{{ item.created }}</span>
           </el-row>
         </div>
       </div>
@@ -84,12 +84,17 @@
       },
       data(){
         return {
-          answer_list: []
+          answer_list: [],
+          hasClicked: 0,
+          likeId: 0,
         }
       },
       created: function(){
-        console.log(this.$route.params.id);
+        console.log(this.$store.state.user);
         this.get_topic_answer();
+      },
+      mounted: function(){
+
       },
       methods:{
         get_topic_answer:function(){
@@ -104,10 +109,59 @@
             }
           }).then((response) => {
             this.answer_list = response.data.result;
-            console.log(response);
+            for(let i = 0; i < this.answer_list.length; i++){
+              this.answer_list[i].created = this.convert_timestamp(this.answer_list[i].created);
+              this.answer_list[i].push()
+
+            }
+            console.log(this.answer_list);
           }).catch((error) =>{
             alert(error);
           })
+        },
+
+        convert_timestamp: function(timestamp) {
+          let date = new Date(timestamp * 1000);
+          let year = date.getFullYear() + '-';
+          let month = (date.getMonth() + 1 > 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+          let day = date.getDate() + '-';
+          let hour = date.getHours() + ':';
+          let minutes = date.getMinutes() + ':';
+          let seconds = date.getSeconds();
+          return year + month + day + hour + minutes + seconds;
+        },
+
+        addLike(comment_id, index){
+          if(this.hasClicked === 0){
+            this.$axios({
+              method: 'post',
+              url: 'http://180.76.234.230:8080/like',
+              data: {
+                commentId: comment_id
+              }
+            }).then((response) => {
+              this.likeId = response.data.likeId;
+              console.log(this.clicked_num_list);
+              this.answer_list[index].likes++;
+              this.hasClicked ++;
+            }).catch(()=> {
+              alert("点赞接口异常，请重试")
+            })
+          }
+          if(this.hasClicked === 1){
+            this.$axios({
+              method: 'delete',
+              url: `http://180.76.234.230:8080/like?likeId=${this.likeId}`,
+              headers:{
+                'Content-Type': 'text'
+              }
+            }).then(() => {
+              this.answer_list[index].likes--;
+              this.hasClicked --;
+            }).catch(() => {
+              alert("取消点赞接口异常，请重试")
+            })
+          }
         }
       }
     }
@@ -115,7 +169,7 @@
 
 <style lang="less" scoped>
   .topic_main{
-    background-color: #e8e8e8;
+    background-color: #afcae887;
     width: 100%;
     height: 1800px;
     .topic_left{
@@ -130,7 +184,6 @@
           margin-bottom: 0;
         }
         .topic_name{
-          /*background-color: #c08b10;*/
           margin-top: 30px;
           margin-left: 30px;
           span{
@@ -138,7 +191,6 @@
           }
         }
         .topic_detail{
-          /*background-color: #2b3580;*/
           height: 120px;
           margin-top: 10px;
           margin-left: 30px;
@@ -176,10 +228,9 @@
         width: 73%;
         height: 600px;
         float: left;
-        background-color: #e8e8e8;
+        /*background-color: #afcae887;*/
         .answer_temp{
           height: 280px;
-          /*background-color: #c08b10;*/
           background-color: white;
           margin-bottom: 20px;
           .user{
@@ -210,9 +261,22 @@
               width: 35px;
               height: 35px;
             }
+            img:hover{
+              cursor: pointer;
+            }
             span{
               position: relative;
               top: -6px;
+            }
+            .has_clicked{
+              color: #cc0000;
+              font-weight: bolder;
+              font-size: 18px;
+            }
+            .time_{
+              float: right;
+              top: 10px;
+              color: #b4b4b4;
             }
           }
         }
