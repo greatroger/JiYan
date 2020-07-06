@@ -6,10 +6,12 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import axios from 'axios'
+import VueCookies from 'vue-cookies'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(VueCookies);
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = '/api';
 axios.defaults.headers.post['Content-Type'] = 'application/json';

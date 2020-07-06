@@ -40,8 +40,9 @@
     <div class="evaluate">
         <div style="font-size: 20px; color: gray;">{{this.commentsNum}}个评价</div>
         <el-row :span="1" v-for="(item,index) in commentList" :key="index" :offset="1">
-            <div class="evaluate_content" :class="bkg[index%2]">
-                <div style="width: 250px;display: flex;flex-direction: column;">
+            <el-card  shadow="hover" :class="bkg[index%2]">
+                <div class="evaluate_content" >
+                <div style="width: 300px;display: flex;flex-direction: column;">
                     <div style="display: flex;">
                     <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">综合评分：</div>
                     <div style="margin-top: 24px;">
@@ -52,14 +53,16 @@
                     </el-rate>
                     </div>
                     </div>
-                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">用户id：{{item.authorName}}</div>
+                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">{{commentUser[index].nickname}}</div>
+                    <img v-bind:src="commentUser[index].avatar" class="picture"/>
                 </div>
             <div style="display: flex;flex-direction: column;width:510px;margin-left:20px">
                 <div style="font-size: 20px; margin-top: 20px;">评价：</div>
                 <div style="font-size: 20px; ">{{item.text}}</div>
             </div>
-            <div style="font-size: 20px; margin-top: 20px;">时间</div>
+            <div style="font-size: 20px; margin-top: 20px;">{{timestampToTime(item.created)}}</div>
         </div>
+            </el-card>
         </el-row>
     </div>
 
@@ -83,6 +86,7 @@
                 score:'',
                 commentList:[],
                 bkg:[],
+                commentUser:[],
                 }
     },
     components: {
@@ -97,6 +101,18 @@
         this.bkg[1] = "card1";
     },
     methods:{
+        get_user: function(userId) {
+            this.$axios({
+            method: 'get',
+            url: '/user/selectOne?userId=' + this.userId,
+            headers: {},
+            params: {},
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            alert(error);
+        })
+        },
         get_all_comments: function(courseId) {
             this.$axios({
             method: 'post',
@@ -107,11 +123,27 @@
                 courseId: this.courseId,
             }
         }).then((response) => {
-            console.log(response);
+            console.log(response.data.result);
+            this.commentsNum = response.data.result.length;
             this.commentList = response.data.result;
-        }).catch((error) => {
+            for(var i=0; i<this.commentsNum ; i++)
+            {
+                var id = this.commentList[i].authorId;
+                this.$axios({
+                method: 'get',
+                url: '/user/selectOne?userId=' + id,
+                headers: {},
+                params: {},
+                }).then((response) => {
+                this.commentUser.push(response.data)
+                console.log(this.commentUser)
+                }).catch((error) => {
+                alert(error);
+                })
+            }
+            }).catch((error) => {
             alert(error);
-        })
+            })
         },
         get_courseInfo: function(courseId) {
             this.$axios({
@@ -122,7 +154,6 @@
         }).then((response) => {
             console.log(response);
             this.academy = response.data.academy;
-            this.commentsNum = response.data.commentsNum;
             this.courseName = response.data.courseName;
             this.likes = response.data.likes;
             this.ownerName = response.data.ownerName;
@@ -132,6 +163,29 @@
             alert(error);
         })
         },
+
+        timestampToTime: function(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        // let Y = date.getFullYear() + '-';
+        // let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        // let D = date.getDate() + ' ';
+        // let h = date.getHours() + ':';
+        // let m = date.getMinutes() + ':';
+        // let s = date.getSeconds();
+        // return Y+this.padLeftZero(M)+this.padLeftZero(D)+this.padLeftZero(h)+this.padLeftZero(m)+this.padLeftZero(s);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? ('0' + MM) : MM;
+        let d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        let h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        let m = date.getMinutes();
+        m = m < 10 ? ('0' + m) : m;
+        let s = date.getSeconds();
+        s = s < 10 ? ('0' + s) : s;
+        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+    },
     }
     }
 </script>
@@ -272,7 +326,6 @@ body::before{
 .evaluate_content{
     width: 900px;
     height: 300px;
-    background-color: #ffffff;
     display: flex;
 }
 .card0{
@@ -280,5 +333,10 @@ body::before{
 }
 .card1{
     background-color: #4243444a;
+}
+
+.picture{
+    width: 64px;
+    margin-left: 36px;
 }
 </style>

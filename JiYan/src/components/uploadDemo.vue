@@ -12,11 +12,11 @@
 <el-dialog :visible.sync="dialogVisible">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
- </div>   
+ </div>
 </template>
 
 <script>
-import {client}  from '../oss/oss.js';
+import {client}  from '../js/oss.js';
 import axios from 'axios'
 export default {
     name:'uploadDemo',
@@ -58,7 +58,7 @@ export default {
 	            //uploadHost: 'http://jiyan2020.oss-cn-beijing.aliyuncs.com', //OSS上传地址
 	            type: 'scs',
 	            ossParams: {
-		            region: 'oss-cn-beijing',
+		            region: 'js-cn-beijing',
 		            success_action_status: '200', // 默认200
 		            accessKeyId: 'LTAI4Fth4afrtSPEA55FnXfe',
 		            accessKeySecret: '5SWPdCDJtWNBRkVL9UwsNsHFkzbuG9',
@@ -96,7 +96,7 @@ export default {
                self.$message.error('上传失败');
                console.log(err);
             })
-            
+
         }
     }
 }

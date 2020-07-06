@@ -55,9 +55,9 @@
                 <span style="font-size:14px;">2019-2020</span>
               </div>
               <div class="span_icon">
-                <i class="el-icon-goods"></i>
-                <i class="el-icon-edit-outline" @click="toComment(course_list[key*3 + index].courseId)"></i>
-                <i class="el-icon-bell"></i>
+<!--                <i class="el-icon-goods"></i>-->
+                <span @click="toComment(course_list[key*3 + index].courseId)"><i class="el-icon-edit-outline"></i>课程评价</span>
+<!--                <i class="el-icon-bell"></i>-->
               </div>
             </el-card>
           </el-col>
@@ -121,7 +121,7 @@ import axios from 'axios'
     mounted: function() {
       setTimeout(() => {
         this.random_color();
-      }, 500);
+      }, 1000);
     },
 
     methods: {
@@ -285,11 +285,12 @@ import axios from 'axios'
     margin: 0 auto;
     height: 40px;
     padding-top: 10px;
-    i {
+    span {
       margin-right: 40px;
     }
-    i:hover{
+    span:hover{
       cursor: pointer;
+      color: #409EFF;
     }
   }
   .card0{

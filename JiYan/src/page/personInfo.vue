@@ -122,6 +122,12 @@ export default {
             this.QuesVisible=true;
             this.ReviewVisivle=false;
             this.topic_list=this.$store.state.topic_detail.result;
+            for (let i=0;i<this.topic_list.length;i++){
+                var time_str=this.topic_list[i].created.toString();
+                if (time_str.indexOf("-") == -1 ){
+                    this.topic_list[i].created=this.convert_timestamp(this.topic_list[i].created);
+                }
+            }
             console.log(this.topic_list);
         },
         getReviewDetail(){
@@ -168,12 +174,20 @@ export default {
           return year + month + day + hour + minutes + seconds;
         },
         alert1(index){
+<<<<<<< HEAD
             alert("完整回答："+this.oriText[index]);
         },
         editInfo(){
             this.$router.push({
           path: `/editInfo`})
         },
+=======
+            //alert("完整回答："+this.oriText[index]);
+            this.$alert(this.oriText[index], '完整回答', {
+                confirmButtonText: '确定'
+            });
+        }
+>>>>>>> 544ced1f7fd1e7ce7a7154ff148fb2518d022413
     },
     components:{
         mainheader_

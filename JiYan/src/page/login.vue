@@ -59,11 +59,12 @@ export default {
                   password:this.ruleForm.password
                 }
               }).then((response) => {
-                this.$store.state.user = response.data.result;
                 if(response.data.status === 404){
                   alert(response.data.msg);
                 }else if(response.status === 200){
                   alert("登录成功");
+                  this.$store.state.user = response.data.result;
+                  this.$cookies.set(response.data.result.userId, "60*60*24");
                   this.$router.push({
                     path: `/courseInfo`
                   })
