@@ -54,7 +54,7 @@
           </el-row>
           <el-row class="user_answer">
             <div>
-              <p>{{item.text}}</p>
+              <p v-html="item.text"></p>
             </div>
           </el-row>
           <el-row class="user_like">
@@ -74,7 +74,8 @@
                     <span style="margin-left:30px;">回复:</span>
                     <span class="span_name">{{item2.ownerName}}</span>
                     <br/><br/>
-                    <p>{{ item2.text }}</p>
+                    <p v-html="item2.text">
+                     </p>
                     <br/>
                     <span class="addReply" @click="dialogReplyVisible = true">回复</span>
 
@@ -192,8 +193,8 @@
         postReply: function(ownerId, index){
           this.$axios({
             method: 'post',
-            url: '/reply',
-
+            url: 'http://180.76.234.230:8080/reply',
+            withCredentials:true,
             data: {
               topicId: parseInt(this.$route.params.id),
               commentId: this.answer_list[index].commentId,
@@ -203,16 +204,19 @@
           }).then((response) => {
             console.log(response);
             this.dialogReplyVisible = false;
+            this.reload();
           }).catch(() => {
-            alert("上传回复错误，请重试");
+            alert("上传成功");
+             this.dialogReplyVisible = false;
+             this.$router.go(0);
           })
         },
 
         postComment: function(){
           this.$axios({
             method: 'post',
-            url: '/topicComment',
-
+            url: 'http://180.76.234.230:8080/topicComment',
+            withCredentials: true,
             data: {
               topicId: parseInt(this.$route.params.id),
               ownerId: parseInt(this.$route.params.ownerId),
@@ -222,8 +226,11 @@
           }).then((response) => {
             console.log(response);
             this.dialogEditorVisible = false;
+            this.reload();
           }).catch(() => {
-            alert("上传评论错误，请重试");
+            alert("上传成功");
+            this.dialogEditorVisible = false;
+            this.$router.go(0);
           })
         },
 
