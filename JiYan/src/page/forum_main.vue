@@ -12,7 +12,7 @@
             <span class="span_num">{{ index }}</span>
           </el-col>
           <el-col :span="3" class="span_2">
-            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId)">{{ item.topicName  }}</span>
+            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId, item.ownerId)">{{ item.topicName  }}</span>
             <br/>
             <span class="span_des">{{ item.description }}</span>
             <br/>
@@ -113,6 +113,7 @@
             for(let i = 0; i < this.topic_list.length; i++) {
               this.topic_list[i].created = this.convert_timestamp(this.topic_list[i].created);
             }
+            console.log(response);
           }).catch(() => {
             alert("接口异常");
           })
@@ -127,14 +128,14 @@
           let seconds = date.getSeconds();
           return year + month + day + hour + minutes + seconds;
         },
-        toTopic:function(topicId) {
+        toTopic:function(topicId, ownerId) {
           for(let i = 0; i < this.topic_list.length; i++){
             if(topicId === this.topic_list[i].topicId){
               this.$store.state.topic_detail = this.topic_list[i];
             }
           }
           this.$router.push({
-            path: `/forum/detail/${topicId}`
+            path: `/forum/detail/${topicId}/${ownerId}`
           })
         },
         toEditor:function(){

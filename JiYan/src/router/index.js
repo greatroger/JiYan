@@ -31,7 +31,7 @@ export default new Router({
       component: forumMain
     },
     {
-      path: '/forum/detail/:id',
+      path: '/forum/detail/:id/:ownerId',
       name: 'forumDetail',
       component: forumDetail,
       props: true,
