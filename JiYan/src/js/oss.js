@@ -1,4 +1,4 @@
-const OSS=require('ali-oss')
+const OSS=require('ali-oss');
 
 export function client(data){
     //后端提供数据

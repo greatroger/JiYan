@@ -11,7 +11,7 @@
           <el-col :span="3">
             <span class="span_num">{{ index }}</span>
           </el-col>
-          <el-col :span="3" class="span_2">
+          <el-col :span="5" class="span_2" :offset="3">
             <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId, item.ownerId)">{{ item.topicName  }}</span>
             <br/>
             <span class="span_des">{{ item.description }}</span>
@@ -19,6 +19,7 @@
             <span class="span_time">{{ item.created }}</span>
           </el-col>
           <el-col :span="5" class="img_3">
+            <img :src="item.picture" alt="">
           </el-col>
         </el-container>
       </div>
@@ -46,21 +47,20 @@
         </div>
         <div class="main_right_2">
           <el-row>
-            <!-- <el-col :span="24" class="row_1">
-              <span><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-              <span style="float: right;"></span> -->
             <el-col :span="24" class="row_1" >
               <span @click="toMyTopic"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-              <span style="float: right;">{{count_topic}}</span>
+              <span class="count-topic">{{count_topic}}</span>
             </el-col>
           </el-row>
-          <br/><br/>
+          <br/>
+          <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f; margin-top: 50px"/>
           <el-row>
             <el-col :span="24" class="row_2" >
               <span @click="toMyAnswer" ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
-              <span style="float:right;">{{count_review}}</span>
+              <span class="count-review">{{count_review}}</span>
             </el-col>
           </el-row>
+
         </div>
       </div>
     </div>
@@ -68,8 +68,6 @@
 </template>
 
 <script>
-  // import header_ from '../components/forum/forum_header'
-  // import mainheader_ from '../components/main_header'
   import axios from 'axios'
   import header_ from '../components/main_header'
   import forum_header from '../components/forum/forum_header'
@@ -93,10 +91,10 @@
             titleName: '',
             description:''
           },
-          
+
         }
       },
-      
+
       created: function(){
         this.get_topic_all();
         this.setQuesNum();
@@ -154,7 +152,7 @@
           }).then((response) => {
             console.log(response);
           });
-          
+
         },
         setQuesNum:function(){
           this.count_topic=this.$store.state.topic_detail.count;
@@ -184,7 +182,7 @@
   .main{
     background-color: #afcae887;
     width: 100%;
-    height: 1500px;
+    height: 2500px;
   }
   .main_left {
     float: left;
@@ -207,11 +205,18 @@
       height: 150px;
       background-color: white;
       .span_num {
-        font-size: 30px;
-        width: 50px;
-        height: 50px;
-        color: #e51619;
         margin-left: 30px;
+        margin-top: 15px;
+        float: right;
+        background-color: #409EFF;
+        width:50px;
+        height:50px;
+        border-radius:50%;
+        font-size:26px;
+        color:#fff;
+        line-height: 45px;
+        text-align:center;
+        box-shadow:  2px 2px 2px 3px rgba(0, 0, 0, 0.2)
       }
       .span_2 {
         width: 400px;
@@ -219,6 +224,9 @@
         margin-top: 20px;
         .span_name {
           font-size: 18px;
+          text-decoration:underline;
+          font-weight: bold;
+          letter-spacing: 1px;
         }
         .span_name:hover {
           color: dodgerblue;
@@ -227,6 +235,8 @@
         .span_des {
           font-size: 14px;
           color: #b8b8b8;
+          position: relative;
+          top: 10px;
         }
         .span_time {
           height: 20px;
@@ -236,13 +246,14 @@
         }
       }
       .img_3 {
-        background-color: #dadada;
-        width: 200px;
-        height: 130px;
-        position: relative;
+        img{
+          width: 200px;
+          height: 130px;
+          box-shadow:  2px 2px 2px 1px rgba(0, 0, 0, 0.2)
+        }
         margin-top: 10px;
-        margin-left: 250px;
-        
+        margin-left: 60px;
+
       }
     }
   }
@@ -285,6 +296,18 @@
         top: 50px;
         left: 30px;
         font-size: 20px;
+        .count-topic{
+          float: right;
+          background-color: #409EFF;
+          width:30px;
+          height:30px;
+          border-radius:50%;
+          font-size:16px;
+          color:#fff;
+          line-height: 30px;
+          text-align:center;
+
+        }
       }
       .row_1:hover{
         cursor: pointer;
@@ -293,9 +316,20 @@
       .row_2 {
         position: relative;
         width: 80%;
-        top: 50px;
+        top: 20px;
         left: 30px;
         font-size: 20px;
+        .count-review{
+          float: right;
+          background-color: #409EFF;
+          width:30px;
+          height:30px;
+          border-radius:50%;
+          font-size:16px;
+          color:#fff;
+          line-height: 30px;
+          text-align:center;
+        }
       }
       .row_2:hover{
         cursor: pointer;

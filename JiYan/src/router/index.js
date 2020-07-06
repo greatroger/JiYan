@@ -63,11 +63,6 @@ export default new Router({
       component:uploadDemo
     },
     {
-      path:'/editor',
-      name:'editor',
-      component:editor
-    },
-    {
       path:'/course_detail/:id',
       name:'course_detail',
       component:courseDetail,

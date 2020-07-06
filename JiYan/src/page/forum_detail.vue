@@ -22,9 +22,17 @@
           <el-row>
             <el-col :span="16">
             <div class="topic_icon">
-              <el-button icon="el-icon-edit">写回答</el-button>
-              <img src="../assets/discuss.png">
-              <span>{{this.answer_list.length}}条回答</span>
+              <el-button icon="el-icon-edit" @click="dialogEditorVisible = true">写回答</el-button>
+
+              <el-dialog title="写回答" :visible.sync="dialogEditorVisible" class="dialog">
+                <editorBar v-model="detail" :isClear="isClear" @change="change()"></editorBar>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="dialogEditorVisible = false">取消</el-button>
+                  <el-button type="primary" @click="postComment()">确定</el-button>
+                </div>
+              </el-dialog>
+              <img src="../assets/discuss.png" alt="discuss.png">
+              <span>{{ this.answer_list.length }}条回答</span>
             </div>
             </el-col>
           </el-row>
@@ -38,11 +46,10 @@
         <div class="answer_temp" v-for="(item, index) in answer_list" :key="index">
           <el-row class="user">
             <el-col :span="3">
-<!--              <img src="../assets/default_user.png" alt="">-->
               <img :src="item.url" alt="">
             </el-col>
             <el-col :span="3">
-              <span>{{ item.ip }}</span>
+              <span>{{ item.username }}</span>
             </el-col>
           </el-row>
           <el-row class="user_answer">
@@ -51,10 +58,40 @@
             </div>
           </el-row>
           <el-row class="user_like">
-            <img src="../assets/like.png" alt="" @click="addLike(item.commentId, index)">
+            <img :class="{'has_clicked':item.clicked}" src="../assets/like.png" alt="" @click="addLike(item.commentId, index)">
             <span :class="{'has_clicked':item.clicked}">{{ item.likes }}</span>
             <span class="time_">{{ item.created }}</span>
           </el-row>
+          <div class="reply_container">
+            <el-button @click="doCollapse(index)" class="reply_button">展开回复</el-button>
+            <collapse>
+              <div v-if="show_content">
+                <div v-if="isActive[index]">
+                  <div v-if="reply_list[index].length === 0" style="text-align: center;">暂无回复</div>
+                  <div v-for="(item2, index2) in reply_list[index]" :key="index2" class="reply_main">
+                    <img :src="item2.url" alt="">
+                    <span class="span_name">{{item2.authorName }}</span>
+                    <span style="margin-left:30px;">回复:</span>
+                    <span class="span_name">{{item2.ownerName}}</span>
+                    <br/><br/>
+                    <p>{{ item2.text }}</p>
+                    <br/>
+                    <span class="addReply" @click="dialogReplyVisible = true">回复</span>
+
+                    <el-dialog title="写回复" :visible.sync="dialogReplyVisible" class="dialog">
+                      <editorBar v-model="detail2" :isClear="isClear2" @change="change()"></editorBar>
+                      <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogReplyVisible = false">取消</el-button>
+                        <el-button type="primary" @click="postReply(item2.ownerId, index)">确定</el-button>
+                      </div>
+                    </el-dialog>
+                    <span class="span_time">{{item2.created}}</span>
+                    <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f;width:100%;margin-left: -30px"/>
+                  </div>
+                </div>
+              </div>
+            </collapse>
+          </div>
         </div>
       </div>
       <div class="topic_answer_right">
@@ -78,32 +115,55 @@
 
 <script>
   import header_ from '../components/main_header';
+  import collapse from '../js/collapse';
+  import editorBar from '../components/editor';
     export default {
       name: "forum_detail",
       components: {
-        header_
+        header_,
+        collapse,
+        editorBar
       },
       data(){
         return {
           answer_list: [],
-          add_like_result: [],
-          topic_author: []
+          topic_author: [],
+          like_all: [],
+          isActive: [],
+          reply_list: [],
+          show_content:false,
+          isClear: false,
+          isClear2: false,
+          detail: "",
+          detail2: "",
+          dialogEditorVisible: false,
+          dialogReplyVisible: false
         }
       },
+
       created: function(){
-        console.log(this.$store.state.user);
-        this.get_topic_answer();
+
         this.get_topic_author();
         this.get_user_likes();
       },
       mounted: function(){
 
       },
+
+      watch:{
+        answer_list:{
+          handler(val, oldVal){
+            // console.log(val, oldVal)
+          }
+        }
+      },
       methods:{
+        change(val){
+        },
         get_topic_answer:function(){
           this.$axios({
             method: 'post',
-            url: '/topicComment/all',
+            url: 'http://180.76.234.230:8080/topicComment/all',
             headers:{},
             data:{
               topicId: this.$route.params.id,
@@ -115,10 +175,71 @@
             for(let i = 0; i < this.answer_list.length; i++){
               this.answer_list[i].created = this.convert_timestamp(this.answer_list[i].created);
               this.answer_list[i].clicked = false;
+              this.isActive[i] = false;
             }
-            console.log(response);
+            for(let i = 0; i < this.answer_list.length; i++){
+              for(let j = 0; j < this.like_all.length; j++){
+                if(this.answer_list[i].commentId === this.like_all[j].commentId){
+                  this.answer_list[i].clicked = true;
+                }
+              }
+            }
           }).catch((error) =>{
             alert(error);
+          })
+        },
+
+        postReply: function(ownerId, index){
+          this.$axios({
+            method: 'post',
+            url: '/reply',
+
+            data: {
+              topicId: parseInt(this.$route.params.id),
+              commentId: this.answer_list[index].commentId,
+              text: this.detail2,
+              ownerId: ownerId
+            },
+          }).then((response) => {
+            console.log(response);
+            this.dialogReplyVisible = false;
+          }).catch(() => {
+            alert("上传回复错误，请重试");
+          })
+        },
+
+        postComment: function(){
+          this.$axios({
+            method: 'post',
+            url: '/topicComment',
+
+            data: {
+              topicId: parseInt(this.$route.params.id),
+              ownerId: parseInt(this.$route.params.ownerId),
+              mail: '123456@163.com',
+              text: this.detail
+            }
+          }).then((response) => {
+            console.log(response);
+            this.dialogEditorVisible = false;
+          }).catch(() => {
+            alert("上传评论错误，请重试");
+          })
+        },
+
+        get_reply_list:function(i) {
+          this.$axios({
+            method: 'get',
+            url: `/reply/${this.answer_list[i].commentId}`
+          }).then((response) => {
+            this.reply_list[i] = response.data.result;
+            for(let k = 0; k < this.reply_list[i].length; k++){
+              this.reply_list[i][k].created = this.convert_timestamp(this.reply_list[i][k].created);
+            }
+            this.show_content = !this.show_content;
+            console.log(response);
+          }).catch(() => {
+            console.log('接口异常');
           })
         },
 
@@ -127,7 +248,6 @@
             method: 'get',
             url: `/user/selectOne?userId=${this.$route.params.ownerId}`
           }).then((response) => {
-            console.log(response);
             this.topic_author = response.data;
           })
         },
@@ -135,9 +255,18 @@
         get_user_likes:function(){
           this.$axios({
             method: 'get',
-            url: '/like/all'
-          }).then((response) => {
-            console.log(response);
+            url: 'http://180.76.234.230:8080/like/all',
+            headers: {
+              'Content-Type': 'text'
+            }
+          }).then((response2) => {
+            this.like_all = [];
+            for(let i = 0; i < response2.data.length; i++){
+              if(response2.data[i].userId === this.$store.state.user.userId){
+                this.like_all.push(response2.data[i]);
+              }
+            }
+            this.get_topic_answer();
           }).catch(() => {
             alert("获取用户点赞详情错误");
           })
@@ -166,7 +295,6 @@
               let liked = {};
               liked.index = index;
               liked.likeId = response.data.likeId;
-              this.add_like_result.push(liked);
               this.answer_list[index].clicked = true;
               this.answer_list[index].likes++;
             }).catch(()=> {
@@ -174,24 +302,30 @@
             })
           }
           if(this.answer_list[index].clicked === true){
-            for(let i = 0; i < this.add_like_result.length; i++){
-              console.log(index);
-              if(index === this.add_like_result[i].index){
-                this.$axios({
-                  method: 'delete',
-                  url: `http://180.76.234.230:8080/like?likeId=${this.add_like_result[i].likeId}`,
-                  headers:{
-                    'Content-Type': 'text'
-                  }
-                }).then(() => {
-                  this.answer_list[index].likes--;
-                  this.answer_list[index].clicked = false;
-                }).catch(() => {
-                  // alert("取消点赞接口异常，请重试")
-                })
+            this.$axios({
+              method: 'delete',
+              url: `http://180.76.234.230:8080/like`,
+              headers:{
+                'Content-Type': 'application/json'
+              },
+              data:{
+                commentId: comment_id
               }
-            }
-
+            }).then(() => {
+              this.answer_list[index].likes--;
+              this.answer_list[index].clicked = false;
+            }).catch(() => {
+              alert("取消点赞接口异常，请重试")
+            })
+          }
+        },
+        doCollapse:function(index){
+          let status = !this.isActive[index];
+          this.$set(this.isActive, index, status);
+          if(this.isActive[index]){
+            this.get_reply_list(index);
+          }else{
+            this.show_content = false;
           }
         }
       }
@@ -202,7 +336,7 @@
   .topic_main{
     background-color: #afcae887;
     width: 100%;
-    height: 1800px;
+    height: 2800px;
     .topic_left{
       width: 100%;
       height: 300px;
@@ -232,7 +366,6 @@
           }
         }
         .topic_icon{
-          /*background-color: dodgerblue;*/
           height: 50px;
           margin-left: 30px;
           margin-top: 5px;
@@ -252,16 +385,13 @@
     }
     .topic_answer{
       width: 96%;
-      height: 900px;
       margin-top: 20px;
       margin-left: 25px;
       .topic_answer_left{
         width: 73%;
         height: 600px;
         float: left;
-        /*background-color: #afcae887;*/
         .answer_temp{
-          height: 280px;
           background-color: white;
           margin-bottom: 20px;
           .user{
@@ -280,9 +410,14 @@
             }
           }
           .user_answer{
-            height: 160px;
+            height: 150px;
             width: 94%;
             margin: 0 auto;
+            p{
+              width: 90%;
+              margin: 0 auto;
+              padding-top: 20px;
+            }
           }
           .user_like{
             height: 50px;
@@ -342,6 +477,45 @@
         }
       }
     }
+  }
+  .reply_button{
+    width: 100%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+  .reply_container{
+    .reply_main{
+      width: 80%;
+      margin-top: 20px;
+      margin-left: 100px;
+      img{
+        width: 50px;
+        height: 50px;
+      }
+      .span_name{
+        margin-left: 30px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .span_time{
+        color: #b4b4b4;
+        margin-bottom: 10px;
+        margin-right: 30px;
+        float: right;
+      }
+      .addReply{
+        color: #b4b4b4;
+      }
+      .addReply:hover{
+        color: #409EFF;
+        cursor: pointer;
+      }
+    }
+  }
+  .dialog{
+    width: 1600px;
+    margin-left: -100px;
   }
 
 </style>
