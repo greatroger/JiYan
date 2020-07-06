@@ -174,20 +174,15 @@ export default {
           return year + month + day + hour + minutes + seconds;
         },
         alert1(index){
-<<<<<<< HEAD
-            alert("完整回答："+this.oriText[index]);
+            //alert("完整回答："+this.oriText[index]);
+            this.$alert(this.oriText[index], '完整回答', {
+                confirmButtonText: '确定'
+            });
         },
         editInfo(){
             this.$router.push({
           path: `/editInfo`})
         },
-=======
-            //alert("完整回答："+this.oriText[index]);
-            this.$alert(this.oriText[index], '完整回答', {
-                confirmButtonText: '确定'
-            });
-        }
->>>>>>> 544ced1f7fd1e7ce7a7154ff148fb2518d022413
     },
     components:{
         mainheader_

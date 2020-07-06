@@ -71,7 +71,7 @@
 <script>
 import axios from 'axios'
 import mainheader_ from '../components/main_header'
-import {client}  from '../oss/oss.js'
+import {client}  from '../js/oss.js'
 export default {
     name:'editInfo',
     data(){
