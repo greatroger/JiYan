@@ -27,7 +27,7 @@
                 </el-rate>
             </div>
             <div style="display: flex; height:50px;">
-                <el-button type="primary">发表评价</el-button>
+                <el-button type="primary" @click=toComment(courseId)>发表评价</el-button>
                 <div style="display: flex; flex-direction: column" >
                     <img class="dianzan" src="../assets/dianzan.png">
                     <div style="font-size: 3px; margin-left: 32px;text-align:center">{{this.likes}}</div>
@@ -186,8 +186,14 @@
         s = s < 10 ? ('0' + s) : s;
         return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
     },
+
+    toComment(courseId){
+        this.$router.push({
+          path: `/comment/${courseId}`
+        })
     }
     }
+}
 </script>
 
 <style scoped>
