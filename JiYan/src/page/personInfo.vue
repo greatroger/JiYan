@@ -17,7 +17,7 @@
                         <div class="UserAvatarEditor ProfileHeader-avatar" style="top:-74px;">
                             <div class="UserAvatar">
                                 <img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160"
-                                    src="../assets/user.png" >
+                                    :src="avatarUrl" >
                             </div>
                         </div>
                         <div class="ProfileHeader-content">
@@ -35,7 +35,7 @@
                                 <div class="ProfileHeader-detail">
                                     <div class="ProfileHeader-detailItem">
                                         <span class="ProfileHeader-detailLabel">
-                                            {{mail}}
+                                            {{nickName}}
                                         </span>
                                         <div class="ProfileHeader-detailValue">
                                         </div>
@@ -45,6 +45,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <el-button @click="editInfo">编辑个人信息</el-button>
                 </div>
             </div>
         </el-col>
@@ -100,7 +103,9 @@ export default {
     data(){
         return {
             userName:'',
+            nickName:'',
             mail:'',
+            avatarUrl:'',
             topic_list_all:[],
             topic_list:[],
             reviewList:[],
@@ -169,11 +174,20 @@ export default {
           return year + month + day + hour + minutes + seconds;
         },
         alert1(index){
+<<<<<<< HEAD
+            alert("完整回答："+this.oriText[index]);
+        },
+        editInfo(){
+            this.$router.push({
+          path: `/editInfo`})
+        },
+=======
             //alert("完整回答："+this.oriText[index]);
             this.$alert(this.oriText[index], '完整回答', {
                 confirmButtonText: '确定'
             });
         }
+>>>>>>> 544ced1f7fd1e7ce7a7154ff148fb2518d022413
     },
     components:{
         mainheader_
@@ -183,7 +197,9 @@ export default {
         console.log(user);
         console.log(this.$store.state.user);
         this.userName= this.$store.state.user.name;
+        this.nickName=this.$store.state.user.nickname;
         this.mail=this.$store.state.user.mail;
+        this.avatarUrl=this.$store.state.user.avatar;
         this.getTopicDetail();
         this.getAllTopic();
     }
@@ -192,7 +208,7 @@ export default {
 
 <style lang="less" scoped>
     .main{
-        background-color: #e8e8e8;
+        background-color: #afcae887;
     }
     .card{
         background:#fff;
@@ -201,7 +217,7 @@ export default {
         box-shadow:0 1px 3px rgba(26,26,26,.1);
         box-sizing:border-box;
         display:block;
-        height:260px;
+        height:300px;
     }
     .card .div{
         display:block;
@@ -211,7 +227,7 @@ export default {
     }
     .UserCover--colorBlock{
         height:132px;
-        background:#aaa;
+        background:#99CCFF;
     }
     .UserCover{
         position:relative;
