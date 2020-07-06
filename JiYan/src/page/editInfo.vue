@@ -64,6 +64,11 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
         </el-col>
     </el-row>
 </div>
@@ -280,7 +285,7 @@ export default {
     .ProfileHeader-content{
         padding-top:32px;
         padding-left:32px;
-        border-left:164px solid transparent;
+        border-left:330px solid transparent;
     }
 
 
