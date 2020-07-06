@@ -46,9 +46,6 @@
         </div>
         <div class="main_right_2">
           <el-row>
-            <!-- <el-col :span="24" class="row_1">
-              <span><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-              <span style="float: right;"></span> -->
             <el-col :span="24" class="row_1" >
               <span @click="toMyTopic"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
               <span style="float: right;">{{count_topic}}</span>
