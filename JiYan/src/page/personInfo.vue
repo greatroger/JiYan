@@ -21,33 +21,12 @@
                             </div>
                         </div>
                         <div class="ProfileHeader-content">
-                            <div class="ProfileHeader-contentHead">
-                                <h5 class="ProfileHeader-title">
-                                    <span class="ProfileHeader-name" >
-                                        {{userName}}
-                                    </span>
-                                    <span class="ztext ProfileHeader-headline">
-                                    </span>
-                                </h5>
-                            </div>
-                            <div class="ProfileHeader-contentBody" style="overflow: hidden; transition: height 300ms ease-out 0s; height: 43px;">
-                            <div>
-                                <div class="ProfileHeader-detail">
-                                    <div class="ProfileHeader-detailItem">
-                                        <span class="ProfileHeader-detailLabel">
-                                            {{nickName}}
-                                        </span>
-                                        <div class="ProfileHeader-detailValue">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
+                            <h2> {{userName}}</h2>
+                            <div>{{nickName}}</div>
+                            <div>{{mail}}</div>
+                            <el-button @click="editInfo" style="float:right">编辑个人信息</el-button>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <el-button @click="editInfo">编辑个人信息</el-button>
                 </div>
             </div>
         </el-col>
@@ -247,7 +226,7 @@ export default {
         z-index:1;
     }
     .UserAvatarEditor{
-        cursor:pointer;
+       
     }
     .UserAvatar{
         display:inline-block;
@@ -261,50 +240,6 @@ export default {
         padding-top:-10px;
         padding-left:32px;
         border-left:164px solid transparent;
-    }
-    .ProfileHeader-contentHead{
-        position:relative;
-        padding-right:106px;
-        margin-bottom:16px;
-    }
-    .ProfileHeader-title{
-        -webkit-box-flex:1;
-        flex:1 1;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-        margin-top:15px;
-        margin-bottom:15px;
-    }
-    .ProfileHeader-name{
-        font-size:20px;
-        font-weight:600;
-        line-height:30px;
-    }
-    .ProfileHeader-contentBody{
-        position:relative;
-        width:524px;
-    }
-    .ProfileHeader-detail{
-        width:100%;
-        font-size:14px;
-        line-height:1.8;
-        color:#1a1a1a;
-    }
-    .ProfileHeader-detailItem{
-        display:flex;
-        margin-bottom:18px;
-    }
-    .ProfileHeader-detailLabel{
-        width:60px;
-        margin-right:37px;
-        font-weight:600;
-    }
-    .ProfileHeader-detailValue {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1;
-    flex: 1 1;
-    overflow: hidden;
     }
 
 
