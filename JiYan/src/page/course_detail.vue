@@ -208,7 +208,7 @@
         if (this.commentUser[index].userId==this.$store.state.user.userId)
         {
             this.$router.push({
-                path: `/personInfo/${this.commentUser[index].userId}/${"0"}`
+                path: `/personInfo/${this.commentUser[index].userId}/${"1"}`
             })
         }
         else{

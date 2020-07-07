@@ -47,10 +47,10 @@
         <div class="answer_temp" v-for="(item, index) in answer_list" :key="index">
           <el-row class="user">
             <el-col :span="3">
-              <img :src="item.url" alt="">
+              <img :src="item.url" alt="" style="cursor:pointer" @click=toInfo(item.authorId)>
             </el-col>
             <el-col :span="3">
-              <span>{{ item.username }}</span>
+              <span style="cursor:pointer" @click=toInfo(item.authorId)>{{ item.username }}</span>
             </el-col>
             <el-col :span="1" :offset="19">
               <i class="el-icon-delete"
@@ -83,10 +83,10 @@
                   </el-dialog>
                   <div v-if="reply_list[index].length === 0" style="text-align: center;">暂无回复</div>
                   <div v-for="(item2, index2) in reply_list[index]" :key="index2" class="reply_main">
-                    <img :src="item2.url" alt="">
-                    <span class="span_name">{{ item2.authorName }}</span>
+                    <img :src="item2.url" alt="" style="cursor:pointer" @click=toInfo(item2.authorId)>
+                    <span class="span_name" style="cursor:pointer" @click=toInfo(item2.authorId)>{{ item2.authorName }}</span>
                     <span style="margin-left:30px;">回复:</span>
-                    <span class="span_name">{{item2.ownerName}}</span>
+                    <span class="span_name" style="cursor:pointer" @click=toInfo(item2.ownerId)>{{item2.ownerName}}</span>
                     <i class="el-icon-delete"
                        v-if="item2.authorId === $store.state.user.userId"
                        @click="delete_reply(item2.replyId)"></i>
@@ -282,6 +282,7 @@
               limit: 5
             }
           }).then((response) => {
+            console.log(response);
             this.answer_list = response.data.result;
             this.total_len = response.data.count;
             for(let i = 0; i < this.answer_list.length; i++){
@@ -483,6 +484,19 @@
             else{
               this.$router.push({
                 path: `/othersInfo/${this.topic_author.userId}`
+              })
+            }
+        },
+        toInfo(userId){
+            if (userId==this.$store.state.user.userId)
+            {
+              this.$router.push({
+                path: `/personInfo/${userId}/${"0"}`
+              })
+            }
+            else{
+              this.$router.push({
+                path: `/othersInfo/${userId}`
               })
             }
         }
