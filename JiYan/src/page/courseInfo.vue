@@ -214,16 +214,18 @@ import axios from 'axios'
                 url: 'http://180.76.234.230:8080/topic/all',
                 data: { "ownerId":userId, "offset":0,"limit":30 }
             }).then((response) => {
-                // console.log(response.data.result);
+                console.log(response.data.result);
                 this.$store.state.topic_detail = response.data;
+                this.$store.state.topic_count=response.data.result.length;
             });
 
             axios({
                 method: 'get',
                 url: 'http://180.76.234.230:8080/topicComment/all',
             }).then((response) => {
-                // console.log(response.data);
+                console.log(response.data);
                 this.$store.state.review_detail = response.data;
+                this.$store.state.review_count=response.data.length;
             });
         },
 

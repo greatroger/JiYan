@@ -88,7 +88,7 @@
           <el-row>
             <el-col :span="24" class="row_1" >
               <span @click="toMyTopic"><i class="el-icon-tickets"></i>&nbsp;&nbsp;&nbsp;我的问题</span>
-              <span class="count-topic">{{count_topic}}</span>
+              <span class="count-topic">{{this.$store.state.topic_count}}</span>
             </el-col>
           </el-row>
           <br/>
@@ -96,7 +96,7 @@
           <el-row>
             <el-col :span="24" class="row_2" >
               <span @click="toMyAnswer" ><i class="el-icon-edit"></i>&nbsp;&nbsp;&nbsp;我的回答</span>
-              <span class="count-review">{{count_review}}</span>
+              <span class="count-review">{{this.$store.state.review_count}}</span>
             </el-col>
           </el-row>
         </div>
@@ -148,7 +148,7 @@
         }
       },
 
-      created: function(){
+      mounted: function(){
         this.get_topic_all(0);
         this.setQuesNum();
         this.setReviewNum();
@@ -260,6 +260,7 @@
             console.log(response);
             this.topic_list = response.data.result;
             this.total_len = response.data.count;
+            console.log(this.total_len);
             for(let i = 0; i < this.topic_list.length; i++) {
               this.topic_list[i].created = this.convert_timestamp(this.topic_list[i].created);
             }
@@ -344,10 +345,12 @@
           })
         },
         setQuesNum:function(){
-          this.count_topic=this.$store.state.topic_detail.count;
+          this.count_topic=this.$store.state.topic_detail.result.length;
+          console.log(this.count_topic);
         },
         setReviewNum:function(){
           this.count_review=this.$store.state.review_detail.length;
+          console.log(this.count_review)
         },
         toMyTopic(){
           console.log("userId  "+this.$store.state.user.userId);
