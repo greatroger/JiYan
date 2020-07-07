@@ -10,6 +10,7 @@ import uploadDemo from '../components/uploadDemo'
 import editor from '../components/editor'
 import courseDetail from '../page/course_detail'
 import editInfo from '../page/editInfo'
+import othersInfo from '../page/othersInfo'
 
 Vue.use(Router);
 
@@ -74,6 +75,12 @@ export default new Router({
       name:'editInfo',
       component:editInfo,
 
+    },
+    {
+      path:'/othersInfo/:userId',
+      name:'othersInfo',
+      component:othersInfo,
+      props: true,
     }
   ]
 })

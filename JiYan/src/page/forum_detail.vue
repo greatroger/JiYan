@@ -131,12 +131,12 @@
           <span>关于作者</span>
         </el-row>
         <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f;"/>
-        <el-row class="user">
+        <el-row class="user" >
           <el-col :span="3">
-            <img :src="topic_author.avatar" alt="">
+            <img :src="topic_author.avatar" alt="" @click="toAuthor" style="cursor:pointer">
           </el-col>
           <el-col :span="7" :offset="2">
-            <span>{{ topic_author.nickname }}</span>
+            <span @click="toAuthor" style="cursor:pointer">{{ topic_author.nickname }}</span>
           </el-col>
         </el-row>
       </div>
@@ -471,6 +471,19 @@
           }else{
             this.show_content = false;
           }
+        },
+        toAuthor(){
+            if (this.topic_author.userId==this.$store.state.user.userId)
+            {
+              this.$router.push({
+                path: `/personInfo/${this.topic_author.userId}/${"0"}`
+              })
+            }
+            else{
+              this.$router.push({
+                path: `/othersInfo/${this.topic_author.userId}`
+              })
+            }
         }
       }
     }

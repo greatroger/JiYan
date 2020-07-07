@@ -35,6 +35,7 @@
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击修改头像</span>
                         </div>
                         <div class="ProfileHeader-content">
+                            <br>
                             <span>用户名：&nbsp;&nbsp;&nbsp;</span>
                             <el-input disabled :placeholder="userName" style="width:200px;margin:10px 10px 10px 10px;white-space:nowrap;"></el-input>
                             <br>
