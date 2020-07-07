@@ -196,7 +196,6 @@ import axios from 'axios'
                 limit: 6
               }
             }).then((response) => {
-              console.log(response);
               this.total_len = response.data.count;
               this.course_list = response.data.result;
             }).catch(() => {
