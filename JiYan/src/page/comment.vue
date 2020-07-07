@@ -236,7 +236,6 @@ export default {
       }).then((response) => {
         console.log(response);
         if (response.data==false){
-          console.log("11111");
           //平均得分
           var totalScore=0;
           for (var i=0;i<12;i++){
