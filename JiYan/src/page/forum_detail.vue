@@ -84,7 +84,12 @@
                   <div v-for="(item2, index2) in reply_list[index]" :key="index2" class="reply_main">
                     <img :src="item2.url" alt="" style="cursor:pointer" @click=toInfo(item2.authorId)>
                     <span class="span_name" style="cursor:pointer" @click=toInfo(item2.authorId)>{{ item2.authorName }}</span>
-                    <span style="margin-left:30px;">回复:</span>                    <br/><br/>
+                    <span style="margin-left:30px;">回复:</span>
+                    <span class="span_name" style="cursor:pointer" @click=toInfo(item2.ownerId)>{{item2.ownerName}}</span>
+                    <i class="el-icon-delete"
+                       v-if="item2.authorId === $store.state.user.userId"
+                       @click="delete_reply(item2.replyId)"></i>
+                    <br/><br/>
                     <p v-html="item2.text"></p>
                     <br/>
                     <span class="addReply" @click="dialogReplyVisible = true">回复</span>
