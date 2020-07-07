@@ -8,7 +8,7 @@
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -228,7 +228,12 @@ export default {
           return year + month + day + hour + minutes + seconds;
         },
         deleteReview(index,li){
-            axios({
+           this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           axios({
                 method: 'delete',
                 url: 'http://180.76.234.230:8080/topicComment',
                 data: { commentId: index }
@@ -237,9 +242,21 @@ export default {
                 this.reviewList.splice(li,1);
                 alert("删除回答成功！");
             });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
         },
         deleteTopic(index,li){
-            axios({
+           this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
                 method: 'delete',
                 url: 'http://180.76.234.230:8080/topic',
                 data: { topicId: index }
@@ -248,6 +265,13 @@ export default {
                 this.topic_list.splice(li,1);
                 alert("删除话题成功！");
             });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
         },
         alert1(index){
             this.$alert(this.oriText[index], '完整回答', {
