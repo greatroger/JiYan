@@ -8,7 +8,7 @@
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                         <el-col :span="3" class="span_2">
                             <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
                             <br/>
-                            <span class="span_des" @click="alert1(index)">{{ item.text }}</span>
+                            <span class="span_des" @click="alert1(index)" v-html="item.text"></span>
                             <br/>
                             <span class="span_time">点赞数：{{ item.likes }}</span>
                         </el-col>
@@ -185,7 +185,7 @@ export default {
         mainheader_
     },
     mounted(){
-        
+
         this.userId=this.$route.params.userId;
         this.$axios({
             method: 'get',
@@ -253,7 +253,7 @@ export default {
         z-index:1;
     }
     .UserAvatarEditor{
-       
+
     }
     .UserAvatar{
         display:inline-block;
@@ -293,6 +293,9 @@ export default {
           cursor: pointer;
         }
         .span_des {
+           width: 90%;
+          margin: 0 auto;
+              padding-top: 20px;
           font-size: 14px;
           color: #b8b8b8;
         }
@@ -310,7 +313,7 @@ export default {
         position: relative;
         margin-top: 10px;
         margin-left: 250px;
-        
+
       }
     }
 
