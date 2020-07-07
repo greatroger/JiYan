@@ -17,32 +17,14 @@
                         <div class="UserAvatarEditor ProfileHeader-avatar" style="top:-74px;">
                             <div class="UserAvatar">
                                 <img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160"
-                                    src="../assets/user.png" >
+                                    :src="avatarUrl" >
                             </div>
                         </div>
                         <div class="ProfileHeader-content">
-                            <div class="ProfileHeader-contentHead">
-                                <h5 class="ProfileHeader-title">
-                                    <span class="ProfileHeader-name" >
-                                        {{userName}}
-                                    </span>
-                                    <span class="ztext ProfileHeader-headline">
-                                    </span>
-                                </h5>
-                            </div>
-                            <div class="ProfileHeader-contentBody" style="overflow: hidden; transition: height 300ms ease-out 0s; height: 43px;">
-                            <div>
-                                <div class="ProfileHeader-detail">
-                                    <div class="ProfileHeader-detailItem">
-                                        <span class="ProfileHeader-detailLabel">
-                                            {{mail}}
-                                        </span>
-                                        <div class="ProfileHeader-detailValue">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
+                            <h2> {{userName}}</h2>
+                            <div>{{nickName}}</div>
+                            <div>{{mail}}</div>
+                            <el-button @click="editInfo" style="float:right">编辑个人信息</el-button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +83,9 @@ export default {
     data(){
         return {
             userName:'',
+            nickName:'',
             mail:'',
+            avatarUrl:'',
             topic_list_all:[],
             topic_list:[],
             reviewList:[],
@@ -183,7 +167,11 @@ export default {
             this.$alert(this.oriText[index], '完整回答', {
                 confirmButtonText: '确定'
             });
-        }
+        },
+        editInfo(){
+            this.$router.push({
+          path: `/editInfo`})
+        },
     },
     components:{
         mainheader_
@@ -193,7 +181,9 @@ export default {
         console.log(user);
         console.log(this.$store.state.user);
         this.userName= this.$store.state.user.name;
+        this.nickName=this.$store.state.user.nickname;
         this.mail=this.$store.state.user.mail;
+        this.avatarUrl=this.$store.state.user.avatar;
         this.getTopicDetail();
         this.getAllTopic();
         this.reviewList=this.$store.state.review_detail;
@@ -206,7 +196,7 @@ export default {
 
 <style lang="less" scoped>
     .main{
-        background-color: #e8e8e8;
+        background-color: #afcae887;
     }
     .card{
         background:#fff;
@@ -215,7 +205,7 @@ export default {
         box-shadow:0 1px 3px rgba(26,26,26,.1);
         box-sizing:border-box;
         display:block;
-        height:260px;
+        height:300px;
     }
     .card .div{
         display:block;
@@ -225,7 +215,7 @@ export default {
     }
     .UserCover--colorBlock{
         height:132px;
-        background:#aaa;
+        background:#99CCFF;
     }
     .UserCover{
         position:relative;
@@ -250,7 +240,7 @@ export default {
         z-index:1;
     }
     .UserAvatarEditor{
-        cursor:pointer;
+       
     }
     .UserAvatar{
         display:inline-block;
@@ -264,50 +254,6 @@ export default {
         padding-top:-10px;
         padding-left:32px;
         border-left:164px solid transparent;
-    }
-    .ProfileHeader-contentHead{
-        position:relative;
-        padding-right:106px;
-        margin-bottom:16px;
-    }
-    .ProfileHeader-title{
-        -webkit-box-flex:1;
-        flex:1 1;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-        margin-top:15px;
-        margin-bottom:15px;
-    }
-    .ProfileHeader-name{
-        font-size:20px;
-        font-weight:600;
-        line-height:30px;
-    }
-    .ProfileHeader-contentBody{
-        position:relative;
-        width:524px;
-    }
-    .ProfileHeader-detail{
-        width:100%;
-        font-size:14px;
-        line-height:1.8;
-        color:#1a1a1a;
-    }
-    .ProfileHeader-detailItem{
-        display:flex;
-        margin-bottom:18px;
-    }
-    .ProfileHeader-detailLabel{
-        width:60px;
-        margin-right:37px;
-        font-weight:600;
-    }
-    .ProfileHeader-detailValue {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1;
-    flex: 1 1;
-    overflow: hidden;
     }
 
 

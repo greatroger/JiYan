@@ -27,7 +27,7 @@
                 </el-rate>
             </div>
             <div style="display: flex; height:50px;">
-                <el-button type="primary">发表评价</el-button>
+                <el-button type="primary" @click=toComment(courseId)>发表评价</el-button>
                 <div style="display: flex; flex-direction: column" >
                     <img class="dianzan" src="../assets/dianzan.png">
                     <div style="font-size: 3px; margin-left: 32px;text-align:center">{{this.likes}}</div>
@@ -38,13 +38,26 @@
 
 
     <div class="evaluate">
+        <br>
         <div style="font-size: 20px; color: gray;">{{this.commentsNum}}个评价</div>
+        <br>
         <el-row :span="1" v-for="(item,index) in commentList" :key="index" :offset="1">
-            <div class="evaluate_content" :class="bkg[index%2]">
-                <div style="width: 250px;display: flex;flex-direction: column;">
-                    <div style="display: flex;">
-                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">综合评分：</div>
-                    <div style="margin-top: 24px;">
+            <el-card  shadow="hover" :class="bkg[index%2]">
+            <div class="evaluate_content" >
+                <div style="width: 800px;display: flex;flex-direction: row;">
+
+                    <img v-bind:src="commentUser[index].avatar" class="picture"/>
+
+                    
+                    <div style="display:flex;flex-direction:column">
+
+                    <div style="display:flex;width:740px;justify-content:space-between">
+                    <div style="font-size: 20px; margin-top: 10px; margin-left: 20px;">{{commentUser[index].nickname}}</div>
+                    <div style="font-size: 20px; margin-top: 10px;">{{timestampToTime(item.created)}}</div>
+                    </div>
+
+
+                    <div style="margin-top: 20px; margin-left:20px;">
                     <el-rate
                     v-model="item.score"
                     disabled
@@ -52,14 +65,16 @@
                     </el-rate>
                     </div>
                     </div>
-                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">用户id：{{item.authorName}}</div>
                 </div>
             <div style="display: flex;flex-direction: column;width:510px;margin-left:20px">
-                <div style="font-size: 20px; margin-top: 20px;">评价：</div>
-                <div style="font-size: 20px; ">{{item.text}}</div>
+                <div style="font-size: 20px; margin-top: 20px;">任课教师在授课方面的优点或特色：</div>
+                <div style="font-size: 20px; ">{{item.text.split("&&")[0]}}</div>
+                <div style="font-size: 20px; margin-top: 20px;">任课教师令我不满意的地方：</div>
+                <div style="font-size: 20px; ">{{item.text.split("&&")[1]}}</div>
             </div>
-            <div style="font-size: 20px; margin-top: 20px;">时间</div>
+            
         </div>
+        </el-card>
         </el-row>
     </div>
 
@@ -83,6 +98,7 @@
                 score:'',
                 commentList:[],
                 bkg:[],
+                commentUser:[],
                 }
     },
     components: {
@@ -97,6 +113,18 @@
         this.bkg[1] = "card1";
     },
     methods:{
+        get_user: function(userId) {
+            this.$axios({
+            method: 'get',
+            url: '/user/selectOne?userId=' + this.userId,
+            headers: {},
+            params: {},
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            alert(error);
+        })
+        },
         get_all_comments: function(courseId) {
             this.$axios({
             method: 'post',
@@ -107,11 +135,27 @@
                 courseId: this.courseId,
             }
         }).then((response) => {
-            console.log(response);
+            console.log(response.data.result);
+            this.commentsNum = response.data.result.length;
             this.commentList = response.data.result;
-        }).catch((error) => {
+            for(var i=0; i<this.commentsNum ; i++)
+            {
+                var id = this.commentList[i].authorId;
+                this.$axios({
+                method: 'get',
+                url: '/user/selectOne?userId=' + id,
+                headers: {},
+                params: {},
+                }).then((response) => {
+                this.commentUser.push(response.data)
+                console.log(this.commentUser)
+                }).catch((error) => {
+                alert(error);
+                })
+            }
+            }).catch((error) => {
             alert(error);
-        })
+            })
         },
         get_courseInfo: function(courseId) {
             this.$axios({
@@ -122,7 +166,6 @@
         }).then((response) => {
             console.log(response);
             this.academy = response.data.academy;
-            this.commentsNum = response.data.commentsNum;
             this.courseName = response.data.courseName;
             this.likes = response.data.likes;
             this.ownerName = response.data.ownerName;
@@ -132,8 +175,37 @@
             alert(error);
         })
         },
+
+        timestampToTime: function(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        // let Y = date.getFullYear() + '-';
+        // let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        // let D = date.getDate() + ' ';
+        // let h = date.getHours() + ':';
+        // let m = date.getMinutes() + ':';
+        // let s = date.getSeconds();
+        // return Y+this.padLeftZero(M)+this.padLeftZero(D)+this.padLeftZero(h)+this.padLeftZero(m)+this.padLeftZero(s);
+        let y = date.getFullYear();
+        let MM = date.getMonth() + 1;
+        MM = MM < 10 ? ('0' + MM) : MM;
+        let d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        let h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        let m = date.getMinutes();
+        m = m < 10 ? ('0' + m) : m;
+        let s = date.getSeconds();
+        s = s < 10 ? ('0' + s) : s;
+        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+    },
+
+    toComment(courseId){
+        this.$router.push({
+          path: `/comment/${courseId}`
+        })
     }
     }
+}
 </script>
 
 <style scoped>
@@ -272,13 +344,20 @@ body::before{
 .evaluate_content{
     width: 900px;
     height: 300px;
-    background-color: #ffffff;
     display: flex;
+    flex-direction:column;
 }
 .card0{
 
 }
 .card1{
     background-color: #4243444a;
+}
+
+.picture{
+    width: 80px;
+    height:80px;
+    margin-left: 20px;
+    border-radius:4px;
 }
 </style>

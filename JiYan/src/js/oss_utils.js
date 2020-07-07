@@ -8,7 +8,7 @@ const OSSConfig = {
         bucket: 'jiyan2020',
         host: 'http://jiyan2020.oss-cn-beijing.aliyuncs.com',
     },
-}
+};
 
 var g_object_name, new_multipart_params, suffix
 

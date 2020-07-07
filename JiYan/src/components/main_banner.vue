@@ -26,6 +26,14 @@ export default {
       console.log(command);
       if(command === 'logout'){
         this.$store.state.user = {};
+        this.$cookies.remove(this.$store.state.user.userId);
+        this.$axios({
+          method: 'post',
+          url: '/logout'
+        }).then(() => {
+        }).catch(() => {
+          alert("接口错误，请重试！");
+        });
         this.reload();
         alert("退出成功！");
       }else if(command === 'login'){

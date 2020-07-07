@@ -55,12 +55,20 @@
                 <span style="font-size:14px;">2019-2020</span>
               </div>
               <div class="span_icon">
-                <i class="el-icon-goods"></i>
-                <i class="el-icon-edit-outline" @click="toComment(course_list[key*3 + index].courseId)"></i>
-                <i class="el-icon-bell"></i>
+                <span @click="toComment(course_list[key*3 + index].courseId)"><i class="el-icon-edit-outline"></i>课程评价</span>
               </div>
             </el-card>
           </el-col>
+      </el-row>
+      <el-row>
+        <div class="block">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="6"
+            layout="prev, pager, next, jumper"
+            :total="total_len"></el-pagination>
+        </div>
       </el-row>
     </div>
   </div>
@@ -104,6 +112,8 @@ import axios from 'axios'
             // { required: true, trigger: 'blur' }
           ]
         },
+        currentPage: 0,
+        total_len: 0,
         card_dynamic: [],
         card_dynamic_bkg: []
       }
@@ -121,22 +131,45 @@ import axios from 'axios'
     mounted: function() {
       setTimeout(() => {
         this.random_color();
-      }, 500);
+      }, 1000);
     },
 
     methods: {
+      handleCurrentChange(val){
+        this.$axios({
+          method: 'post',
+          url: '/course/matchAll',
+          headers: {},
+          data: {
+            academy: this.ruleForm.department,
+            courseId: this.ruleForm.courseId,
+            courseName: this.ruleForm.courseName,
+            ownerName: this.ruleForm.teacher,
+            offset: (val-1)*6,
+            limit: 6
+          }
+        }).then((response) => {
+          this.course_list = response.data.result;
+          this.course_len = response.data.result.length;
+        }).catch(() => {
+          alert("无法获取课程信息，请刷新重试");
+        })
+      },
       get_course_all: function() {
         this.$axios({
-          method: 'get',
-          url: '/course/all',
+          method: 'post',
+          url: '/course/matchAll',
           headers: {},
-          params: {}
+          data: {
+            offset: 0,
+            limit: 6
+          }
         }).then((response) => {
-          console.log(response);
-          this.course_list = response.data;
-          this.course_len = response.data.length;
-        }).catch((error) => {
-          alert(error);
+          this.course_list = response.data.result;
+          this.total_len = response.data.count;
+          this.course_len = response.data.result.length;
+        }).catch(() => {
+          alert("无法获取课程信息，请刷新重试");
         })
       },
 
@@ -159,9 +192,10 @@ import axios from 'axios'
                 courseName: this.ruleForm.courseName,
                 ownerName: this.ruleForm.teacher,
                 offset: 0,
-                limit: 10
+                limit: this.total_len
               }
             }).then((response) => {
+              this.total_len = response.data.result.length;
               this.course_list = response.data.result;
             }).catch(() => {
               alert("接口异常，请更换搜索条件")
@@ -179,7 +213,7 @@ import axios from 'axios'
                 url: 'http://180.76.234.230:8080/topic/all',
                 data: { "ownerId":userId, "offset":0,"limit":30 }
             }).then((response) => {
-                console.log(response.data.result);
+                // console.log(response.data.result);
                 this.$store.state.topic_detail = response.data;
             });
 
@@ -187,7 +221,7 @@ import axios from 'axios'
                 method: 'get',
                 url: 'http://180.76.234.230:8080/topicComment/all',
             }).then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.$store.state.review_detail = response.data;
             });
         },
@@ -285,11 +319,12 @@ import axios from 'axios'
     margin: 0 auto;
     height: 40px;
     padding-top: 10px;
-    i {
+    span {
       margin-right: 40px;
     }
-    i:hover{
+    span:hover{
       cursor: pointer;
+      color: #409EFF;
     }
   }
   .card0{
@@ -321,6 +356,17 @@ import axios from 'axios'
   }
   .card_bkg4{
     background-color: antiquewhite;
+  }
+  .card5{
+    color: #409EFF;
+  }
+  .card_bkg5{
+    background-color: #409EFF;
+  }
+  .block{
+    width: 30%;
+    margin: 0 auto;
+    height: 100px;
   }
 
 </style>
