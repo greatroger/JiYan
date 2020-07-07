@@ -57,6 +57,15 @@
                         </el-col>
                     </el-container>
                 </div>
+                <div class="block" v-if="QuesVisible">
+                    <el-pagination
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        :page-size="10"
+                        layout="prev, pager, next, jumper"
+                        :total="total_len">
+                    </el-pagination>
+                </div>
 
                  <div v-if="ReviewVisivle">
                     <el-container class="main_left_review" v-for="(item,index) in reviewList" :key="index">
@@ -76,6 +85,15 @@
                             <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button>
                         </el-col>
                     </el-container>
+                </div>
+                <div class="block" v-if="ReviewVisivle">
+                    <el-pagination
+                        @current-change="handleCurrentChange2"
+                        :current-page.sync="currentPage2"
+                        :page-size="10"
+                        layout="prev, pager, next, jumper"
+                        :total="total_len2">
+                    </el-pagination>
                 </div>
             </div>
         </el-col>
@@ -102,6 +120,10 @@ export default {
           ],
             QuesVisible: false,
             ReviewVisivle:false,
+            currentPage: 1,
+            total_len: 0,
+            currentPage2: 1,
+            total_len2: 0,
         };
     },
     methods:{
@@ -124,7 +146,6 @@ export default {
             for (let i = 0; i < this.reviewList.length; i++) {
                 for (let j = 0; j < this.topic_list_all.length; j++){
                     if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
-                        console.log("11111");
                         this.reviewList[i].topicId=this.topic_list_all[j].topicName;
                     }
                 }
@@ -156,6 +177,44 @@ export default {
                 url: 'http://180.76.234.230:8080/topic?offset=0&limit=10&type=0'
             }).then((response) => {
                 this.topic_list_all = response.data.result;
+            });
+        },
+        handleCurrentChange:function(val){
+            this.QuesVisible=true;
+            this.ReviewVisivle=false;
+            var userId=this.$store.state.user.userId;
+            axios({
+                method: 'post',
+                url: 'http://180.76.234.230:8080/topic/all',
+                data: { "ownerId":userId, "offset":(val-1)*10,"limit":10 }
+            }).then((response) => {
+                this.topic_list = response.data.result;
+                for(let i = 0; i < this.topic_list.length; i++) {
+                    this.topic_list[i].created = this.convert_timestamp(this.topic_list[i].created);
+                }
+            });
+        },
+        handleCurrentChange2:function(val){
+            this.QuesVisible=false;
+            this.ReviewVisivle=true;
+            var userId=this.$store.state.user.userId;
+            axios({
+                method: 'post',
+                url: 'http://180.76.234.230:8080/topicComment/all',
+                data: { "authorId":userId, "offset":(val-1)*10,"limit":10 }
+            }).then((response) => {
+                console.log(response);
+                this.review_list = response.data.result;
+                for (let i = 0; i < this.review_list.length; i++) {
+                    for (let j = 0; j < this.topic_list_all.length; j++){
+                        if (this.review_list[i].topicId===this.topic_list_all[j].topicId){
+                            this.review_list[i].topicId=this.topic_list_all[j].topicName;
+                        }
+                    }
+                if (this.review_list[i].text.length>25){
+                    this.review_list[i].text=this.review_list[i].text.substring(0,25)+"...";
+                }
+            }
             });
         },
         convert_timestamp: function(timestamp) {
@@ -211,8 +270,13 @@ export default {
         this.nickName=this.$store.state.user.nickname;
         this.mail=this.$store.state.user.mail;
         this.avatarUrl=this.$store.state.user.avatar;
-        this.getTopicDetail();
+        //this.getTopicDetail();
+        this.total_len=this.$store.state.topic_count;
+        this.total_len2=this.$store.state.review_counth;
+        console.log(this.total_len);
+        console.log(this.total_len2);
         this.getAllTopic();
+        this.handleCurrentChange(1);
         this.reviewList=this.$store.state.review_detail;
         for (let i = 0; i < this.reviewList.length; i++) {
             this.oriText[i]=this.reviewList[i].text;
