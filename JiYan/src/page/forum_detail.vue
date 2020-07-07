@@ -4,7 +4,7 @@
   <div class="topic_main">
     <div class="topic_left">
       <el-row>
-        <el-col :span="18">
+        <el-col :span="15">
           <el-row>
             <el-col :span="16">
             <div class="topic_name">
@@ -37,7 +37,8 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="9" >
+          <img :src="this.$store.state.topic_detail.picture" alt="" class="topic_img">
         </el-col>
       </el-row>
     </div>
@@ -90,7 +91,7 @@
                        v-if="item2.authorId === $store.state.user.userId"
                        @click="delete_reply(item2.replyId)"></i>
                     <br/><br/>
-                    <p v-html="item2.text"></p>
+                    <p v-html="item2.text" style="margin-left: 60px;"></p>
                     <br/>
                     <span class="addReply" @click="dialogReplyVisible = true">回复</span>
 
@@ -490,6 +491,11 @@
 </script>
 
 <style lang="less" scoped>
+  .topic_img{
+    width: 380px;
+    height: 220px;
+    margin-top: 30px;
+  }
   .topic_main{
     width: 100%;
     .topic_left{

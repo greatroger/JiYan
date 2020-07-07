@@ -11,14 +11,19 @@
     <div class="main">
       <div class="main_left">
         <el-container class="main_left_title">
-          <span>话题</span>
+          <span class="topic">话题</span>
+          <el-container class="main_right_button">
+            <span @click="sort_by_time()" ref="time">按时间排序</span>
+            <span style="margin-left: 35px;" @click="sort_by_hot()" ref="hot">按热度排序</span>
+            <img src="../assets/refresh.png" alt="" class="sort_img"  @click="sort_normal()">
+          </el-container>
         </el-container>
-        <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
+        <div class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
           <el-col :span="3">
             <span class="span_num">{{ index + (currentPage-1)*10 }}</span>
             <br/>
           </el-col>
-          <el-col :span="5" class="span_2" :offset="3">
+          <el-col :span="14" class="span_2" >
             <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId, item.ownerId)">{{ item.topicName  }}</span>
             <br/>
             <span class="span_des">{{ item.description }}</span>
@@ -33,7 +38,7 @@
                v-if="item.ownerId === $store.state.user.userId"
                @click="delete_topic(item.topicId)"></i>
           </el-col>
-        </el-container>
+        </div>
         <div class="block">
           <el-pagination
             @current-change="handleCurrentChange"
@@ -51,18 +56,32 @@
             <span>写问题</span>
           </div>
           <el-dialog title="创建新话题" :visible.sync="dialogTableVisible">
-            <el-form :model="form">
-              <el-form-item label="标题名称" :label-width="formLabelWidth">
+            <el-form :model="form" :rules="rules" ref="form">
+              <el-form-item label="标题名称" :label-width="formLabelWidth" prop="titleName">
                 <el-input v-model="form.titleName" auto-complete="off"></el-input>
               </el-form-item>
-              <el-form-item label="详细描述" :label-width="formLabelWidth" >
+              <el-form-item label="详细描述" :label-width="formLabelWidth" prop="description">
                 <el-input v-model="form.description" auto-complete="off"></el-input>
               </el-form-item>
+              <el-form-item label="话题图片" :label-width="formLabelWidth">
+                <el-upload
+                  action="http://jiyan2020.oss-cn-beijing.aliyuncs.com"
+                  class="avatar-uploader"
+                  style="border: 2px dashed #d9d9d9;"
+                  :show-file-list="false"
+                  :http-request='handlePicUpload'
+                  :before-upload="beforePicUpload">
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-form-item>
+              <el-form-item>
+                <div class="dialog-footer">
+                  <el-button @click="dialogTableVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="uploadTopic('form')">确 定</el-button>
+                </div>
+              </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogTableVisible = false">取 消</el-button>
-              <el-button type="primary" @click="toEditor()">确 定</el-button>
-            </div>
           </el-dialog>
         </div>
         <div class="main_right_2">
@@ -87,6 +106,7 @@
 </template>
 
 <script>
+  import {client}  from '../js/oss.js'
   import header_ from '../components/main_header'
     export default {
       name: "forum_main",
@@ -105,27 +125,64 @@
           formLabelWidth: '120px',
           form: {
             titleName: '',
-            description:''
+            description: ''
+          },
+          rules: {
+            titleName: [
+              { required: true, message: '请输入话题名', trigger: 'blur' },
+              { min: 1, max: 25, message: '长度在 1 到 25 个字符', trigger: 'blur' }
+            ],
+            description: [
+              { required: true, message: '请输入话题描述', trigger: 'blur' },
+              { min: 1, max: 35, message: '长度在 1 到 35 个字符', trigger: 'blur' }
+            ]
           },
           currentPage: 1,
           total_len: 0,
           select_input: "",
-          isSearch: false
+          isSearch: false,
+          currentType: 0,
+          imageUrl: '',
+          dataObj: '',
+          picture: ''
         }
       },
 
       created: function(){
-        this.get_topic_all();
+        this.get_topic_all(0);
         this.setQuesNum();
         this.setReviewNum();
       },
       methods: {
+        handlePicUpload:function(file){
+          console.log(file);
+          client(this.dataObj).multipartUpload(file.file.name, file.file).then((response) => {
+            alert("上传图片成功");
+            this.picture = response.res.requestUrls[0];
+          }).catch(() => {
+            alert("上传图片失败，请重试");
+          })
+        },
+        beforePicUpload:function(){
+          const OSSConfig = {
+            type: 'scs',
+            ossParams: {
+              region: 'oss-cn-beijing',
+              success_action_status: '200',
+              accessKeyId: 'LTAI4Fth4afrtSPEA55FnXfe',
+              accessKeySecret: '5SWPdCDJtWNBRkVL9UwsNsHFkzbuG9',
+              bucket: 'jiyan2020',
+            },
+          };
+          this.dataObj=OSSConfig.ossParams;
+        },
         handleCurrentChange:function(val){
           if(!this.isSearch){
             this.$axios({
               method: 'get',
               url: '/topic',
               params: {
+                type: this.currentType,
                 offset: (val-1)*10,
                 limit: 10
               }
@@ -169,11 +226,33 @@
           }
         },
 
-        get_topic_all: function() {
+        sort_by_hot:function(){
+          this.currentType = 2;
+          this.get_topic_all(2);
+          this.$refs.hot.style.color="red";
+          this.$refs.time.style.color="#b4b4b4";
+        },
+
+        sort_by_time:function(){
+          this.currentType = 1;
+          this.get_topic_all(1);
+          this.$refs.time.style.color="red";
+          this.$refs.hot.style.color="#b4b4b4";
+        },
+
+        sort_normal:function(){
+          this.currentType = 0;
+          this.get_topic_all(0);
+          this.$refs.time.style.color="#b4b4b4";
+          this.$refs.hot.style.color="#b4b4b4";
+        },
+
+        get_topic_all: function(type) {
           this.$axios({
             method: 'get',
             url: '/topic',
             params: {
+              type: type,
               offset: 0,
               limit: 10
             }
@@ -239,10 +318,30 @@
             path: `/forum/detail/${topicId}/${ownerId}`
           })
         },
-        toEditor:function(){
-          this.dialogTableVisible = false;
-          this.$router.go(0);
+        uploadTopic:function(form){
+          this.$refs[form].validate((valid) => {
+            if(valid){
+              this.dialogTableVisible = false;
+              this.$axios({
+                method: 'post',
+                url: 'http://180.76.234.230:8080/topic',
+                withCredentials: true,
+                data: {
+                  topicName: this.form.titleName,
+                  description: this.form.description,
+                  picture: this.picture
+                }
+              }).then(() => {
+                this.$router.go(0);
+                alert('上传成功');
+              }).catch(() => {
+                alert("上传错误，请重试");
+              })
+            }else{
+              return false;
+            }
 
+          })
         },
         setQuesNum:function(){
           this.count_topic=this.$store.state.topic_detail.count;
@@ -272,7 +371,7 @@
   .main{
     background-color: #afcae887;
     width: 100%;
-    height: 2000px;
+    height: 2500px;
   }
   .top_header {
     background-color: #afcae887;
@@ -291,12 +390,30 @@
     .main_left_title{
       height: 50px;
       background-color: #ffffff;
-      span {
+      .topic {
         font-size: 23px;
         color: #7f7f7f;
         margin-left: 30px;
         height: 80%;
         margin-top: 8px;
+      }
+      .main_right_button{
+        margin-left: 700px;
+        margin-top: 15px;
+        color: #b4b4b4;
+        font-size: 14px;
+        span:hover{
+          color: red;
+          cursor: pointer;
+        }
+        .sort_img{
+          height: 20px;
+          width: 20px;
+          margin-left: 20px;
+        }
+        .sort_img:hover{
+          cursor: pointer;
+        }
       }
     }
     .block{
@@ -316,7 +433,7 @@
 
     .main_left_topic {
       margin-top: 5px;
-      height: 150px;
+      height: 180px;
       background-color: white;
       i{
         margin-top: 65px;
@@ -326,22 +443,26 @@
         cursor: pointer;
       }
       .span_num {
+        /*margin-left: 30px;*/
+        /*margin-top: 15px;*/
+        /*float: right;*/
+        /*background-color: #409EFF;*/
+        /*width:50px;*/
+        /*height:50px;*/
+        /*border-radius:50%;*/
+        /*font-size:26px;*/
+        /*color:#fff;*/
+        /*line-height: 45px;*/
+        /*text-align:center;*/
+        /*box-shadow:  2px 2px 2px 3px rgba(0, 0, 0, 0.2)*/
+        font-size: 18px;
+        font-weight: bolder;
+        color: #7f7f7f;
         margin-left: 30px;
-        margin-top: 15px;
-        float: right;
-        background-color: #409EFF;
-        width:50px;
-        height:50px;
-        border-radius:50%;
-        font-size:26px;
-        color:#fff;
-        line-height: 45px;
-        text-align:center;
-        box-shadow:  2px 2px 2px 3px rgba(0, 0, 0, 0.2)
       }
       .span_2 {
-        width: 400px;
-        height: 180px;
+        /*width: 400px;*/
+        /*height: 100px;*/
         margin-top: 20px;
         .span_name {
           font-size: 18px;
@@ -362,7 +483,7 @@
         .span_time {
           height: 20px;
           position: relative;
-          top: 50px;
+          top: 70px;
           color: #7f7f7f;
         }
       }
@@ -370,10 +491,10 @@
         img{
           width: 200px;
           height: 130px;
-          box-shadow:  2px 2px 2px 1px rgba(0, 0, 0, 0.2)
+          /*box-shadow:  2px 2px 2px 1px rgba(0, 0, 0, 0.2)*/
         }
-        margin-top: 10px;
-        margin-left: 60px;
+        margin-top: 20px;
+        /*margin-left: 10px;*/
 
       }
     }
@@ -457,6 +578,32 @@
         color: dodgerblue;
       }
     }
+  }
+  .avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    margin-left: 180px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .dialog-footer{
+    float: right;
   }
 
 </style>

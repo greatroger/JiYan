@@ -10,24 +10,24 @@
         <el-form-item label="课程名称" prop="courseName">
           <el-input v-model="ruleForm.courseName"></el-input>
         </el-form-item>
-        <el-form-item label="学历层次" prop="level">
-          <el-select v-model="ruleForm.level" value="">
-            <el-option label="本科" value="undergraduate"></el-option>
-            <el-option label="硕士" value="postgraduate"></el-option>
-            <el-option label="博士" value="phd"></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="学历层次" prop="level">-->
+<!--          <el-select v-model="ruleForm.level" value="">-->
+<!--            <el-option label="本科" value="undergraduate"></el-option>-->
+<!--            <el-option label="硕士" value="postgraduate"></el-option>-->
+<!--            <el-option label="博士" value="phd"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <br/>
         <el-form-item label="开课院系" prop="department">
           <el-input v-model="ruleForm.department"></el-input>
         </el-form-item>
-        <el-form-item label="课程性质" prop="kind">
-          <el-select v-model="ruleForm.kind" value="">
-            <el-option label="必修" value="compulsory"></el-option>
-            <el-option label="选修" value="elective"></el-option>
-            <el-option label="重修" value="rebuild"></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="课程性质" prop="kind">-->
+<!--          <el-select v-model="ruleForm.kind" value="">-->
+<!--            <el-option label="必修" value="compulsory"></el-option>-->
+<!--            <el-option label="选修" value="elective"></el-option>-->
+<!--            <el-option label="重修" value="rebuild"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item label="任课教师" prop="teacher">
           <el-input v-model="ruleForm.teacher"></el-input>
         </el-form-item>
