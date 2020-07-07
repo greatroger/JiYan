@@ -17,9 +17,6 @@
           <el-col :span="3">
             <span class="span_num">{{ index + (currentPage-1)*10 }}</span>
             <br/>
-            <el-button type="danger" class="delete_button"
-                       v-if="item.ownerId === $store.state.user.userId"
-                       @click="delete_topic(item.topicId)">删除</el-button>
           </el-col>
           <el-col :span="5" class="span_2" :offset="3">
             <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId, item.ownerId)">{{ item.topicName  }}</span>
@@ -30,6 +27,11 @@
           </el-col>
           <el-col :span="5" class="img_3">
             <img :src="item.picture" alt="">
+          </el-col>
+          <el-col :span="1" :offset="1">
+            <i class="el-icon-delete"
+               v-if="item.ownerId === $store.state.user.userId"
+               @click="delete_topic(item.topicId)"></i>
           </el-col>
         </el-container>
         <div class="block">
@@ -316,12 +318,12 @@
       margin-top: 5px;
       height: 150px;
       background-color: white;
-      .delete_button{
-        width: 60px;
-        height: 30px;
-        margin-left: 10px;
-        margin-top: 45px;
-        padding: 0;
+      i{
+        margin-top: 65px;
+      }
+      i:hover{
+        color: red;
+        cursor: pointer;
       }
       .span_num {
         margin-left: 30px;

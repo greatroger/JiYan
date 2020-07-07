@@ -126,6 +126,7 @@ import axios from 'axios'
     created: function() {
       this.get_course_all();
       this.getTopicById();
+
     },
 
     mounted: function() {
