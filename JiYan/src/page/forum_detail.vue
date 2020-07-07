@@ -4,7 +4,7 @@
   <div class="topic_main">
     <div class="topic_left">
       <el-row>
-        <el-col :span="18">
+        <el-col :span="15">
           <el-row>
             <el-col :span="16">
             <div class="topic_name">
@@ -37,7 +37,8 @@
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="9" >
+          <img :src="this.$store.state.topic_detail.picture" alt="" class="topic_img">
         </el-col>
       </el-row>
     </div>
@@ -46,10 +47,15 @@
         <div class="answer_temp" v-for="(item, index) in answer_list" :key="index">
           <el-row class="user">
             <el-col :span="3">
-              <img :src="item.url" alt="">
+              <img :src="item.url" alt="" style="cursor:pointer" @click=toInfo(item.authorId)>
             </el-col>
             <el-col :span="3">
-              <span>{{ item.username }}</span>
+              <span style="cursor:pointer" @click=toInfo(item.authorId)>{{ item.username }}</span>
+            </el-col>
+            <el-col :span="1" :offset="19">
+              <i class="el-icon-delete"
+                 v-if="item.authorId === $store.state.user.userId"
+                 @click="delete_comment(item.commentId)"></i>
             </el-col>
           </el-row>
           <el-row class="user_answer">
@@ -67,22 +73,25 @@
             <collapse>
               <div v-if="show_content">
                 <div v-if="isActive[index]">
-                  <el-button v-if="reply_list[index].length === 0" @click="dialogTestVisible = true">添加回复</el-button>
+                  <el-button  @click="dialogTestVisible = true">添加回复</el-button>
                   <el-dialog title="写回复" :visible.sync="dialogTestVisible" class="dialog">
                     <editorBar v-model="detail2" :isClear="isClear3" @change="change()"></editorBar>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogTestVisible = false">取消</el-button>
-                      <el-button type="primary" @click="postReply(item.ownerId, index)">确定</el-button>
+                      <el-button type="primary" @click="postReply(item.authorId, item.commentId)">确定</el-button>
                     </div>
                   </el-dialog>
                   <div v-if="reply_list[index].length === 0" style="text-align: center;">暂无回复</div>
                   <div v-for="(item2, index2) in reply_list[index]" :key="index2" class="reply_main">
-                    <img :src="item2.url" alt="">
-                    <span class="span_name">{{ item2.authorName }}</span>
+                    <img :src="item2.url" alt="" style="cursor:pointer" @click=toInfo(item2.authorId)>
+                    <span class="span_name" style="cursor:pointer" @click=toInfo(item2.authorId)>{{ item2.authorName }}</span>
                     <span style="margin-left:30px;">回复:</span>
-                    <span class="span_name">{{item2.ownerName}}</span>
+                    <span class="span_name" style="cursor:pointer" @click=toInfo(item2.ownerId)>{{item2.ownerName}}</span>
+                    <i class="el-icon-delete"
+                       v-if="item2.authorId === $store.state.user.userId"
+                       @click="delete_reply(item2.replyId)"></i>
                     <br/><br/>
-                    <p v-html="item2.text"></p>
+                    <p v-html="item2.text" style="margin-left: 60px;"></p>
                     <br/>
                     <span class="addReply" @click="dialogReplyVisible = true">回复</span>
 
@@ -90,7 +99,7 @@
                       <editorBar v-model="detail2" :isClear="isClear2" @change="change()"></editorBar>
                       <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogReplyVisible = false">取消</el-button>
-                        <el-button type="primary" @click="postReply(item2.ownerId, index)">确定</el-button>
+                        <el-button type="primary" @click="postReply(item2.authorId, item.commentId)">确定</el-button>
                       </div>
                     </el-dialog>
                     <span class="span_time">{{item2.created}}</span>
@@ -123,12 +132,12 @@
           <span>关于作者</span>
         </el-row>
         <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f;"/>
-        <el-row class="user">
+        <el-row class="user" >
           <el-col :span="3">
-            <img :src="topic_author.avatar" alt="">
+            <img :src="topic_author.avatar" alt="" @click="toAuthor" style="cursor:pointer">
           </el-col>
           <el-col :span="7" :offset="2">
-            <span>{{ topic_author.nickname }}</span>
+            <span @click="toAuthor" style="cursor:pointer">{{ topic_author.nickname }}</span>
           </el-col>
         </el-row>
       </div>
@@ -205,6 +214,63 @@
         },
         change(val){
         },
+        delete_comment: function(commentId){
+          this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios({
+              method: 'delete',
+              url: '/topicComment',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              data: {
+                commentId: commentId
+              }
+            }).then((response) => {
+              if(response.status === 200){
+                alert("删除成功");
+                this.$router.go(0);
+              }
+            }).catch(() => {
+              alert("删除评论失败，请重新尝试")
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          });
+        },
+        delete_reply: function(replyId){
+          this.$confirm('此操作将永久删除该回复, 是否继续?', '提示', {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios({
+              method: 'delete',
+              url: `/reply/${replyId}`,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            }).then((response) => {
+              if(response.status === 200){
+                alert("删除成功");
+                this.$router.go(0);
+              }
+            }).catch(() => {
+              alert("删除评论失败，请重新尝试")
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          });
+        },
         get_topic_answer:function(val){
           this.$axios({
             method: 'post',
@@ -216,6 +282,7 @@
               limit: 5
             }
           }).then((response) => {
+            console.log(response);
             this.answer_list = response.data.result;
             this.total_len = response.data.count;
             for(let i = 0; i < this.answer_list.length; i++){
@@ -230,19 +297,20 @@
                 }
               }
             }
+            console.log(this.answer_list);
           }).catch((error) =>{
             alert(error);
           })
         },
 
-        postReply: function(ownerId, index){
+        postReply: function(ownerId, commentId){
           this.$axios({
             method: 'post',
             url: 'http://180.76.234.230:8080/reply',
             withCredentials:true,
             data: {
               topicId: parseInt(this.$route.params.id),
-              commentId: this.answer_list[index].commentId,
+              commentId: commentId,
               text: this.detail2,
               ownerId: ownerId
             },
@@ -289,10 +357,10 @@
           }).then((response) => {
             this.total_len2 = response.data.count;
             this.reply_list[i] = response.data.result;
-            console.log(this.reply_list[i]);
             for(let k = 0; k < this.reply_list[i].length; k++){
               this.reply_list[i][k].created = this.convert_timestamp(this.reply_list[i][k].created);
             }
+            console.log(this.reply_list[i]);
             this.show_content = !this.show_content;
           }).catch(() => {
             console.log('接口异常');
@@ -311,7 +379,7 @@
           }).then((response) => {
             console.log(response);
             this.total_len2 = response.data.count;
-            this.reply_list[i] = response.data.result;
+            this.$set(this.reply_list, i, response.data.result);
             for(let k = 0; k < this.reply_list[i].length; k++){
               this.reply_list[i][k].created = this.convert_timestamp(this.reply_list[i][k].created);
             }
@@ -405,12 +473,43 @@
           }else{
             this.show_content = false;
           }
+        },
+        toAuthor(){
+            if (this.topic_author.userId==this.$store.state.user.userId)
+            {
+              this.$router.push({
+                path: `/personInfo/${this.topic_author.userId}/${"0"}`
+              })
+            }
+            else{
+              this.$router.push({
+                path: `/othersInfo/${this.topic_author.userId}`
+              })
+            }
+        },
+        toInfo(userId){
+            if (userId==this.$store.state.user.userId)
+            {
+              this.$router.push({
+                path: `/personInfo/${userId}/${"0"}`
+              })
+            }
+            else{
+              this.$router.push({
+                path: `/othersInfo/${userId}`
+              })
+            }
         }
       }
     }
 </script>
 
 <style lang="less" scoped>
+  .topic_img{
+    width: 380px;
+    height: 220px;
+    margin-top: 30px;
+  }
   .topic_main{
     width: 100%;
     .topic_left{
@@ -483,6 +582,13 @@
               top: 25px;
               left: -30px;
               font-weight: bold;
+            }
+            i{
+              float: right;
+            }
+            i:hover{
+              color: red;
+              cursor: pointer;
             }
           }
           .user_answer{
@@ -588,6 +694,13 @@
       }
       .addReply:hover{
         color: #409EFF;
+        cursor: pointer;
+      }
+      i{
+        float: right;
+      }
+      i:hover{
+        color: red;
         cursor: pointer;
       }
     }

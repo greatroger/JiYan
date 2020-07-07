@@ -46,13 +46,13 @@
             <div class="evaluate_content" >
                 <div style="width: 800px;display: flex;flex-direction: row;">
 
-                    <img v-bind:src="commentUser[index].avatar" class="picture"/>
+                    <img v-bind:src="commentUser[index].avatar" class="picture" style="cursor:pointer" @click="toAuthor(index)"/>
 
                     
                     <div style="display:flex;flex-direction:column">
 
                     <div style="display:flex;width:740px;justify-content:space-between">
-                    <div style="font-size: 20px; margin-top: 10px; margin-left: 20px;">{{commentUser[index].nickname}}</div>
+                    <div style="font-size: 20px; margin-top: 10px; margin-left: 20px;cursor:pointer" @click="toAuthor(index)">{{commentUser[index].nickname}}</div>
                     <div style="font-size: 20px; margin-top: 10px;">{{timestampToTime(item.created)}}</div>
                     </div>
 
@@ -203,7 +203,21 @@
         this.$router.push({
           path: `/comment/${courseId}`
         })
+    },
+        toAuthor(index){
+        if (this.commentUser[index].userId==this.$store.state.user.userId)
+        {
+            this.$router.push({
+                path: `/personInfo/${this.commentUser[index].userId}/${"1"}`
+            })
+        }
+        else{
+            this.$router.push({
+                path: `/othersInfo/${this.commentUser[index].userId}`
+            })
+        }
     }
+    
     }
 }
 </script>
@@ -351,7 +365,7 @@ body::before{
 
 }
 .card1{
-    background-color: #4243444a;
+    background-color: #eeeeee;
 }
 
 .picture{

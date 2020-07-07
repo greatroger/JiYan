@@ -25,14 +25,15 @@
                                     :before-upload="beforeUpload"
                                     :http-request="upLoad"
                                 >
-                                <div>
+                                <div style="position:relative;">
                                 <img v-if="avatarUrl" :src="avatarUrl" class="avatar" width="160" height="160">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                <p style="position:absolute;left:30px;top:85px;color:#ffffff">修改我的头像</p>
+                                <img style="position:absolute;left:63px;top:55px;" src="../assets/camera.png" width="30px" height="30px" >
                                 </div>
                                 </el-upload>
                             </div>
                             <br>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击修改头像</span>
                         </div>
                         <div class="ProfileHeader-content">
                             <br>
@@ -277,11 +278,12 @@ export default {
         display:inline-block;
         overflow:hidden;
         vertical-align:top;
-        background-color:#fff;
+        background-color:#1a1a1a;
         border:4px solid #fff;
         border-radius:8px;
     }
     .avatar{
+        opacity:0.5;
     }
     .ProfileHeader-content{
         padding-top:32px;

@@ -53,7 +53,7 @@
         <el-col :span="16" :offset="4">
             <div style="min-height:600px;display:block;">
                 <el-tabs type="border-card">
-                    <el-button @click="getTopicDetail"> 我创建的话题</el-button>
+                    <el-button @click="getTopicDetail" > 我创建的话题</el-button>
                     <el-button @click="getReviewDetail">我的回答</el-button>
                 </el-tabs>
                 <div v-if="QuesVisible">
@@ -219,6 +219,14 @@ export default {
         this.reviewList=this.$store.state.review_detail;
         for (let i = 0; i < this.reviewList.length; i++) {
             this.oriText[i]=this.reviewList[i].text;
+        }
+
+        if (this.$route.params.offset=="1")
+        {
+            this.getTopicDetail();
+        }
+        else{
+           this.getReviewDetail();
         }
     }
 }
