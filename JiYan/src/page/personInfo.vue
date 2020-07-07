@@ -68,8 +68,8 @@
                             <br/>
                             <span class="span_time">{{ item.created }}</span>
                         </el-col>
-                        <el-col :span="5" class="img_3">
-                        </el-col>
+                        <!-- <el-col :span="5" class="img_3">
+                        </el-col> -->
                     </el-container>
                 </div>
 
@@ -80,6 +80,7 @@
                         </el-col>
                         <el-col :span="3" class="span_2">
                             <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
+                            <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button>
                             <br/>
                             <span class="span_des" @click="alert1(index)">{{ item.text }}</span>
                             <br/>
@@ -130,13 +131,12 @@ export default {
             this.QuesVisible=false;
             this.reviewList=this.$store.state.review_detail;
             for (let i = 0; i < this.reviewList.length; i++) {
-                this.oriText[i]=this.reviewList[i].text;
                 for (let j = 0; j < this.topic_list_all.length; j++){
                     if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
                         this.reviewList[i].topicId=this.topic_list_all[j].topicName;
                     }
                 }
-                if (this.reviewList[i].text.length>30){
+                if (this.reviewList[i].text.length>25){
                     this.reviewList[i].text=this.reviewList[i].text.substring(0,25)+"...";
                 }
             }
@@ -168,8 +168,18 @@ export default {
           let seconds = date.getSeconds();
           return year + month + day + hour + minutes + seconds;
         },
+        deleteReview(index,li){
+            axios({
+                method: 'delete',
+                url: 'http://180.76.234.230:8080/topicComment',
+                data: { commentId: index }
+            }).then((response) => {
+                console.log(response);
+                this.reviewList.splice(li,1);
+                alert("删除回答成功！");
+            });
+        },
         alert1(index){
-            //alert("完整回答："+this.oriText[index]);
             this.$alert(this.oriText[index], '完整回答', {
                 confirmButtonText: '确定'
             });
@@ -186,6 +196,10 @@ export default {
         this.mail=this.$store.state.user.mail;
         this.getTopicDetail();
         this.getAllTopic();
+        this.reviewList=this.$store.state.review_detail;
+        for (let i = 0; i < this.reviewList.length; i++) {
+            this.oriText[i]=this.reviewList[i].text;
+        }
     }
 }
 </script>
@@ -329,15 +343,6 @@ export default {
           top: 50px;
           color: #7f7f7f;
         }
-      }
-      .img_3 {
-        background-color: #dadada;
-        width: 200px;
-        height: 130px;
-        position: relative;
-        margin-top: 10px;
-        margin-left: 250px;
-        
       }
     }
 

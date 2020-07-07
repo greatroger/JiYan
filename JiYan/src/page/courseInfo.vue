@@ -177,7 +177,7 @@ import axios from 'axios'
             axios({
                 method: 'post',
                 url: 'http://180.76.234.230:8080/topic/all',
-                data: { "ownerId":userId, "offset":0,"limit":10 }
+                data: { "ownerId":userId, "offset":0,"limit":30 }
             }).then((response) => {
                 console.log(response.data.result);
                 this.$store.state.topic_detail = response.data;

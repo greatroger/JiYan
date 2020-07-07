@@ -200,10 +200,6 @@ export default {
         .get('http://180.76.234.230:8080/course/all')
         .then(response => {
           var a=response.data;
-          //console.log(a);
-          // for (let i in a){
-          //   console.log(a[i]);
-          // }
           this.courses = response.data;})
     },
     // handleSelect(item) {
@@ -233,24 +229,35 @@ export default {
       })
     },
     postScore(){
-      //平均得分
-      var totalScore=0;
-      for (var i=0;i<12;i++){
-        totalScore=totalScore+this.dafen[i];
-      }
-      var postScore=totalScore/240;
-      postScore=postScore.toFixed(2);
-      //备注
-      var postText=this.input1+"&&"+this.input2;
-      //发送post请求
       axios({
         method: 'post',
-        url: 'http://180.76.234.230:8080/courseComment',
-        withCredentials: true,
-        data: { courseId: this.com_course, ownerId: "123456", text: postText,score: postScore }
+        url: 'http://180.76.234.230:8080/courseComment/exist',
+        data: { authorId: this.$store.state.user.userId, courseId: this.com_course }
       }).then((response) => {
         console.log(response);
-        alert("评教信息插入成功！")
+        if (response.data==false){
+          console.log("11111");
+          //平均得分
+          var totalScore=0;
+          for (var i=0;i<12;i++){
+            totalScore=totalScore+this.dafen[i];
+          }
+          var postScore=totalScore/240;
+          postScore=postScore.toFixed(2);
+          //备注
+          var postText=this.input1+"&&"+this.input2;
+          //发送post请求
+          axios({
+            method: 'post',
+            url: 'http://180.76.234.230:8080/courseComment',
+            data: { courseId: this.com_course, ownerId: "123456", text: postText,score: postScore }
+          }).then((response) => {
+            console.log(response);
+            alert("评教信息插入成功！")
+          });
+        }else{
+          alert("评论失败，每个用户只能对一门课程添加一条评价");
+        }
       });
     },
     printIndex(index){
