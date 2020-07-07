@@ -8,7 +8,7 @@
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                             <!-- <span class="span_num">{{ index }}</span> -->
                         </el-col>
                         <el-col :span="3" class="span_2">
-                            <span class="span_name" :class="zero_style[index]">{{ item.topicName  }}</span>
+                            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId, item.ownerId)">{{ item.topicName  }}</span>
                             <!-- <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteTopic(item.topicId,index)"></el-button> -->
                             <br/>
                             <span class="span_des">{{ item.description }}</span>
@@ -228,7 +228,12 @@ export default {
           return year + month + day + hour + minutes + seconds;
         },
         deleteReview(index,li){
-            axios({
+           this.$confirm('此操作将永久删除该回答, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           axios({
                 method: 'delete',
                 url: 'http://180.76.234.230:8080/topicComment',
                 data: { commentId: index }
@@ -237,9 +242,20 @@ export default {
                 this.reviewList.splice(li,1);
                 alert("删除回答成功！");
             });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
         },
         deleteTopic(index,li){
-            axios({
+           this.$confirm('此操作将永久删除该话题, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios({
                 method: 'delete',
                 url: 'http://180.76.234.230:8080/topic',
                 data: { topicId: index }
@@ -248,6 +264,12 @@ export default {
                 this.topic_list.splice(li,1);
                 alert("删除话题成功！");
             });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
         },
         alert1(index){
             this.$alert(this.oriText[index], '完整回答', {
@@ -257,6 +279,16 @@ export default {
         editInfo(){
             this.$router.push({
           path: `/editInfo`})
+        },
+        toTopic:function(topicId, ownerId) {
+          for(let i = 0; i < this.topic_list.length; i++){
+            if(topicId === this.topic_list[i].topicId){
+              this.$store.state.topic_detail = this.topic_list[i];
+            }
+          }
+          this.$router.push({
+            path: `/forum/detail/${topicId}/${ownerId}`
+          })
         },
     },
     components:{
@@ -281,7 +313,6 @@ export default {
         for (let i = 0; i < this.reviewList.length; i++) {
             this.oriText[i]=this.reviewList[i].text;
         }
-
         if (this.$route.params.offset=="1")
         {
             this.getTopicDetail();
@@ -400,8 +431,6 @@ export default {
     flex: 1 1;
     overflow: hidden;
     }
-
-
     .main_left_topic {
       margin-top: 5px;
       height: 150px;
@@ -414,7 +443,7 @@ export default {
         margin-left: 30px;
       }
       .span_2 {
-        width: 500px;
+        width: 600px;
         height: 180px;
         margin-top: 20px;
         .span_name {
@@ -436,7 +465,6 @@ export default {
         }
       }
     }
-
     .main_left_review {
       margin-top: 5px;
       height: 150px;
@@ -449,7 +477,7 @@ export default {
         margin-left: 30px;
       }
       .span_2 {
-        width: 400px;
+        width: 600px;
         height: 180px;
         margin-top: 20px;
         .span_name {
