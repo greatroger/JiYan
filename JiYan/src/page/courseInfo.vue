@@ -31,7 +31,7 @@
         <el-form-item label="任课教师" prop="teacher">
           <el-input v-model="ruleForm.teacher"></el-input>
         </el-form-item>
-        <el-button class="form__button" type="primary" @click="submitForm('ruleForm')">查询</el-button>
+        <el-button type="primary"  icon="el-icon-search" @click="submitForm('ruleForm')">查询</el-button>
       </el-form>
     </div>
 
@@ -196,7 +196,6 @@ import axios from 'axios'
                 limit: 6
               }
             }).then((response) => {
-              console.log(response);
               this.total_len = response.data.count;
               this.course_list = response.data.result;
             }).catch(() => {

@@ -475,7 +475,7 @@
           }
         },
         toAuthor(){
-            if (this.topic_author.userId==this.$store.state.user.userId)
+            if (this.topic_author.userId === this.$store.state.user.userId)
             {
               this.$router.push({
                 path: `/personInfo/${this.topic_author.userId}/${"0"}`
@@ -488,7 +488,7 @@
             }
         },
         toInfo(userId){
-            if (userId==this.$store.state.user.userId)
+            if (userId === this.$store.state.user.userId)
             {
               this.$router.push({
                 path: `/personInfo/${userId}/${"0"}`

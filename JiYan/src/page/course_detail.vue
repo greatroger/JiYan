@@ -6,7 +6,9 @@
         <div class="course_info">
             <div class="course_name">{{this.courseName}} {{this.courseId}}</div>
             <div style="display: flex; height: 300px">
-                <div class="course_picture"></div>
+                <div class="course_picture">
+                  <img :src="avatar" alt="" class="course_avatar">
+                </div>
                 <div style="flex:1;"></div>
                 <div style="display: flex; width: 350px; flex-direction: column;">
                     <div class="course_teacher">任课老师：{{this.ownerName}}</div>
@@ -28,10 +30,10 @@
             </div>
             <div style="display: flex; height:50px;">
                 <el-button type="primary" @click=toComment(courseId)>发表评价</el-button>
-                <div style="display: flex; flex-direction: column" >
-                    <img class="dianzan" src="../assets/dianzan.png">
-                    <div style="font-size: 3px; margin-left: 32px;text-align:center">{{this.likes}}</div>
-                </div>
+<!--                <div style="display: flex; flex-direction: column" >-->
+<!--                    <img class="dianzan" src="../assets/dianzan.png">-->
+<!--                    <div style="font-size: 3px; margin-left: 32px;text-align:center">{{this.likes}}</div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -48,7 +50,7 @@
 
                     <img v-bind:src="commentUser[index].avatar" class="picture" style="cursor:pointer" @click="toAuthor(index)"/>
 
-                    
+
                     <div style="display:flex;flex-direction:column">
 
                     <div style="display:flex;width:740px;justify-content:space-between">
@@ -72,7 +74,7 @@
                 <div style="font-size: 20px; margin-top: 20px;">任课教师令我不满意的地方：</div>
                 <div style="font-size: 20px; ">{{item.text.split("&&")[1]}}</div>
             </div>
-            
+
         </div>
         </el-card>
         </el-row>
@@ -99,6 +101,7 @@
                 commentList:[],
                 bkg:[],
                 commentUser:[],
+                avatar: ''
                 }
     },
     components: {
@@ -106,7 +109,7 @@
     },
     created: function(){
         this.courseId = this.$store.state.courseId;
-        console.log(this.courseId)
+        // console.log(this.courseId)
         this.get_all_comments(this.courseId);
         this.get_courseInfo(this.courseId);
         this.bkg[0] = "card0";
@@ -135,7 +138,7 @@
                 courseId: this.courseId,
             }
         }).then((response) => {
-            console.log(response.data.result);
+            // console.log(response.data.result);
             this.commentsNum = response.data.result.length;
             this.commentList = response.data.result;
             for(var i=0; i<this.commentsNum ; i++)
@@ -147,8 +150,8 @@
                 headers: {},
                 params: {},
                 }).then((response) => {
-                this.commentUser.push(response.data)
-                console.log(this.commentUser)
+                this.commentUser.push(response.data);
+                // console.log(this.commentUser)
                 }).catch((error) => {
                 alert(error);
                 })
@@ -171,6 +174,8 @@
             this.ownerName = response.data.ownerName;
             this.score = response.data.score;
             this.value = this.score;
+            this.avatar = response.data.avatar;
+            console.log(response.data.avatar)
         }).catch((error) => {
             alert(error);
         })
@@ -205,7 +210,7 @@
         })
     },
         toAuthor(index){
-        if (this.commentUser[index].userId==this.$store.state.user.userId)
+        if (this.commentUser[index].userId === this.$store.state.user.userId)
         {
             this.$router.push({
                 path: `/personInfo/${this.commentUser[index].userId}/${"1"}`
@@ -217,7 +222,7 @@
             })
         }
     }
-    
+
     }
 }
 </script>
@@ -304,6 +309,10 @@ body::before{
 .course_picture{
     background-color: #ffffff;
     width: 200px;
+}
+.course_avatar{
+  width: 200px;
+  height: 300px;
 }
 .course_teacher{
     height: 50px;
