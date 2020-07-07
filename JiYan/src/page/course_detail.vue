@@ -38,14 +38,26 @@
 
 
     <div class="evaluate">
+        <br>
         <div style="font-size: 20px; color: gray;">{{this.commentsNum}}个评价</div>
+        <br>
         <el-row :span="1" v-for="(item,index) in commentList" :key="index" :offset="1">
             <el-card  shadow="hover" :class="bkg[index%2]">
-                <div class="evaluate_content" >
-                <div style="width: 300px;display: flex;flex-direction: column;">
-                    <div style="display: flex;">
-                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">综合评分：</div>
-                    <div style="margin-top: 24px;">
+            <div class="evaluate_content" >
+                <div style="width: 800px;display: flex;flex-direction: row;">
+
+                    <img v-bind:src="commentUser[index].avatar" class="picture"/>
+
+                    
+                    <div style="display:flex;flex-direction:column">
+
+                    <div style="display:flex;width:740px;justify-content:space-between">
+                    <div style="font-size: 20px; margin-top: 10px; margin-left: 20px;">{{commentUser[index].nickname}}</div>
+                    <div style="font-size: 20px; margin-top: 10px;">{{timestampToTime(item.created)}}</div>
+                    </div>
+
+
+                    <div style="margin-top: 20px; margin-left:20px;">
                     <el-rate
                     v-model="item.score"
                     disabled
@@ -53,16 +65,16 @@
                     </el-rate>
                     </div>
                     </div>
-                    <div style="font-size: 20px; margin-top: 20px; margin-left: 20px;">{{commentUser[index].nickname}}</div>
-                    <img v-bind:src="commentUser[index].avatar" class="picture"/>
                 </div>
             <div style="display: flex;flex-direction: column;width:510px;margin-left:20px">
-                <div style="font-size: 20px; margin-top: 20px;">评价：</div>
-                <div style="font-size: 20px; ">{{item.text}}</div>
+                <div style="font-size: 20px; margin-top: 20px;">任课教师在授课方面的优点或特色：</div>
+                <div style="font-size: 20px; ">{{item.text.split("&&")[0]}}</div>
+                <div style="font-size: 20px; margin-top: 20px;">任课教师令我不满意的地方：</div>
+                <div style="font-size: 20px; ">{{item.text.split("&&")[1]}}</div>
             </div>
-            <div style="font-size: 20px; margin-top: 20px;">{{timestampToTime(item.created)}}</div>
+            
         </div>
-            </el-card>
+        </el-card>
         </el-row>
     </div>
 
@@ -333,6 +345,7 @@ body::before{
     width: 900px;
     height: 300px;
     display: flex;
+    flex-direction:column;
 }
 .card0{
 
@@ -342,7 +355,9 @@ body::before{
 }
 
 .picture{
-    width: 64px;
-    margin-left: 36px;
+    width: 80px;
+    height:80px;
+    margin-left: 20px;
+    border-radius:4px;
 }
 </style>
