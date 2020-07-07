@@ -193,10 +193,11 @@ import axios from 'axios'
                 courseName: this.ruleForm.courseName,
                 ownerName: this.ruleForm.teacher,
                 offset: 0,
-                limit: this.total_len
+                limit: 6
               }
             }).then((response) => {
-              this.total_len = response.data.result.length;
+              console.log(response);
+              this.total_len = response.data.count;
               this.course_list = response.data.result;
             }).catch(() => {
               alert("接口异常，请更换搜索条件")
