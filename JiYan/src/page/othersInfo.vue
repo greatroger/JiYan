@@ -103,7 +103,7 @@ export default {
             //this.topic_list=this.$store.state.topic_detail.result;
             this.$axios({
                 method: 'get',
-                url: 'http://180.76.234.230:8080/topic/all',
+                url: 'http://180.76.234.230:8080/topic/user/'+this.userId,
                 headers: {},
                 params: {},
             }).then((response) => {
@@ -126,7 +126,7 @@ export default {
             //this.reviewList=this.$store.state.review_detail;
             this.$axios({
                 method: 'get',
-                url: 'http://180.76.234.230:8080/topicComment/all',
+                url: 'http://180.76.234.230:8080/topicComment/user/'+this.userId,
                 headers: {},
                 params: {},
             }).then((response) => {
