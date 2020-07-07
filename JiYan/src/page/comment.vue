@@ -15,11 +15,11 @@
       </div>
       -->
       <br>
-      <h1><center>{{ courseName }}</center></h1>
+      <h1  @click="toDetail()" class="title">{{ courseName }}</h1>
       <br>
       <div class="whole">
       <br>
-      <h2><center>{{title}}</center></h2>
+        <h2><center>{{title}}</center></h2>
       <el-table
           :data="listData"
           border
@@ -212,6 +212,12 @@ export default {
     //         }
     //     }
     // },
+    toDetail:function(){
+      this.$store.state.courseId = this.$route.params.courseId;
+      this.$router.push({
+        path: `/course_detail/${this.$route.params.courseId}`
+      })
+    },
     get_courseInfo_:function(){
       this.$axios({
         method: 'get',
@@ -279,6 +285,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .title{
+    text-align: center;
+  }
+  .title:hover{
+    cursor: pointer;
+    color: #409EFF;
+  }
   .inline-input {
     width: 400px;
     margin-left: 70px;

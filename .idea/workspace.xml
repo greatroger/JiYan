@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="360a2863-25d3-420e-98e1-cdf7232f58e8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JiYan/src/page/courseInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/JiYan/src/page/courseInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JiYan/src/page/course_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/JiYan/src/page/course_detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JiYan/src/page/forum_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/JiYan/src/page/forum_detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JiYan/src/page/comment.vue" beforeDir="false" afterPath="$PROJECT_DIR$/JiYan/src/page/comment.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,10 +17,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JiYan/src/page/comment.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JiYan/src/page/forum_main.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-256">
-              <caret line="320" column="35" lean-forward="true" selection-start-line="320" selection-start-column="35" selection-end-line="320" selection-end-column="35" />
+            <state relative-caret-position="133">
+              <caret line="328" column="23" lean-forward="true" selection-start-line="328" selection-start-column="23" selection-end-line="328" selection-end-column="23" />
               <folding>
                 <element signature="n#style#0;n#span#1;n#el-container#0;n#el-container#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#el-upload#0;n#el-form-item#2;n#el-form#0;n#el-dialog#0;n#div#0;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -47,19 +54,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JiYan/src/js/oss.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="29" selection-start-column="29" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JiYan/src/page/editInfo.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="497">
-              <caret line="202" column="38" lean-forward="true" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
+              <caret line="202" column="38" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#el-col#0;n#el-row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
               </folding>
@@ -70,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JiYan/src/page/forum_detail.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="292" column="61" lean-forward="true" selection-start-line="292" selection-start-column="61" selection-end-line="292" selection-end-column="61" />
+            <state relative-caret-position="-1340">
+              <caret line="292" column="61" selection-start-line="292" selection-start-column="61" selection-end-line="292" selection-end-column="61" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#el-col#0;n#el-row#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#el-col#1;n#el-row#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -92,19 +90,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JiYan/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-544">
-              <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JiYan/src/page/courseInfo.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-337">
-              <caret line="195" column="24" lean-forward="true" selection-start-line="195" selection-start-column="24" selection-end-line="195" selection-end-column="24" />
+            <state relative-caret-position="1481">
+              <caret line="307" column="3" lean-forward="true" selection-start-line="307" selection-start-column="3" selection-end-line="307" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -112,8 +101,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JiYan/src/page/course_detail.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="181" column="10" lean-forward="true" selection-start-line="181" selection-start-column="10" selection-end-line="181" selection-end-column="10" />
+            <state relative-caret-position="378">
+              <caret line="113" column="24" lean-forward="true" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#template#0;n#!!top" expanded="true" />
@@ -125,8 +114,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JiYan/src/store/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="4" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+            <state relative-caret-position="90">
+              <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JiYan/src/router/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -177,9 +178,7 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/JiYan/src/page/personInfo.vue" />
         <option value="$PROJECT_DIR$/JiYan/src/components/header.vue" />
-        <option value="$PROJECT_DIR$/JiYan/src/page/comment.vue" />
         <option value="$PROJECT_DIR$/JiYan/src/page/user.vue" />
-        <option value="$PROJECT_DIR$/JiYan/src/store/index.js" />
         <option value="$PROJECT_DIR$/JiYan/src/js/collapse.js" />
         <option value="$PROJECT_DIR$/JiYan/src/router/index.js" />
         <option value="$PROJECT_DIR$/JiYan/src/js/oss.js" />
@@ -192,16 +191,17 @@
         <option value="$PROJECT_DIR$/JiYan/.gitignore" />
         <option value="$PROJECT_DIR$/JiYan/src/components/forum/forum_header.vue" />
         <option value="$PROJECT_DIR$/JiYan/package.json" />
-        <option value="$PROJECT_DIR$/JiYan/src/page/forum_main.vue" />
         <option value="$PROJECT_DIR$/JiYan/src/page/forum_detail.vue" />
         <option value="$PROJECT_DIR$/JiYan/src/page/courseInfo.vue" />
         <option value="$PROJECT_DIR$/JiYan/src/page/course_detail.vue" />
+        <option value="$PROJECT_DIR$/JiYan/src/page/forum_main.vue" />
+        <option value="$PROJECT_DIR$/JiYan/src/store/index.js" />
+        <option value="$PROJECT_DIR$/JiYan/src/page/comment.vue" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="404" />
-    <option name="y" value="6" />
+    <option name="x" value="338" />
     <option name="width" value="1028" />
     <option name="height" value="900" />
   </component>
@@ -226,27 +226,7 @@
               <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
               <item name="JiYan" type="462c0819:PsiDirectoryNode" />
               <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
@@ -268,13 +248,6 @@
               <item name="JiYan" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="store" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JiYan" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="JiYan" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -350,13 +323,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="224692000" />
+    <option name="totallyTimeSpent" value="228484000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="404" y="6" width="1028" height="900" extended-state="0" />
+    <frame x="177" y="28" width="1028" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49825174" visible="true" weight="0.14796425" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49825174" visible="true" weight="0.2144985" />
       <window_info id="Structure" order="1" sideWeight="0.50174826" side_tool="true" weight="0.1775457" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -439,16 +412,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JiYan/src/page/comment.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="24" lean-forward="true" selection-start-line="31" selection-start-column="24" selection-end-line="31" selection-end-column="24" />
-          <folding>
-            <element signature="e#1966#1991#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/js/collapse.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="667">
@@ -477,16 +440,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
           <caret line="72" column="45" selection-start-line="72" selection-start-column="45" selection-end-line="72" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JiYan/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -601,7 +554,7 @@
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/editInfo.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="497">
-          <caret line="202" column="38" lean-forward="true" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
+          <caret line="202" column="38" selection-start-line="202" selection-start-column="38" selection-end-line="202" selection-end-column="38" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#el-col#0;n#el-row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>
@@ -611,25 +564,6 @@
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/othersInfo.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1780" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JiYan/src/page/forum_main.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-256">
-          <caret line="320" column="35" lean-forward="true" selection-start-line="320" selection-start-column="35" selection-end-line="320" selection-end-column="35" />
-          <folding>
-            <element signature="n#style#0;n#span#1;n#el-container#0;n#el-container#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-upload#0;n#el-form-item#2;n#el-form#0;n#el-dialog#0;n#div#0;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#2269#2275#0" expanded="true" />
-            <element signature="e#2275#2281#0" expanded="true" />
-            <element signature="e#2281#2287#0" expanded="true" />
-            <element signature="n#style#0;n#hr#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#2562#2568#0" expanded="true" />
-            <element signature="e#2568#2574#0" expanded="true" />
-            <element signature="e#2574#2580#0" expanded="true" />
-            <element signature="e#4420#4456#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/personInfo.vue">
@@ -648,10 +582,13 @@
     <entry file="file:///private/var/folders/v7/lx9fpq1d0sg5vvt3p2d2zgw80000gn/T/TemporaryItems/（screencaptureui正在存储文稿，已完成164）/截屏2020-07-07 下午11.27.47.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/JiYan/dist/index.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/forum_detail.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="292" column="61" lean-forward="true" selection-start-line="292" selection-start-column="61" selection-end-line="292" selection-end-column="61" />
+        <state relative-caret-position="-1340">
+          <caret line="292" column="61" selection-start-line="292" selection-start-column="61" selection-end-line="292" selection-end-column="61" />
           <folding>
             <element signature="n#style#0;n#img#0;n#el-col#0;n#el-row#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#el-col#1;n#el-row#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -672,8 +609,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/store/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="4" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+        <state relative-caret-position="90">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JiYan/src/page/forum_main.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="328" column="23" lean-forward="true" selection-start-line="328" selection-start-column="23" selection-end-line="328" selection-end-column="23" />
+          <folding>
+            <element signature="n#style#0;n#span#1;n#el-container#0;n#el-container#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-upload#0;n#el-form-item#2;n#el-form#0;n#el-dialog#0;n#div#0;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#2269#2275#0" expanded="true" />
+            <element signature="e#2275#2281#0" expanded="true" />
+            <element signature="e#2281#2287#0" expanded="true" />
+            <element signature="n#style#0;n#hr#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#2562#2568#0" expanded="true" />
+            <element signature="e#2568#2574#0" expanded="true" />
+            <element signature="e#2574#2580#0" expanded="true" />
+            <element signature="e#4420#4456#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JiYan/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -682,15 +648,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/courseInfo.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-337">
-          <caret line="195" column="24" lean-forward="true" selection-start-line="195" selection-start-column="24" selection-end-line="195" selection-end-column="24" />
+        <state relative-caret-position="1481">
+          <caret line="307" column="3" lean-forward="true" selection-start-line="307" selection-start-column="3" selection-end-line="307" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JiYan/src/page/comment.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JiYan/src/page/course_detail.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="181" column="10" lean-forward="true" selection-start-line="181" selection-start-column="10" selection-end-line="181" selection-end-column="10" />
+        <state relative-caret-position="378">
+          <caret line="113" column="24" lean-forward="true" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
           <folding>
             <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#template#0;n#!!top" expanded="true" />
