@@ -6,7 +6,9 @@ export default new Vuex.Store( {
   state:{
     topic_detail: {},
     review_detail:{},
-    user: {}
+    user: {},
+    topic_count:0,
+    review_count:0
   },
   mutations:{
 
