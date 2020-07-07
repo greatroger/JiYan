@@ -32,7 +32,7 @@
                 </div>
               </el-dialog>
               <img src="../assets/discuss.png" alt="discuss.png">
-              <span>{{ this.answer_list.length }}条回答</span>
+              <span>{{ this.total_len }}条回答</span>
             </div>
             </el-col>
           </el-row>
@@ -67,15 +67,22 @@
             <collapse>
               <div v-if="show_content">
                 <div v-if="isActive[index]">
+                  <el-button v-if="reply_list[index].length === 0" @click="dialogTestVisible = true">添加回复</el-button>
+                  <el-dialog title="写回复" :visible.sync="dialogTestVisible" class="dialog">
+                    <editorBar v-model="detail2" :isClear="isClear3" @change="change()"></editorBar>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="dialogTestVisible = false">取消</el-button>
+                      <el-button type="primary" @click="postReply(item.ownerId, index)">确定</el-button>
+                    </div>
+                  </el-dialog>
                   <div v-if="reply_list[index].length === 0" style="text-align: center;">暂无回复</div>
                   <div v-for="(item2, index2) in reply_list[index]" :key="index2" class="reply_main">
                     <img :src="item2.url" alt="">
-                    <span class="span_name">{{item2.authorName }}</span>
+                    <span class="span_name">{{ item2.authorName }}</span>
                     <span style="margin-left:30px;">回复:</span>
                     <span class="span_name">{{item2.ownerName}}</span>
                     <br/><br/>
-                    <p v-html="item2.text">
-                     </p>
+                    <p v-html="item2.text"></p>
                     <br/>
                     <span class="addReply" @click="dialogReplyVisible = true">回复</span>
 
@@ -89,10 +96,26 @@
                     <span class="span_time">{{item2.created}}</span>
                     <hr style="height:1px;border:none;border-top:1px dashed #7f7f7f;width:100%;margin-left: -30px"/>
                   </div>
+                  <div class="block2" v-if="reply_list[index].length !== 0">
+                    <el-pagination
+                      @current-change="handleCurrentChange2"
+                      :current-page.sync="currentPage2"
+                      :page-size="3"
+                      layout="prev, pager, next, jumper"
+                      :total="total_len2"></el-pagination>
+                  </div>
                 </div>
               </div>
             </collapse>
           </div>
+        </div>
+        <div class="block">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="5"
+            layout="prev, pager, next, jumper"
+            :total="total_len"></el-pagination>
         </div>
       </div>
       <div class="topic_answer_right">
@@ -135,20 +158,35 @@
           show_content:false,
           isClear: false,
           isClear2: false,
+          isClear3: false,
           detail: "",
           detail2: "",
           dialogEditorVisible: false,
-          dialogReplyVisible: false
+          dialogReplyVisible: false,
+          dialogTestVisible: false,
+          currentPage: 1,
+          total_len: 0,
+          currentPage2: 1,
+          total_len2: 0,
+          currentComment: 0
         }
       },
 
       created: function(){
 
         this.get_topic_author();
-        this.get_user_likes();
+        this.get_user_likes(this.currentPage);
       },
       mounted: function(){
 
+      },
+
+      beforeCreate(){
+        document.querySelector('body').setAttribute('style', 'background: #afcae887');
+      },
+
+      beforeDestroy(){
+        document.querySelector('body').removeAttribute('style');
       },
 
       watch:{
@@ -159,20 +197,27 @@
         }
       },
       methods:{
+        handleCurrentChange: function(val){
+          this.get_user_likes(val);
+        },
+        handleCurrentChange2: function(val){
+          this.get_reply_list2(this.currentComment, val)
+        },
         change(val){
         },
-        get_topic_answer:function(){
+        get_topic_answer:function(val){
           this.$axios({
             method: 'post',
             url: 'http://180.76.234.230:8080/topicComment/all',
             headers:{},
             data:{
               topicId: this.$route.params.id,
-              offset: 0,
-              limit: 10
+              offset: (val-1)*5,
+              limit: 5
             }
           }).then((response) => {
             this.answer_list = response.data.result;
+            this.total_len = response.data.count;
             for(let i = 0; i < this.answer_list.length; i++){
               this.answer_list[i].created = this.convert_timestamp(this.answer_list[i].created);
               this.answer_list[i].clicked = false;
@@ -204,11 +249,11 @@
           }).then((response) => {
             console.log(response);
             this.dialogReplyVisible = false;
-            this.reload();
-          }).catch(() => {
             alert("上传成功");
-             this.dialogReplyVisible = false;
-             this.$router.go(0);
+            this.detail2 = "";
+            this.$router.go(0);
+          }).catch(() => {
+            alert("上传失败，请重试");
           })
         },
 
@@ -226,25 +271,50 @@
           }).then((response) => {
             console.log(response);
             this.dialogEditorVisible = false;
-            this.reload();
-          }).catch(() => {
             alert("上传成功");
-            this.dialogEditorVisible = false;
             this.$router.go(0);
+          }).catch(() => {
+            alert("上传失败，请重试");
           })
         },
 
-        get_reply_list:function(i) {
+        get_reply_list:function(i, val) {
           this.$axios({
             method: 'get',
-            url: `/reply/${this.answer_list[i].commentId}`
+            url: `/commentReply/${this.answer_list[i].commentId}`,
+            params: {
+              offset: (val-1)*3,
+              limit: 3
+            }
           }).then((response) => {
+            this.total_len2 = response.data.count;
             this.reply_list[i] = response.data.result;
+            console.log(this.reply_list[i]);
             for(let k = 0; k < this.reply_list[i].length; k++){
               this.reply_list[i][k].created = this.convert_timestamp(this.reply_list[i][k].created);
             }
             this.show_content = !this.show_content;
+          }).catch(() => {
+            console.log('接口异常');
+          })
+        },
+
+        get_reply_list2:function(i, val){
+          console.log(val);
+          this.$axios({
+            method: 'get',
+            url: `/commentReply/${this.answer_list[i].commentId}`,
+            params: {
+              offset: (val-1)*3,
+              limit: 3
+            }
+          }).then((response) => {
             console.log(response);
+            this.total_len2 = response.data.count;
+            this.reply_list[i] = response.data.result;
+            for(let k = 0; k < this.reply_list[i].length; k++){
+              this.reply_list[i][k].created = this.convert_timestamp(this.reply_list[i][k].created);
+            }
           }).catch(() => {
             console.log('接口异常');
           })
@@ -259,7 +329,7 @@
           })
         },
 
-        get_user_likes:function(){
+        get_user_likes:function(val){
           this.$axios({
             method: 'get',
             url: 'http://180.76.234.230:8080/like/all',
@@ -273,7 +343,7 @@
                 this.like_all.push(response2.data[i]);
               }
             }
-            this.get_topic_answer();
+            this.get_topic_answer(val);
           }).catch(() => {
             alert("获取用户点赞详情错误");
           })
@@ -283,7 +353,7 @@
           let date = new Date(timestamp * 1000);
           let year = date.getFullYear() + '-';
           let month = (date.getMonth() + 1 > 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-          let day = date.getDate() + '-';
+          let day = date.getDate() + ' ';
           let hour = date.getHours() + ':';
           let minutes = date.getMinutes() + ':';
           let seconds = date.getSeconds();
@@ -327,10 +397,11 @@
           }
         },
         doCollapse:function(index){
+          this.currentComment = index;
           let status = !this.isActive[index];
           this.$set(this.isActive, index, status);
           if(this.isActive[index]){
-            this.get_reply_list(index);
+            this.get_reply_list(index, 1);
           }else{
             this.show_content = false;
           }
@@ -341,9 +412,7 @@
 
 <style lang="less" scoped>
   .topic_main{
-    background-color: #afcae887;
     width: 100%;
-    height: 2800px;
     .topic_left{
       width: 100%;
       height: 300px;
@@ -396,7 +465,6 @@
       margin-left: 25px;
       .topic_answer_left{
         width: 73%;
-        height: 600px;
         float: left;
         .answer_temp{
           background-color: white;
@@ -413,12 +481,12 @@
             span{
               position: relative;
               top: 25px;
+              left: -30px;
               font-weight: bold;
             }
           }
           .user_answer{
-            height: 150px;
-            width: 94%;
+            width: 85%;
             margin: 0 auto;
             p{
               width: 90%;
@@ -483,6 +551,10 @@
           }
         }
       }
+      .block{
+        width: 40%;
+        margin: 0 auto;
+      }
     }
   }
   .reply_button{
@@ -518,6 +590,9 @@
         color: #409EFF;
         cursor: pointer;
       }
+    }
+    .block2{
+      margin-left: 50px;
     }
   }
   .dialog{

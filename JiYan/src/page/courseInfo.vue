@@ -126,7 +126,6 @@ import axios from 'axios'
     created: function() {
       this.get_course_all();
       this.getTopicById();
-      this.get_total_len();
     },
 
     mounted: function() {
@@ -150,19 +149,8 @@ import axios from 'axios'
             limit: 6
           }
         }).then((response) => {
-          console.log(response);
           this.course_list = response.data.result;
           this.course_len = response.data.result.length;
-        }).catch(() => {
-          alert("无法获取课程信息，请刷新重试");
-        })
-      },
-      get_total_len: function(){
-        this.$axios({
-          method: 'get',
-          url: '/course/all',
-        }).then((response) => {
-          this.total_len = response.data.length;
         }).catch(() => {
           alert("无法获取课程信息，请刷新重试");
         })
@@ -178,6 +166,7 @@ import axios from 'axios'
           }
         }).then((response) => {
           this.course_list = response.data.result;
+          this.total_len = response.data.count;
           this.course_len = response.data.result.length;
         }).catch(() => {
           alert("无法获取课程信息，请刷新重试");

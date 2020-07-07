@@ -28,7 +28,6 @@
     },
     methods:{
     handleSelect(key,keyPath){
-      console.log(key,keyPath);
       if (key ==="/courseInfo")
       {
         this.$router.push({
