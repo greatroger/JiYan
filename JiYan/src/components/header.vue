@@ -9,8 +9,8 @@
         <div class="title">同济大学课程信息综合系统</div>
         <div class="sub-title">Faster · Easier · Smarter</div>
         <div class="header__button">
-          <el-button id="button_1" @click="toCourseInfo()">课程信息系统</el-button>
-          <el-button id="button_2" @click="toComment()">论坛系统</el-button>
+          <el-button id="button_1" icon="el-icon-house" type="warning" @click="toCourseInfo()">课程信息系统</el-button>
+          <el-button id="button_2" type="primary" icon="el-icon-edit" @click="toComment()">论坛系统</el-button>
         </div>
       </el-main>
     </el-container>
@@ -118,23 +118,14 @@
         margin: 100px auto;
       }
       #button_1{
-        border-radius: 0;
-        background: transparent;
-        border: 2px solid #c08b10;
         width: 140px;
         opacity: 0.7;
-        color: black;
       }
       #button_1:hover{
-        background-color: #c08b10;
         opacity: 0.7;
       }
       #button_2{
-        border-radius: 0;
-        border: 2px solid #c08b10;
-        background: transparent;
         float: right;
-        color: black;
         width: 140px;
         opacity: 0.7;
       }
