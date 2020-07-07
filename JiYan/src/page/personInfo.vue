@@ -45,11 +45,15 @@
                         </el-col>
                         <el-col :span="3" class="span_2">
                             <span class="span_name" :class="zero_style[index]">{{ item.topicName  }}</span>
-                            <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteTopic(item.topicId,index)"></el-button>
+                            <!-- <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteTopic(item.topicId,index)"></el-button> -->
                             <br/>
                             <span class="span_des">{{ item.description }}</span>
                             <br/>
                             <span class="span_time">{{ item.created }}</span>
+                        </el-col>
+                        <el-col :span="1" :offset="1">
+                            <br>
+                            <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteTopic(item.topicId,index)"></el-button>
                         </el-col>
                     </el-container>
                 </div>
@@ -61,12 +65,15 @@
                         </el-col>
                         <el-col :span="3" class="span_2">
                             <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
-                            <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button>
+                            <!-- <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button> -->
                             <br/>
-                            <!-- <span class="span_des" @click="alert1(index)">{{ item.text }}</span> -->
                             <span class="span_des" @click="alert1(index)" v-html="item.text"></span>
                             <br/>
                             <span class="span_time">点赞数：{{ item.likes }}</span>
+                        </el-col>
+                        <el-col :span="1" :offset="1">
+                            <br>
+                            <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button>
                         </el-col>
                     </el-container>
                 </div>
