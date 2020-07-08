@@ -160,6 +160,7 @@ export default {
               console.log(response.data);
               this.review_detail = response.data;
               this.$store.state.review_count=response.data.length;
+              this.reviewList = this.review_detail;
               for (let i = 0; i < this.reviewList.length; i++) {
                 for (let j = 0; j < this.topic_list_all.length; j++){
                   if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
