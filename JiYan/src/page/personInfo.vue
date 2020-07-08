@@ -229,6 +229,7 @@ export default {
                 for (let i = 0; i < this.review_list.length; i++) {
                     for (let j = 0; j < this.topic_list_all.length; j++){
                         if (this.review_list[i].topicId===this.topic_list_all[j].topicId){
+                          this.reviewList[i].topicId_ = this.reviewList[i].topicId;
                             this.review_list[i].topicId=this.topic_list_all[j].topicName;
                         }
                     }

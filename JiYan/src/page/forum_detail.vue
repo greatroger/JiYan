@@ -99,7 +99,7 @@
                       <editorBar v-model="detail2" :isClear="isClear2" @change="change()"></editorBar>
                       <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogReplyVisible = false">取消</el-button>
-                        <el-button type="primary" @click="postReply(item2.authorId, item.commentId)">确定</el-button>
+                        <el-button type="primary" @click="postReply(item2.authorId, item.commentId, index)">确定</el-button>
                       </div>
                     </el-dialog>
                     <span class="span_time">{{item2.created}}</span>
@@ -324,7 +324,8 @@
             this.dialogTestVisible = false;
             // this.$router.go(0);
             this.get_reply_list2(index, 1)
-          }).catch(() => {
+          }).catch((error) => {
+            console.log(error);
             alert("上传失败，请重试");
           })
         },
