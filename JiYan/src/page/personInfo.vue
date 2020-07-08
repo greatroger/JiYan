@@ -139,13 +139,14 @@ export default {
               console.log(response.data.result);
               this.topic_list = response.data.result;
               this.$store.state.topic_count=response.data.result.length;
-            });
-            for (let i=0;i<this.topic_list.length;i++){
+              for (let i=0;i<this.topic_list.length;i++){
                 var time_str=this.topic_list[i].created.toString();
                 if (time_str.indexOf("-") === -1 ){
-                    this.topic_list[i].created=this.convert_timestamp(this.topic_list[i].created);
+                  this.topic_list[i].created=this.convert_timestamp(this.topic_list[i].created);
                 }
-            }
+              }
+            });
+
             console.log(this.topic_list);
         },
         getReviewDetail(){
@@ -240,7 +241,7 @@ export default {
           let date = new Date(timestamp * 1000);
           let year = date.getFullYear() + '-';
           let month = (date.getMonth() + 1 > 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-          let day = date.getDate() + '-';
+          let day = date.getDate() + ' ';
           let hour = date.getHours() + ':';
           let minutes = date.getMinutes() + ':';
           let seconds = date.getSeconds();
