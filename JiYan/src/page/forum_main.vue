@@ -286,7 +286,8 @@
             }).then((response) => {
               if(response.status === 200){
                 alert("删除成功");
-                this.$router.go(0);
+                // this.$router.go(0);
+                this.get_topic_all(this.currentType)
               }
             }).catch(() => {
               alert("删除话题失败，请重新尝试")
@@ -333,8 +334,9 @@
                   picture: this.picture
                 }
               }).then(() => {
-                this.$router.go(0);
+                // this.$router.go(0);
                 alert('上传成功');
+                this.get_topic_all(0);
               }).catch(() => {
                 alert("上传错误，请重试");
               })

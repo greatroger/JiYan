@@ -78,7 +78,7 @@
                     <editorBar v-model="detail2" :isClear="isClear3" @change="change()"></editorBar>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogTestVisible = false">取消</el-button>
-                      <el-button type="primary" @click="postReply(item.authorId, item.commentId)">确定</el-button>
+                      <el-button type="primary" @click="postReply(item.authorId, item.commentId, index)">确定</el-button>
                     </div>
                   </el-dialog>
                   <div v-if="reply_list[index].length === 0" style="text-align: center;">暂无回复</div>
@@ -89,7 +89,7 @@
                     <span class="span_name" style="cursor:pointer" @click=toInfo(item2.ownerId)>{{item2.ownerName}}</span>
                     <i class="el-icon-delete"
                        v-if="item2.authorId === $store.state.user.userId"
-                       @click="delete_reply(item2.replyId)"></i>
+                       @click="delete_reply(item2.replyId, index)"></i>
                     <br/><br/>
                     <p v-html="item2.text" style="margin-left: 60px;"></p>
                     <br/>
@@ -232,7 +232,8 @@
             }).then((response) => {
               if(response.status === 200){
                 alert("删除成功");
-                this.$router.go(0);
+                // this.$router.go(0);
+                this.get_user_likes(1);
               }
             }).catch(() => {
               alert("删除评论失败，请重新尝试")
@@ -244,7 +245,7 @@
             })
           });
         },
-        delete_reply: function(replyId){
+        delete_reply: function(replyId, index){
           this.$confirm('此操作将永久删除该回复, 是否继续?', '提示', {
             confirmButtonText: '确认',
             cancelButtonText: '取消',
@@ -259,7 +260,8 @@
             }).then((response) => {
               if(response.status === 200){
                 alert("删除成功");
-                this.$router.go(0);
+                // this.$router.go(0);
+                this.doCollapse(index);
               }
             }).catch(() => {
               alert("删除评论失败，请重新尝试")
@@ -303,7 +305,7 @@
           })
         },
 
-        postReply: function(ownerId, commentId){
+        postReply: function(ownerId, commentId, index){
           this.$axios({
             method: 'post',
             url: 'http://180.76.234.230:8080/reply',
@@ -316,10 +318,12 @@
             },
           }).then((response) => {
             console.log(response);
-            this.dialogReplyVisible = false;
             alert("上传成功");
             this.detail2 = "";
-            this.$router.go(0);
+            this.dialogReplyVisible = false;
+            this.dialogTestVisible = false;
+            // this.$router.go(0);
+            this.get_reply_list2(index, 1)
           }).catch(() => {
             alert("上传失败，请重试");
           })
@@ -340,7 +344,8 @@
             console.log(response);
             this.dialogEditorVisible = false;
             alert("上传成功");
-            this.$router.go(0);
+            // this.$router.go(0);
+            this.get_user_likes(1);
           }).catch(() => {
             alert("上传失败，请重试");
           })
@@ -368,7 +373,6 @@
         },
 
         get_reply_list2:function(i, val){
-          console.log(val);
           this.$axios({
             method: 'get',
             url: `/commentReply/${this.answer_list[i].commentId}`,
