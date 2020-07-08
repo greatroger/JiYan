@@ -55,18 +55,18 @@
                 </div>
 
                  <div v-if="ReviewVisivle">
-                    <el-container class="main_left_review" v-for="(item,index) in reviewList" :key="index">
-                        <el-col :span="3">
-                            <span class="span_num">{{ index }}</span>
-                        </el-col>
-                        <el-col :span="3" class="span_2">
-                            <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
-                            <br/>
-                            <span class="span_des" @click="alert1(index)" v-html="item.text"></span>
-                            <br/>
-                            <span class="span_time">点赞数：{{ item.likes }}</span>
-                        </el-col>
-                    </el-container>
+<!--                    <el-container class="main_left_review" v-for="(item,index) in reviewList" :key="index">-->
+<!--                        <el-col :span="3">-->
+<!--                            <span class="span_num">{{ index }}</span>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="3" class="span_2">-->
+<!--                            <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>-->
+<!--                            <br/>-->
+<!--                            <span class="span_des" @click="alert1(index)" v-html="item.text"></span>-->
+<!--                            <br/>-->
+<!--                            <span class="span_time">点赞数：{{ item.likes }}</span>-->
+<!--                        </el-col>-->
+<!--                    </el-container>-->
                 </div>
             </div>
         </el-col>

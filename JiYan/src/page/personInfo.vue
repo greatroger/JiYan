@@ -73,7 +73,7 @@
                             <!-- <span class="span_num">{{ index }}</span> -->
                         </el-col>
                         <el-col :span="3" class="span_2">
-                            <span class="span_name" :class="zero_style[index]">{{ item.topicId  }}</span>
+                            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId_, item.orderId)">{{ item.topicId  }}</span>
                             <!-- <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button> -->
                             <br/>
                             <span class="span_des" @click="alert1(index)" v-html="item.text"></span>
@@ -146,6 +146,7 @@ export default {
             for (let i = 0; i < this.reviewList.length; i++) {
                 for (let j = 0; j < this.topic_list_all.length; j++){
                     if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
+                      this.reviewList[i].topicId_ = this.reviewList[i].topicId;
                         this.reviewList[i].topicId=this.topic_list_all[j].topicName;
                     }
                 }
@@ -482,6 +483,10 @@ export default {
         margin-top: 20px;
         .span_name {
           font-size: 18px;
+        }
+        .span_name:hover{
+          cursor: pointer;
+          color: #409EFF;
         }
         .span_des {
           height: 20px;
