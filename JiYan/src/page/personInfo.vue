@@ -130,10 +130,19 @@ export default {
         getTopicDetail(){
             this.QuesVisible=true;
             this.ReviewVisivle=false;
-            this.topic_list=this.$store.state.topic_detail.result;
+            var userId=this.$store.state.user.userId;
+            axios({
+              method: 'post',
+              url: 'http://180.76.234.230:8080/topic/all',
+              data: { "ownerId":userId, "offset":0,"limit":30 }
+            }).then((response) => {
+              console.log(response.data.result);
+              this.topic_list = response.data.result;
+              this.$store.state.topic_count=response.data.result.length;
+            });
             for (let i=0;i<this.topic_list.length;i++){
                 var time_str=this.topic_list[i].created.toString();
-                if (time_str.indexOf("-") == -1 ){
+                if (time_str.indexOf("-") === -1 ){
                     this.topic_list[i].created=this.convert_timestamp(this.topic_list[i].created);
                 }
             }
@@ -142,18 +151,27 @@ export default {
         getReviewDetail(){
             this.ReviewVisivle=true;
             this.QuesVisible=false;
-            this.reviewList=this.$store.state.review_detail;
-            for (let i = 0; i < this.reviewList.length; i++) {
+            // this.reviewList=this.$store.state.review_detail;
+            axios({
+              method: 'get',
+              url: 'http://180.76.234.230:8080/topicComment/all',
+            }).then((response) => {
+              console.log(response.data);
+              this.review_detail = response.data;
+              this.$store.state.review_count=response.data.length;
+              for (let i = 0; i < this.reviewList.length; i++) {
                 for (let j = 0; j < this.topic_list_all.length; j++){
-                    if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
-                      this.reviewList[i].topicId_ = this.reviewList[i].topicId;
-                        this.reviewList[i].topicId=this.topic_list_all[j].topicName;
-                    }
+                  if (this.reviewList[i].topicId===this.topic_list_all[j].topicId){
+                    this.reviewList[i].topicId_ = this.reviewList[i].topicId;
+                    this.reviewList[i].topicId=this.topic_list_all[j].topicName;
+                  }
                 }
                 if (this.reviewList[i].text.length>25){
-                    this.reviewList[i].text=this.reviewList[i].text.substring(0,25)+"...";
+                  this.reviewList[i].text=this.reviewList[i].text.substring(0,25)+"...";
                 }
-            }
+              }
+            });
+
             console.log(this.reviewList);
         },
         // getAllTopic(){

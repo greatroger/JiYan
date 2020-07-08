@@ -38,20 +38,20 @@
                     <el-button @click="getReviewDetail">ta的回答</el-button>
                 </el-tabs>
                 <div v-if="QuesVisible">
-                    <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
-                        <el-col :span="3">
-                            <span class="span_num">{{ index }}</span>
-                        </el-col>
-                        <el-col :span="3" class="span_2">
-                            <span class="span_name" :class="zero_style[index]">{{ item.topicName  }}</span>
-                            <br/>
-                            <span class="span_des">{{ item.description }}</span>
-                            <br/>
-                            <span class="span_time">{{ item.created }}</span>
-                        </el-col>
-                        <el-col :span="5" class="img_3">
-                        </el-col>
-                    </el-container>
+<!--                    <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">-->
+<!--                        <el-col :span="3">-->
+<!--                            <span class="span_num">{{ index }}</span>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="3" class="span_2">-->
+<!--                            <span class="span_name" :class="zero_style[index]">{{ item.topicName  }}</span>-->
+<!--                            <br/>-->
+<!--                            <span class="span_des">{{ item.description }}</span>-->
+<!--                            <br/>-->
+<!--                            <span class="span_time">{{ item.created }}</span>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="5" class="img_3">-->
+<!--                        </el-col>-->
+<!--                    </el-container>-->
                 </div>
 
                  <div v-if="ReviewVisivle">

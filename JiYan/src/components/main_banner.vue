@@ -31,11 +31,13 @@ export default {
           method: 'post',
           url: '/logout'
         }).then(() => {
+          alert("退出成功！");
+          this.$router.push({
+            path: '/'
+          })
         }).catch(() => {
           alert("接口错误，请重试！");
         });
-        this.reload();
-        alert("退出成功！");
       }else if(command === 'login'){
         this.$router.push({
           path: '/'
