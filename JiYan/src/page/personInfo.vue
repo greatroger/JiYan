@@ -73,7 +73,7 @@
                             <!-- <span class="span_num">{{ index }}</span> -->
                         </el-col>
                         <el-col :span="3" class="span_2">
-                            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId_, item.ownerId)">{{ item.topicId  }}</span>
+                            <span class="span_name" :class="zero_style[index]" @click="toTopic(item.topicId_, item.orderId)">{{ item.topicId  }}</span>
                             <!-- <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteReview(item.commentId,index)"></el-button> -->
                             <br/>
                             <span class="span_des" @click="alert1(index)" v-html="item.text"></span>
@@ -303,11 +303,8 @@ export default {
           path: `/editInfo`})
         },
         toTopic:function(topicId, ownerId) {
-          console.log(topicId);
-          console.log(ownerId);
           for(let i = 0; i < this.topic_list.length; i++){
             if(topicId === this.topic_list[i].topicId){
-              console.log(this.topic_list[i]);
               this.$store.state.topic_detail = this.topic_list[i];
             }
           }
@@ -382,7 +379,7 @@ export default {
         transition:height .3s;
     }
     .ProfileHeader-wrapper{
-        position:relative;
+        position:relatvie;
         width:100%;
         background:#fff;
         box-sizing:border-box;
@@ -458,7 +455,7 @@ export default {
     }
     .main_left_topic {
       margin-top: 5px;
-
+      height: 150px;
       background-color: white;
       .span_num {
         font-size: 30px;
@@ -492,7 +489,7 @@ export default {
     }
     .main_left_review {
       margin-top: 5px;
-      /*height: 150px;*/
+      height: 150px;
       background-color: white;
       .span_num {
         font-size: 30px;
