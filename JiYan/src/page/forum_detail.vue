@@ -222,7 +222,7 @@
           }).then(() => {
             this.$axios({
               method: 'delete',
-              url: '/topicComment',
+              url: 'http://localhost:8081/topicComment',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -253,7 +253,7 @@
           }).then(() => {
             this.$axios({
               method: 'delete',
-              url: `/reply/${replyId}`,
+              url: `http://localhost:8081/reply/${replyId}`,
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -276,7 +276,7 @@
         get_topic_answer:function(val){
           this.$axios({
             method: 'post',
-            url: 'http://180.76.234.230:8080/topicComment/all',
+            url: 'http://localhost:8081/topicComment/all',
             headers:{},
             data:{
               topicId: this.$route.params.id,
@@ -308,7 +308,7 @@
         postReply: function(ownerId, commentId, index){
           this.$axios({
             method: 'post',
-            url: 'http://180.76.234.230:8080/reply',
+            url: 'http://localhost:8081/reply',
             withCredentials:true,
             data: {
               topicId: parseInt(this.$route.params.id),
@@ -333,7 +333,7 @@
         postComment: function(){
           this.$axios({
             method: 'post',
-            url: 'http://180.76.234.230:8080/topicComment',
+            url: 'http://localhost:8081/topicComment',
             withCredentials: true,
             data: {
               topicId: parseInt(this.$route.params.id),
@@ -355,7 +355,7 @@
         get_reply_list:function(i, val) {
           this.$axios({
             method: 'get',
-            url: `/commentReply/${this.answer_list[i].commentId}`,
+            url: `http://localhost:8081/commentReply/${this.answer_list[i].commentId}`,
             params: {
               offset: (val-1)*3,
               limit: 3
@@ -376,7 +376,7 @@
         get_reply_list2:function(i, val){
           this.$axios({
             method: 'get',
-            url: `/commentReply/${this.answer_list[i].commentId}`,
+            url: `http://localhost:8081/commentReply/${this.answer_list[i].commentId}`,
             params: {
               offset: (val-1)*3,
               limit: 3
@@ -405,7 +405,7 @@
         get_user_likes:function(val){
           this.$axios({
             method: 'get',
-            url: 'http://180.76.234.230:8080/like/all',
+            url: 'http://localhost:8081/like/all',
             headers: {
               'Content-Type': 'text'
             }
@@ -437,7 +437,7 @@
           if(this.answer_list[index].clicked === false){
             this.$axios({
               method: 'post',
-              url: 'http://180.76.234.230:8080/like',
+              url: 'http://localhost:8081/like',
               data: {
                 commentId: comment_id
               }
@@ -454,7 +454,7 @@
           if(this.answer_list[index].clicked === true){
             this.$axios({
               method: 'delete',
-              url: `http://180.76.234.230:8080/like`,
+              url: `http://localhost:8081/like`,
               headers:{
                 'Content-Type': 'application/json'
               },

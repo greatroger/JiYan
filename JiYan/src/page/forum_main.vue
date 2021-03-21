@@ -180,7 +180,7 @@
           if(!this.isSearch){
             this.$axios({
               method: 'get',
-              url: '/topic',
+              url: 'http://localhost:8081/topic',
               params: {
                 type: this.currentType,
                 offset: (val-1)*10,
@@ -208,7 +208,7 @@
             this.isSearch = true;
             this.$axios({
               method: 'post',
-              url: '/topic/match',
+              url: 'http://localhost:8081/topic/match',
               data: {
                 topicName: this.select_input,
                 offset: (val-1)*10,
@@ -250,7 +250,7 @@
         get_topic_all: function(type) {
           this.$axios({
             method: 'get',
-            url: '/topic',
+            url: 'http://localhost:8081/topic',
             params: {
               type: type,
               offset: 0,
@@ -276,7 +276,7 @@
           }).then(() => {
             this.$axios({
               method: 'delete',
-              url: '/topic',
+              url: 'http://localhost:8081/topic',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -326,7 +326,7 @@
               this.dialogTableVisible = false;
               this.$axios({
                 method: 'post',
-                url: 'http://180.76.234.230:8080/topic',
+                url: 'http://localhost:8081/topic',
                 withCredentials: true,
                 data: {
                   topicName: this.form.titleName,

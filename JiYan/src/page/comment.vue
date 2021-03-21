@@ -197,7 +197,7 @@ export default {
     },
     loadAllCourses(){
       axios
-        .get('http://180.76.234.230:8080/course/all')
+        .get('http://localhost:8081/course/all')
         .then(response => {
           var a=response.data;
           this.courses = response.data;})
@@ -221,7 +221,7 @@ export default {
     get_courseInfo_:function(){
       this.$axios({
         method: 'get',
-        url: '/course/selectOne',
+        url: 'http://localhost:8081/course/selectOne',
         params: {
           courseId: this.$route.params.courseId
         }
@@ -237,7 +237,7 @@ export default {
     postScore(){
       axios({
         method: 'post',
-        url: 'http://180.76.234.230:8080/courseComment/exist',
+        url: 'http://localhost:8081/courseComment/exist',
         data: { authorId: this.$store.state.user.userId, courseId: this.com_course }
       }).then((response) => {
         console.log(response);
@@ -254,7 +254,7 @@ export default {
           //发送post请求
           axios({
             method: 'post',
-            url: 'http://180.76.234.230:8080/courseComment',
+            url: 'http://localhost:8081/courseComment',
             data: { courseId: this.com_course, ownerId: "123456", text: postText,score: postScore }
           }).then((response) => {
             console.log(response);

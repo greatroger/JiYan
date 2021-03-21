@@ -139,7 +139,7 @@ import axios from 'axios'
       handleCurrentChange(val){
         this.$axios({
           method: 'post',
-          url: '/course/matchAll',
+          url: 'http://localhost:8081/course/matchAll',
           headers: {},
           data: {
             academy: this.ruleForm.department,
@@ -159,7 +159,7 @@ import axios from 'axios'
       get_course_all: function() {
         this.$axios({
           method: 'post',
-          url: '/course/matchAll',
+          url: 'http://localhost:8081/course/matchAll',
           headers: {},
           data: {
             offset: 0,
@@ -186,7 +186,7 @@ import axios from 'axios'
           if(valid) {
             this.$axios({
               method: 'post',
-              url: '/course/matchAll',
+              url: 'http://localhost:8081/course/matchAll',
               data: {
                 academy: this.ruleForm.department,
                 courseId: this.ruleForm.courseId,
@@ -211,7 +211,7 @@ import axios from 'axios'
             var userId=this.$store.state.user.userId;
             axios({
                 method: 'post',
-                url: 'http://180.76.234.230:8080/topic/all',
+                url: 'http://localhost:8081/topic/all',
                 data: { "ownerId":userId, "offset":0,"limit":30 }
             }).then((response) => {
                 console.log(response.data.result);
@@ -221,7 +221,7 @@ import axios from 'axios'
 
             axios({
                 method: 'get',
-                url: 'http://180.76.234.230:8080/topicComment/all',
+                url: 'http://localhost:8081/topicComment/all',
             }).then((response) => {
                 console.log(response.data);
                 this.$store.state.review_detail = response.data;

@@ -8,7 +8,7 @@
                 <div class="ProfileHeader-userCover">
                     <div class="UserCoverEditor">
                         <div class="UserCover UserCover--colorBlock">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                                     <el-button @click="editInfo" style="margin:20px 20px 20px 20px">修改信息</el-button>
                                 </el-col>
                             </el-row>
-                            
+
 
                             <span>新密码：&nbsp;&nbsp;&nbsp;</span>
                             <el-input v-model="password" type="password" style="width:200px;margin:10px 10px 10px 10px;white-space:nowrap;"></el-input>
@@ -104,7 +104,7 @@ export default {
             else{
             this.$axios({
             method: 'put',
-            url: 'http://180.76.234.230:8080/user',
+            url: 'http://localhost:8081/user',
             data:{
                 nickname:this.nickName,
                 mail:this.mail
@@ -132,7 +132,7 @@ export default {
             else{
                 this.$axios({
                     method: 'put',
-                    url: 'http://180.76.234.230:8080/user',
+                    url: 'http://localhost:8081/user',
                     data:{
                         password:this.password
                     }
@@ -162,7 +162,7 @@ export default {
 	            },
            }
            this.dataObj=OSSConfig.ossParams;
-        }, 
+        },
         /**
         * [upLoad 自定义上传图片]
         * @param  {[type]} file [上传值]
@@ -191,7 +191,7 @@ export default {
 
                 this.$axios({
                     method: 'put',
-                    url: 'http://180.76.234.230:8080/user',
+                    url: 'http://localhost:8081/user',
                     data:{
                         avatar:connectedUrl
                     }
@@ -210,7 +210,7 @@ export default {
                self.$message.error('上传失败');
                console.log(err);
             })
-            
+
         }
     },
     components:{

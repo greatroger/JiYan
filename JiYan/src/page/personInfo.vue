@@ -133,7 +133,7 @@ export default {
             var userId=this.$store.state.user.userId;
             axios({
               method: 'post',
-              url: 'http://180.76.234.230:8080/topic/all',
+              url: 'http://localhost:8081/topic/all',
               data: { "ownerId":userId, "offset":0,"limit":30 }
             }).then((response) => {
               console.log(response.data.result);
@@ -155,7 +155,7 @@ export default {
             // this.reviewList=this.$store.state.review_detail;
             axios({
               method: 'get',
-              url: 'http://180.76.234.230:8080/topicComment/all',
+              url: 'http://localhost:8081/topicComment/all',
             }).then((response) => {
               console.log(response.data);
               this.review_detail = response.data;
@@ -195,7 +195,7 @@ export default {
         getAllTopic(){
             axios({
                 method: 'get',
-                url: 'http://180.76.234.230:8080/topic?offset=0&limit=10&type=0'
+                url: 'http://localhost:8081/topic?offset=0&limit=10&type=0'
             }).then((response) => {
                 this.topic_list_all = response.data.result;
             });
@@ -206,7 +206,7 @@ export default {
             var userId=this.$store.state.user.userId;
             axios({
                 method: 'post',
-                url: 'http://180.76.234.230:8080/topic/all',
+                url: 'http://localhost:8081/topic/all',
                 data: { "ownerId":userId, "offset":(val-1)*10,"limit":10 }
             }).then((response) => {
                 this.topic_list = response.data.result;
@@ -221,7 +221,7 @@ export default {
             var userId=this.$store.state.user.userId;
             axios({
                 method: 'post',
-                url: 'http://180.76.234.230:8080/topicComment/all',
+                url: 'http://localhost:8081/topicComment/all',
                 data: { "authorId":userId, "offset":(val-1)*10,"limit":10 }
             }).then((response) => {
                 console.log(response);
@@ -257,7 +257,7 @@ export default {
         }).then(() => {
            axios({
                 method: 'delete',
-                url: 'http://180.76.234.230:8080/topicComment',
+                url: 'http://localhost:8081/topicComment',
                 data: { commentId: index }
             }).then((response) => {
                 console.log(response);
@@ -279,7 +279,7 @@ export default {
         }).then(() => {
           axios({
                 method: 'delete',
-                url: 'http://180.76.234.230:8080/topic',
+                url: 'http://localhost:8081/topic',
                 data: { topicId: index }
             }).then((response) => {
                 console.log(response);
