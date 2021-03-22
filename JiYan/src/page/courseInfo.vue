@@ -1,83 +1,90 @@
 <template>
   <div>
     <header_></header_>
-
-    <div class="form__style">
-      <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-card>
-          <el-form-item label="课程代码" prop="courseId">
-            <el-input v-model="ruleForm.courseId"></el-input>
-          </el-form-item>
-          <el-form-item label="课程名称" prop="courseName">
-            <el-input v-model="ruleForm.courseName"></el-input>
-          </el-form-item>
-  <!--        <el-form-item label="学历层次" prop="level">-->
-  <!--          <el-select v-model="ruleForm.level" value="">-->
-  <!--            <el-option label="本科" value="undergraduate"></el-option>-->
-  <!--            <el-option label="硕士" value="postgraduate"></el-option>-->
-  <!--            <el-option label="博士" value="phd"></el-option>-->
-  <!--          </el-select>-->
-  <!--        </el-form-item>-->
-          <el-form-item label="开课院系" prop="department">
-            <el-input v-model="ruleForm.department"></el-input>
-          </el-form-item>
-  <!--        <el-form-item label="课程性质" prop="kind">-->
-  <!--          <el-select v-model="ruleForm.kind" value="">-->
-  <!--            <el-option label="必修" value="compulsory"></el-option>-->
-  <!--            <el-option label="选修" value="elective"></el-option>-->
-  <!--            <el-option label="重修" value="rebuild"></el-option>-->
-  <!--          </el-select>-->
-  <!--        </el-form-item>-->
-          <el-form-item label="任课教师" prop="teacher">
-            <el-input v-model="ruleForm.teacher"></el-input>
-          </el-form-item>
-          <el-button type="primary" class="form__button" icon="el-icon-search" @click="submitForm('ruleForm')">查询</el-button>
-        </el-card>
-      </el-form>
-    </div>
-
-    <div class="course_info">
-      <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
-          <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
-            <el-card class="course_container" :body-style="{ padding: '0px' }">
-              <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
-                <img src="../assets/more.png" alt="">
-              </div>
-              <br/>
-              <div class="container_span" :class="card_dynamic[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
-                <span>{{ course_list[key*3 + index].courseName }}</span>
-                <span>{{ course_list[key*3 + index].courseId }}</span>
-              </div>
-              <div class="container_span_2">
-                <span>{{ course_list[key*3 + index].courseName }}
-                  <span>{{ course_list[key*3 + index].courseId }}</span>
-                </span>
-                <br/>
-                <span style="font-size:14px;">2019-2020</span>
-              </div>
-              <div class="span_icon">
-                <span @click="toComment(course_list[key*3 + index].courseId)"><i class="el-icon-edit-outline"></i>课程评价</span>
-              </div>
+    <el-container>
+      <el-aside>
+        <side_bar_></side_bar_>
+      </el-aside>
+      <el-main>
+        <div class="form__style">
+          <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+            <el-card>
+              <el-form-item label="课程代码" prop="courseId">
+                <el-input v-model="ruleForm.courseId"></el-input>
+              </el-form-item>
+              <el-form-item label="课程名称" prop="courseName">
+                <el-input v-model="ruleForm.courseName"></el-input>
+              </el-form-item>
+      <!--        <el-form-item label="学历层次" prop="level">-->
+      <!--          <el-select v-model="ruleForm.level" value="">-->
+      <!--            <el-option label="本科" value="undergraduate"></el-option>-->
+      <!--            <el-option label="硕士" value="postgraduate"></el-option>-->
+      <!--            <el-option label="博士" value="phd"></el-option>-->
+      <!--          </el-select>-->
+      <!--        </el-form-item>-->
+              <el-form-item label="开课院系" prop="department">
+                <el-input v-model="ruleForm.department"></el-input>
+              </el-form-item>
+      <!--        <el-form-item label="课程性质" prop="kind">-->
+      <!--          <el-select v-model="ruleForm.kind" value="">-->
+      <!--            <el-option label="必修" value="compulsory"></el-option>-->
+      <!--            <el-option label="选修" value="elective"></el-option>-->
+      <!--            <el-option label="重修" value="rebuild"></el-option>-->
+      <!--          </el-select>-->
+      <!--        </el-form-item>-->
+              <el-form-item label="任课教师" prop="teacher">
+                <el-input v-model="ruleForm.teacher"></el-input>
+              </el-form-item>
+              <el-button type="primary" class="form__button" icon="el-icon-search" @click="submitForm('ruleForm')">查询</el-button>
             </el-card>
-          </el-col>
-      </el-row>
-      <el-row>
-        <div class="block">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="6"
-            layout="prev, pager, next, jumper"
-            :total="total_len"></el-pagination>
+          </el-form>
         </div>
-      </el-row>
-    </div>
+
+        <div class="course_info">
+          <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
+              <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
+                <el-card class="course_container" :body-style="{ padding: '0px' }">
+                  <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
+                    <img src="../assets/more.png" alt="">
+                  </div>
+                  <br/>
+                  <div class="container_span" :class="card_dynamic[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
+                    <span>{{ course_list[key*3 + index].courseName }}</span>
+                    <span>{{ course_list[key*3 + index].courseId }}</span>
+                  </div>
+                  <div class="container_span_2">
+                    <span>{{ course_list[key*3 + index].courseName }}
+                      <span>{{ course_list[key*3 + index].courseId }}</span>
+                    </span>
+                    <br/>
+                    <span style="font-size:14px;">2019-2020</span>
+                  </div>
+                  <div class="span_icon">
+                    <span @click="toComment(course_list[key*3 + index].courseId)"><i class="el-icon-edit-outline"></i>课程评价</span>
+                  </div>
+                </el-card>
+              </el-col>
+          </el-row>
+          <el-row>
+            <div class="block">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="6"
+                layout="prev, pager, next, jumper"
+                :total="total_len"></el-pagination>
+            </div>
+          </el-row>
+        </div>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import header_ from '../components/header'
+import side_bar_ from '../components/side_bar'
 
 export default {
   name: 'CourseInfo',
@@ -121,7 +128,8 @@ export default {
   },
 
   components: {
-    header_
+    header_,
+    side_bar_
   },
 
   created: function () {
