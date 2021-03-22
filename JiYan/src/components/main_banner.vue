@@ -19,8 +19,7 @@
 
 <script>
 export default {
-    name:'banner_',
-
+  name: 'banner_',
   methods: {
     handleClick: function(command){
       console.log(command);

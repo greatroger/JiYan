@@ -19,47 +19,41 @@
 </template>
 
 <script>
-  export default {
-    name: 'mainheader_',
-    data() {
-      return {
+export default {
+  name: 'mainheader_',
+  data () {
+    return {
 
-      }
-    },
-    methods:{
-    handleSelect(key,keyPath){
-      if (key ==="/courseInfo")
-      {
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      if (key === '/courseInfo') {
         this.$router.push({
-            path: `/courseInfo`
-          });
-      }
-      else if (key ==="/forum/main")
-      {
-         this.$router.push({
-            path: `/forum/main`
-          });
-      }
-      else if (key ==="/")
-      {
-        this.$store.state.user = {};
-        alert("退出成功");
-          this.$router.push({
-            path: `/`
-          });
-      }
-      else if (key ==="#personInfo"){
+          path: `/courseInfo`
+        })
+      } else if (key === '/forum/main') {
         this.$router.push({
-            path: `/personInfo/${this.$store.state.user.userId}/${0}`
-          })
-      }else if(key === 'login'){
+          path: `/forum/main`
+        })
+      } else if (key === '/') {
+        this.$store.state.user = {}
+        alert('退出成功')
+        this.$router.push({
+          path: `/`
+        })
+      } else if (key === '#personInfo') {
+        this.$router.push({
+          path: `/personInfo/${this.$store.state.user.userId}/${0}`
+        })
+      } else if (key === 'login') {
         this.$router.push({
           path: `/`
         })
       }
     }
-    }
-    }
+  }
+}
 
 </script>
 

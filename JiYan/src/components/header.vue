@@ -5,19 +5,6 @@
       <div class="side_bar" style="position: absolute">
         <!-- <el-button id="button_1" icon="el-icon-house" type="warning" @click="toCourseInfo()">课程信息系统</el-button>  -->
         <!-- <el-button id="button_2" icon="el-icon-edit"  type="primary" @click="toComment()">论坛系统</el-button>  -->
-        <el-menu
-          default-active="1"
-          class="el-menu-vertical"
-          @select="handleSelect">
-          <el-menu-item index="1" >
-            <i class="el-icon-house"></i>
-            <span slot="title" >课程信息系统</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <i class="el-icon-edit"></i>
-            <span slot="title">论坛系统</span>
-          </el-menu-item>
-        </el-menu>
       </div>
       <el-main class="header2">
         <div style="position: relative">
@@ -45,24 +32,7 @@ export default {
     main_banner
   },
   methods: {
-    toCourseInfo: function () {
-      this.$router.push({
-        path: '/courseInfo'
-      })
-    },
-    toComment: function () {
-      this.$router.push({
-        path: '/forum/main'
-      })
-    },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-      if (key === '1') {
-        this.toCourseInfo()
-      } else if (key === '2') {
-        this.toComment()
-      }
-    }
+
   }
 }
 </script>
