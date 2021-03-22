@@ -53,7 +53,7 @@ export default {
             if(valid) {
               axios({
                 method: 'post',
-                url: 'http://localhost:8081/login',
+                url: 'http://8.136.208.55:8080/login',
                 data: {
                   name:this.ruleForm.username,
                   password:this.ruleForm.password

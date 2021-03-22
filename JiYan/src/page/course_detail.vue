@@ -119,7 +119,7 @@
         get_user: function(userId) {
             this.$axios({
             method: 'get',
-            url: 'http://localhost:8081/user/selectOne?userId=' + this.userId,
+            url: 'http://8.136.208.55:8080/user/selectOne?userId=' + this.userId,
             headers: {},
             params: {},
         }).then((response) => {
@@ -131,7 +131,7 @@
         get_all_comments: function(courseId) {
             this.$axios({
             method: 'post',
-            url: 'http://localhost:8081/courseComment/allComments',
+            url: 'http://8.136.208.55:8080/courseComment/allComments',
             headers: {},
             params: {},
             data:{
@@ -146,7 +146,7 @@
                 var id = this.commentList[i].authorId;
                 this.$axios({
                 method: 'get',
-                url: 'http://localhost:8081/user/selectOne?userId=' + id,
+                url: 'http://8.136.208.55:8080/user/selectOne?userId=' + id,
                 headers: {},
                 params: {},
                 }).then((response) => {
@@ -163,7 +163,7 @@
         get_courseInfo: function(courseId) {
             this.$axios({
             method: 'get',
-            url: 'http://localhost:8081/course/selectOne?courseId=' + this.courseId,
+            url: 'http://8.136.208.55:8080/course/selectOne?courseId=' + this.courseId,
             headers: {},
             params: {},
         }).then((response) => {
