@@ -42,8 +42,8 @@
 
         <div class="course_info">
           <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
-              <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
-                <el-card class="course_container" :body-style="{ padding: '0px' }">
+              <el-col class="course_card" :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1" >
+                <el-card class="course_container" :body-style="{ padding: '0px',margin: '0px'}">
                   <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
                     <img src="../assets/more.png" alt="">
                   </div>
@@ -282,6 +282,10 @@ export default {
   }
   .el-row {
     margin-top: 30px;
+  }
+  .course_card{
+    margin-left: 20px;
+    margin-right: 120px;
   }
   .course_image {
     width: 100%;
