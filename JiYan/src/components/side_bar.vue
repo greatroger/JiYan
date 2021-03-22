@@ -4,15 +4,15 @@
       default-active="1"
       class="el-menu-vertical"
       @select="handleSelect">
-      <el-menu-item index="1" >
+      <el-menu-item index="1" class="elitem1" >
         <i class="el-icon-house"></i>
         <span slot="title" >课程信息系统</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="2" class="elitem1">
         <i class="el-icon-edit"></i>
         <span slot="title">论坛系统</span>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="3" >
         <i class="el-icon-user"></i>
         <span slot="title">个人主页</span>
       </el-menu-item>
@@ -59,5 +59,9 @@ export default {
 </script>
 
 <style scoped>
-
+.elitem1{
+  border-bottom-width: 0.5px;
+  border-bottom-style: solid;
+  border-bottom-color:#9e9e9e69;
+}
 </style>

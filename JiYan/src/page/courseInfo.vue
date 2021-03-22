@@ -5,8 +5,8 @@
       <el-aside>
         <side_bar_></side_bar_>
       </el-aside>
-      <el-main>
-        <div class="form__style">
+      <el-main class="_main">
+        <div class="form__style" >
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
             <el-card>
               <el-form-item label="课程代码" prop="courseId">
@@ -251,6 +251,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+  ._main{
+    background-color: #b4b4b44f;
+  }
   .form__style {
     margin-top: 30px;
     .el-card {
