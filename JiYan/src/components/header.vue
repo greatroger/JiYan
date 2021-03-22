@@ -2,90 +2,79 @@
   <div>
     <main_banner></main_banner>
     <el-container class="header_container">
+      <div class="side_bar" style="position: fixed">
+        <!-- <el-button id="button_1" icon="el-icon-house" type="warning" @click="toCourseInfo()">课程信息系统</el-button>  -->
+        <!-- <el-button id="button_2" icon="el-icon-edit"  type="primary" @click="toComment()">论坛系统</el-button>  -->
+        <el-menu
+          default-active="1"
+          class="el-menu-vertical"
+          @select="handleSelect">
+          <el-menu-item index="1" >
+            <i class="el-icon-house"></i>
+            <span slot="title" >课程信息系统</span>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <i class="el-icon-edit"></i>
+            <span slot="title">论坛系统</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
       <el-main class="header2">
         <div style="position: relative">
           <img src="../assets/background.jpg" class="background_img" alt="">
         </div>
         <div class="title">同济大学课程信息综合系统</div>
         <div class="sub-title">Faster · Easier · Smarter</div>
-        <div class="header__button">
-          <el-button id="button_1" icon="el-icon-house" type="warning" @click="toCourseInfo()">课程信息系统</el-button>
-          <el-button id="button_2" type="primary" icon="el-icon-edit" @click="toComment()">论坛系统</el-button>
-        </div>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-  import main_banner from './main_banner'
-  export default {
-    name: 'header_',
-    inject: ['reload'],
-    data() {
-      return {
+// eslint-disable-next-line camelcase
+import main_banner from './main_banner'
+export default {
+  name: 'header_',
+  inject: ['reload'],
+  data () {
+    return {
 
-      }
+    }
+  },
+  components: {
+    main_banner
+  },
+  methods: {
+    toCourseInfo: function () {
+      this.$router.push({
+        path: '/courseInfo'
+      })
     },
-    components: {
-      main_banner
+    toComment: function () {
+      this.$router.push({
+        path: '/forum/main'
+      })
     },
-    methods: {
-      toCourseInfo:function(){
-        this.$router.push({
-          path: '/courseInfo'
-        })
-      },
-      toComment:function(){
-        this.$router.push({
-          path: '/forum/main'
-        })
-      },
-      handleClick: function(command){
-        console.log(command);
-        if(command === 'logout'){
-          this.$store.state.user = {};
-          this.reload();
-          alert("退出成功！");
-        }else if(command === 'login'){
-          this.$router.push({
-            path: '/'
-          })
-        }else if(command === 'forum'){
-          this.$router.push({
-            path: '/forum/main'
-          })
-        }else if(command === 'main'){
-          this.$router.push({
-            path: '/courseInfo'
-          })
-        }
-
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
+      if (key === '1') {
+        this.toCourseInfo()
+      } else if (key === '2') {
+        this.toComment()
       }
     }
   }
+}
 </script>
 
 <style lang="less">
   .header_container{
-    .el-header {
-      height:35px;
-      background-color: #2b3580;
-      .el-dropdown{
-        display: inline;
-        float: right;
-        span {
-          padding-top: 7px;
-          color: white;
-          float: right;
-        }
-        span:hover{
-          cursor: pointer;
-        }
-      }
+    .side_bar {
+      left: 0px;
+      top:65px;
     }
     .el-main{
-      height: 340px;
+      height: 180px;
       width: 100%;
       overflow: hidden;
       /*background-image: url("../assets/background.jpg");*/
@@ -96,7 +85,7 @@
       .background_img {
         position: absolute;
         transform-origin: center;
-        transform: scale(1.5, 0.98) translateY(-350px) translateX(140px);
+        transform: scale(1.8, 0.98) translateY(-350px) translateX(165px);
         object-fit: cover;
         z-index:-1;
       }
@@ -112,26 +101,6 @@
         text-align:center;
         color: grey;
         letter-spacing: 6px;
-      }
-      .header__button{
-        width: 40%;
-        margin: 100px auto;
-      }
-      #button_1{
-        width: 140px;
-        opacity: 0.7;
-      }
-      #button_1:hover{
-        opacity: 0.7;
-      }
-      #button_2{
-        float: right;
-        width: 140px;
-        opacity: 0.7;
-      }
-      #button_2:hover{
-        background-color: #c08b10;
-        opacity: 0.7;
       }
     }
   }

@@ -4,34 +4,35 @@
 
     <div class="form__style">
       <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-        <el-form-item label="课程代码" prop="courseId">
-          <el-input v-model="ruleForm.courseId"></el-input>
-        </el-form-item>
-        <el-form-item label="课程名称" prop="courseName">
-          <el-input v-model="ruleForm.courseName"></el-input>
-        </el-form-item>
-<!--        <el-form-item label="学历层次" prop="level">-->
-<!--          <el-select v-model="ruleForm.level" value="">-->
-<!--            <el-option label="本科" value="undergraduate"></el-option>-->
-<!--            <el-option label="硕士" value="postgraduate"></el-option>-->
-<!--            <el-option label="博士" value="phd"></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-        <br/>
-        <el-form-item label="开课院系" prop="department">
-          <el-input v-model="ruleForm.department"></el-input>
-        </el-form-item>
-<!--        <el-form-item label="课程性质" prop="kind">-->
-<!--          <el-select v-model="ruleForm.kind" value="">-->
-<!--            <el-option label="必修" value="compulsory"></el-option>-->
-<!--            <el-option label="选修" value="elective"></el-option>-->
-<!--            <el-option label="重修" value="rebuild"></el-option>-->
-<!--          </el-select>-->
-<!--        </el-form-item>-->
-        <el-form-item label="任课教师" prop="teacher">
-          <el-input v-model="ruleForm.teacher"></el-input>
-        </el-form-item>
-        <el-button type="primary"  icon="el-icon-search" @click="submitForm('ruleForm')">查询</el-button>
+        <el-card>
+          <el-form-item label="课程代码" prop="courseId">
+            <el-input v-model="ruleForm.courseId"></el-input>
+          </el-form-item>
+          <el-form-item label="课程名称" prop="courseName">
+            <el-input v-model="ruleForm.courseName"></el-input>
+          </el-form-item>
+  <!--        <el-form-item label="学历层次" prop="level">-->
+  <!--          <el-select v-model="ruleForm.level" value="">-->
+  <!--            <el-option label="本科" value="undergraduate"></el-option>-->
+  <!--            <el-option label="硕士" value="postgraduate"></el-option>-->
+  <!--            <el-option label="博士" value="phd"></el-option>-->
+  <!--          </el-select>-->
+  <!--        </el-form-item>-->
+          <el-form-item label="开课院系" prop="department">
+            <el-input v-model="ruleForm.department"></el-input>
+          </el-form-item>
+  <!--        <el-form-item label="课程性质" prop="kind">-->
+  <!--          <el-select v-model="ruleForm.kind" value="">-->
+  <!--            <el-option label="必修" value="compulsory"></el-option>-->
+  <!--            <el-option label="选修" value="elective"></el-option>-->
+  <!--            <el-option label="重修" value="rebuild"></el-option>-->
+  <!--          </el-select>-->
+  <!--        </el-form-item>-->
+          <el-form-item label="任课教师" prop="teacher">
+            <el-input v-model="ruleForm.teacher"></el-input>
+          </el-form-item>
+          <el-button type="primary" class="form__button" icon="el-icon-search" @click="submitForm('ruleForm')">查询</el-button>
+        </el-card>
       </el-form>
     </div>
 
@@ -76,199 +77,193 @@
 
 <script>
 import axios from 'axios'
-  import header_ from '../components/header'
+import header_ from '../components/header'
 
-  export default {
-    name: 'CourseInfo',
+export default {
+  name: 'CourseInfo',
 
-    computed: {
-      course_item() {
-        let items = [];
-        this.course_list.forEach((i, key) => {
-          let item = Math.floor(key/3);
-          if(!items[item]) {
-            items[item] = []
-          }
-          items[item].push(item);
-        });
-        return items;
-      }
-    },
-
-    data () {
-      return {
-        ruleForm: {
-          courseId: '',
-          courseName: '',
-          level: '',
-          department: '',
-          kind: '',
-          teacher: ''
-        },
-        course_list: [],
-        course_len:0,
-        rules: {
-          courseName: [
-            // { required: true, trigger: 'blur' }
-          ]
-        },
-        currentPage: 0,
-        total_len: 0,
-        card_dynamic: [],
-        card_dynamic_bkg: []
-      }
-    },
-
-    components: {
-      header_
-    },
-
-    created: function() {
-      this.get_course_all();
-      this.getTopicById();
-
-    },
-
-    mounted: function() {
-      setTimeout(() => {
-        this.random_color();
-      }, 1000);
-    },
-
-    methods: {
-      handleCurrentChange(val){
-        this.$axios({
-          method: 'post',
-          url: 'http://localhost:8081/course/matchAll',
-          headers: {},
-          data: {
-            academy: this.ruleForm.department,
-            courseId: this.ruleForm.courseId,
-            courseName: this.ruleForm.courseName,
-            ownerName: this.ruleForm.teacher,
-            offset: (val-1)*6,
-            limit: 6
-          }
-        }).then((response) => {
-          this.course_list = response.data.result;
-          this.course_len = response.data.result.length;
-        }).catch(() => {
-          alert("无法获取课程信息，请刷新重试");
-        })
-      },
-      get_course_all: function() {
-        this.$axios({
-          method: 'post',
-          url: 'http://localhost:8081/course/matchAll',
-          headers: {},
-          data: {
-            offset: 0,
-            limit: 6
-          }
-        }).then((response) => {
-          this.course_list = response.data.result;
-          this.total_len = response.data.count;
-          this.course_len = response.data.result.length;
-        }).catch(() => {
-          alert("无法获取课程信息，请刷新重试");
-        })
-      },
-
-      random_color: function() {
-        for(let i = 0; i < this.course_len; i++){
-          this.card_dynamic.push('card' + i);
-          this.card_dynamic_bkg.push('card_bkg' + i);
+  computed: {
+    course_item () {
+      let items = []
+      this.course_list.forEach((i, key) => {
+        let item = Math.floor(key / 3)
+        if (!items[item]) {
+          items[item] = []
         }
+        items[item].push(item)
+      })
+      return items
+    }
+  },
+
+  data () {
+    return {
+      ruleForm: {
+        courseId: '',
+        courseName: '',
+        level: '',
+        department: '',
+        kind: '',
+        teacher: ''
       },
-
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if(valid) {
-            this.$axios({
-              method: 'post',
-              url: 'http://localhost:8081/course/matchAll',
-              data: {
-                academy: this.ruleForm.department,
-                courseId: this.ruleForm.courseId,
-                courseName: this.ruleForm.courseName,
-                ownerName: this.ruleForm.teacher,
-                offset: 0,
-                limit: 6
-              }
-            }).then((response) => {
-              this.total_len = response.data.count;
-              this.course_list = response.data.result;
-            }).catch(() => {
-              alert("接口异常，请更换搜索条件")
-            })
-          }else {
-            alert("请输入任意条件");
-            return false;
-          }
-        });
+      course_list: [],
+      course_len: 0,
+      rules: {
+        courseName: [
+          // { required: true, trigger: 'blur' }
+        ]
       },
-      getTopicById(){
-            var userId=this.$store.state.user.userId;
-            axios({
-                method: 'post',
-                url: 'http://localhost:8081/topic/all',
-                data: { "ownerId":userId, "offset":0,"limit":30 }
-            }).then((response) => {
-                console.log(response.data.result);
-                this.$store.state.topic_detail = response.data;
-                this.$store.state.topic_count=response.data.result.length;
-            });
+      currentPage: 0,
+      total_len: 0,
+      card_dynamic: [],
+      card_dynamic_bkg: []
+    }
+  },
 
-            axios({
-                method: 'get',
-                url: 'http://localhost:8081/topicComment/all',
-            }).then((response) => {
-                console.log(response.data);
-                this.$store.state.review_detail = response.data;
-                this.$store.state.review_count=response.data.length;
-            });
-        },
+  components: {
+    header_
+  },
 
-      toDetail(courseId){
-        this.$store.state.courseId = courseId;
-        this.$router.push({
-            path: `/course_detail/${courseId}`
-          })
-      },
+  created: function () {
+    this.get_course_all()
+    this.getTopicById()
+  },
 
-      toComment(courseId){
-        this.$router.push({
-          path: `/comment/${courseId}`
-        })
+  mounted: function () {
+    setTimeout(() => {
+      this.random_color()
+    }, 1000)
+  },
+
+  methods: {
+    handleCurrentChange (val) {
+      this.$axios({
+        method: 'post',
+        url: 'http://localhost:8081/course/matchAll',
+        headers: {},
+        data: {
+          academy: this.ruleForm.department,
+          courseId: this.ruleForm.courseId,
+          courseName: this.ruleForm.courseName,
+          ownerName: this.ruleForm.teacher,
+          offset: (val - 1) * 6,
+          limit: 6
+        }
+      }).then((response) => {
+        this.course_list = response.data.result
+        this.course_len = response.data.result.length
+      }).catch(() => {
+        alert('无法获取课程信息，请刷新重试')
+      })
+    },
+    get_course_all: function () {
+      this.$axios({
+        method: 'post',
+        url: 'http://localhost:8081/course/matchAll',
+        headers: {},
+        data: {
+          offset: 0,
+          limit: 6
+        }
+      }).then((response) => {
+        this.course_list = response.data.result
+        this.total_len = response.data.count
+        this.course_len = response.data.result.length
+      }).catch(() => {
+        alert('无法获取课程信息，请刷新重试')
+      })
+    },
+
+    random_color: function () {
+      for (let i = 0; i < this.course_len; i++) {
+        this.card_dynamic.push('card' + i)
+        this.card_dynamic_bkg.push('card_bkg' + i)
       }
+    },
+
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'post',
+            url: 'http://localhost:8081/course/matchAll',
+            data: {
+              academy: this.ruleForm.department,
+              courseId: this.ruleForm.courseId,
+              courseName: this.ruleForm.courseName,
+              ownerName: this.ruleForm.teacher,
+              offset: 0,
+              limit: 6
+            }
+          }).then((response) => {
+            this.total_len = response.data.count
+            this.course_list = response.data.result
+          }).catch(() => {
+            alert('接口异常，请更换搜索条件')
+          })
+        } else {
+          alert('请输入任意条件')
+          return false
+        }
+      })
+    },
+    getTopicById () {
+      var userId = this.$store.state.user.userId
+      axios({
+        method: 'post',
+        url: 'http://localhost:8081/topic/all',
+        data: { 'ownerId': userId, 'offset': 0, 'limit': 30 }
+      }).then((response) => {
+        console.log(response.data.result)
+        this.$store.state.topic_detail = response.data
+        this.$store.state.topic_count = response.data.result.length
+      })
+
+      axios({
+        method: 'get',
+        url: 'http://localhost:8081/topicComment/all'
+      }).then((response) => {
+        console.log(response.data)
+        this.$store.state.review_detail = response.data
+        this.$store.state.review_count = response.data.length
+      })
+    },
+
+    toDetail (courseId) {
+      this.$store.state.courseId = courseId
+      this.$router.push({
+        path: `/course_detail/${courseId}`
+      })
+    },
+
+    toComment (courseId) {
+      this.$router.push({
+        path: `/comment/${courseId}`
+      })
     }
   }
+}
 </script>
 
 <style lang="less" scoped>
   .form__style {
     margin-top: 30px;
+    .el-card {
+      width:1150px;
+      margin: 0 auto;
+    }
   }
   .form__style /deep/ .el-input__inner{
     border-radius: 0;
     height: 30px;
-    width: 150px;
+    width: 120px;
     border-color: #7f7f7f;
   }
   .form__button{
-    background-color: #a7a7a7;
-    height: 30px;
-    margin-left: 30px;
-    margin-top: 5px;
-    border-color: #7f7f7f;
-    vertical-align: middle;
-    text-align: center;
-    line-height: 5px;
+    margin-left:30px;
+    margin-right:30px;
   }
-  .form__button:hover{
-    background-color: #d9d9d9;
-    border-color: #7f7f7f;
-  }
+
   .course_container {
     width: 330px;
   }
