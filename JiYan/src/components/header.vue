@@ -2,7 +2,7 @@
   <div>
     <main_banner></main_banner>
     <el-container class="header_container">
-      <div class="side_bar" style="position: fixed">
+      <div class="side_bar" style="position: absolute">
         <!-- <el-button id="button_1" icon="el-icon-house" type="warning" @click="toCourseInfo()">课程信息系统</el-button>  -->
         <!-- <el-button id="button_2" icon="el-icon-edit"  type="primary" @click="toComment()">论坛系统</el-button>  -->
         <el-menu

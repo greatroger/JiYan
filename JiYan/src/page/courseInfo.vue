@@ -134,12 +134,17 @@ export default {
       this.random_color()
     }, 1000)
   },
-
+  random_color: function () {
+    for (let i = 0; i < this.course_len; i++) {
+      this.card_dynamic.push('card' + i)
+      this.card_dynamic_bkg.push('card_bkg' + i)
+    }
+  },
   methods: {
     handleCurrentChange (val) {
       this.$axios({
         method: 'post',
-        url: 'http://localhost:8081/course/matchAll',
+        url: 'http://8.136.208.55:8080/course/matchAll',
         headers: {},
         data: {
           academy: this.ruleForm.department,
@@ -159,7 +164,7 @@ export default {
     get_course_all: function () {
       this.$axios({
         method: 'post',
-        url: 'http://localhost:8081/course/matchAll',
+        url: 'http://8.136.208.55:8080/course/matchAll',
         headers: {},
         data: {
           offset: 0,
@@ -173,20 +178,12 @@ export default {
         alert('无法获取课程信息，请刷新重试')
       })
     },
-
-    random_color: function () {
-      for (let i = 0; i < this.course_len; i++) {
-        this.card_dynamic.push('card' + i)
-        this.card_dynamic_bkg.push('card_bkg' + i)
-      }
-    },
-
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios({
             method: 'post',
-            url: 'http://localhost:8081/course/matchAll',
+            url: 'http://8.136.208.55:8080/course/matchAll',
             data: {
               academy: this.ruleForm.department,
               courseId: this.ruleForm.courseId,
@@ -211,7 +208,7 @@ export default {
       var userId = this.$store.state.user.userId
       axios({
         method: 'post',
-        url: 'http://localhost:8081/topic/all',
+        url: 'http://8.136.208.55:8080/topic/all',
         data: { 'ownerId': userId, 'offset': 0, 'limit': 30 }
       }).then((response) => {
         console.log(response.data.result)
@@ -221,7 +218,7 @@ export default {
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/topicComment/all'
+        url: 'http://8.136.208.55:8080/topicComment/all'
       }).then((response) => {
         console.log(response.data)
         this.$store.state.review_detail = response.data

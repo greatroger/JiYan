@@ -103,7 +103,7 @@ export default {
             //this.topic_list=this.$store.state.topic_detail.result;
             this.$axios({
                 method: 'get',
-                url: 'http://localhost:8081/topic/user/'+this.userId,
+                url: 'http://8.136.208.55:8080/topic/user/'+this.userId,
                 headers: {},
                 params: {},
             }).then((response) => {
@@ -126,7 +126,7 @@ export default {
             //this.reviewList=this.$store.state.review_detail;
             this.$axios({
                 method: 'get',
-                url: 'http://localhost:8081/topicComment/user/'+this.userId,
+                url: 'http://8.136.208.55:8080/topicComment/user/'+this.userId,
                 headers: {},
                 params: {},
             }).then((response) => {
@@ -151,7 +151,7 @@ export default {
         getAllTopic(){
             this.$axios({
             method: 'get',
-            url: 'http://localhost:8081/topic',
+            url: 'http://8.136.208.55:8080/topic',
             params: {
               offset: 0,
               limit: 10
@@ -189,7 +189,7 @@ export default {
         this.userId=this.$route.params.userId;
         this.$axios({
             method: 'get',
-            url: 'http://localhost:8081/user/selectOne?userId=' + this.userId,
+            url: 'http://8.136.208.55:8080/user/selectOne?userId=' + this.userId,
             headers: {},
             params: {},
         }).then((response) => {

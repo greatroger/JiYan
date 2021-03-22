@@ -104,7 +104,7 @@ export default {
             else{
             this.$axios({
             method: 'put',
-            url: 'http://localhost:8081/user',
+            url: 'http://8.136.208.55:8080/user',
             data:{
                 nickname:this.nickName,
                 mail:this.mail
@@ -132,7 +132,7 @@ export default {
             else{
                 this.$axios({
                     method: 'put',
-                    url: 'http://localhost:8081/user',
+                    url: 'http://8.136.208.55:8080/user',
                     data:{
                         password:this.password
                     }
@@ -191,7 +191,7 @@ export default {
 
                 this.$axios({
                     method: 'put',
-                    url: 'http://localhost:8081/user',
+                    url: 'http://8.136.208.55:8080/user',
                     data:{
                         avatar:connectedUrl
                     }
