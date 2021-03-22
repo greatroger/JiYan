@@ -40,7 +40,7 @@
                 </el-tabs>
                 <div v-if="QuesVisible">
                     <el-container class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
-                        <el-col :span="3">
+                        <el-col :span="1">
                             <!-- <span class="span_num">{{ index }}</span> -->
                         </el-col>
                         <el-col :span="3" class="span_2">
@@ -49,9 +49,18 @@
                             <br/>
                             <span class="span_des">{{ item.description }}</span>
                             <br/>
+                            <br/>
                             <span class="span_time">{{ item.created }}</span>
                         </el-col>
-                        <el-col :span="1" :offset="1">
+                        <el-col :span="5" class="span_3">
+
+                        </el-col>
+                        <el-col :span="1" >
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             <br>
                             <el-button class="delete" size="mini" type="primary" icon="el-icon-delete" @click="deleteTopic(item.topicId,index)"></el-button>
                         </el-col>
@@ -490,6 +499,7 @@ export default {
         }
       }
     }
+    
     .main_left_review {
       margin-top: 5px;
       /*height: 150px;*/
@@ -526,4 +536,5 @@ export default {
         }
       }
     }
+    
 </style>

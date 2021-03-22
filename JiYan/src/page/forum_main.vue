@@ -19,8 +19,8 @@
           </el-container>
         </el-container>
         <div class="main_left_topic" v-for="(item,index) in topic_list" :key="index">
-          <el-col :span="3">
-            <span class="span_num">{{ index + (currentPage-1)*10 }}</span>
+          <el-col :span="1">
+            <span class="span_num"></span>
             <br/>
           </el-col>
           <el-col :span="14" class="span_2" >
@@ -30,7 +30,7 @@
             <br/>
             <span class="span_time">{{ item.created }}</span>
           </el-col>
-          <el-col :span="5" class="img_3">
+          <el-col :span="7" class="img_3">
             <img :src="item.picture" alt="">
           </el-col>
           <el-col :span="1" :offset="1">
@@ -441,7 +441,7 @@
       height: 180px;
       background-color: white;
       i{
-        margin-top: 65px;
+        margin-top: 157px;
       }
       i:hover{
         color: red;
