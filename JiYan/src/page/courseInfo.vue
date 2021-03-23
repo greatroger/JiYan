@@ -5,8 +5,8 @@
       <el-aside>
         <side_bar_></side_bar_>
       </el-aside>
-      <el-main>
-        <div class="form__style">
+      <el-main class="_main">
+        <div class="form__style" >
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
             <el-card>
               <el-form-item label="课程代码" prop="courseId">
@@ -42,8 +42,8 @@
 
         <div class="course_info">
           <el-row :gutter="24" v-for="(item,key) of course_item" :key="key">
-              <el-col :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1">
-                <el-card class="course_container" :body-style="{ padding: '0px' }">
+              <el-col class="course_card" :span="5" v-for="(_item,index) of item" :key="index" :offset="index>0?2:1" >
+                <el-card class="course_container" :body-style="{ padding: '0px',margin: '0px'}">
                   <div class="course_image" :class="card_dynamic_bkg[key*3 + index]" @click="toDetail(course_list[key*3 + index].courseId)">
                     <img src="../assets/more.png" alt="">
                   </div>
@@ -251,6 +251,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+  ._main{
+    background-color: #b4b4b44f;
+  }
   .form__style {
     margin-top: 30px;
     .el-card {
@@ -278,6 +282,10 @@ export default {
   }
   .el-row {
     margin-top: 30px;
+  }
+  .course_card{
+    margin-left: 20px;
+    margin-right: 120px;
   }
   .course_image {
     width: 100%;
