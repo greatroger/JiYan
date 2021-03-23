@@ -8,19 +8,21 @@ import ElementUI from 'element-ui'
 import axios from 'axios'
 import VueCookies from 'vue-cookies'
 import 'element-ui/lib/theme-chalk/index.css'
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
-Vue.config.productionTip = false;
-Vue.use(ElementUI);
-Vue.use(VueCookies);
-Vue.prototype.$axios = axios;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.withCredentials = true;
+Vue.config.productionTip = false
+Vue.use(ElementUI)
+Vue.use(VueCookies)
+Vue.prototype.$axios = axios
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.withCredentials = true
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    store,
-    components: { App },
-    template: '<App/>'
-});
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  template: '<App/>'
+})
