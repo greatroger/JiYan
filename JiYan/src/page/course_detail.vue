@@ -289,30 +289,60 @@ export default {
       for (var i = 0; i < this.commentsNum; i++) {
         var sc = Math.round(this.commentList[i].score)
         console.log(sc)
-        rateCount[sc] = rateCount[sc] + 1
+        rateCount[sc]= rateCount[sc] + 1
       }
       // console.log(rateCount)
       var myChart = echarts.init(document.getElementById('rate_bar'))
       // 指定图表的配置项和数据
       var option = {
         title: {
-          text: '评分分布'
+          text: '评分分布',
+          left: 'center'
         },
-        tooltip: {},
-        xAxis: {
-          data: ['0', '1', '2', '3', '4', '5']
+
+        tooltip: {
+          trigger:'item',
         },
-        yAxis: {},
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
         series: [{
+          label:{
+						        normal:{
+						         formatter:function(e){
+						            let data=e.data;
+						            	if(data.value==0){
+						            		data.labelLine.show=false;
+						            		data.label.show=false;
+						            	}else{
+						            		return  `${data.name}\n${e.percent}%`
+						            	}
+						            },    
+						        }       
+						    },
+
           name: '评分',
-          type: 'bar',
-          data: rateCount,
-          itemStyle: {
-            normal: {
-              color: '#FF9900'
-            }
-          }
+          type: 'pie',
+          radius: '50%',
+          data: [
+                {value: rateCount[0], name: '0分',labelLine: {show: true},label:{show:true}},
+                {value: rateCount[1], name: '1分',labelLine: {show: true},label:{show:true}},
+                {value: rateCount[2], name: '2分',labelLine: {show: true},label:{show:true}},
+                {value: rateCount[3], name: '3分',labelLine: {show: true},label:{show:true}},
+                {value: rateCount[4], name: '4分',labelLine: {show: true},label:{show:true}},
+                {value: rateCount[5], name: '5分',labelLine: {show: true},label:{show:true}},
+            ],
+          emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+        }
         }]
+
+      
       }
       myChart.setOption(option)
     }
