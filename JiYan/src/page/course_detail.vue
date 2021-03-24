@@ -39,6 +39,22 @@
     </div>
 
     <div class="evaluate">
+      <el-row>
+        <el-col :span = "12">
+        <el-card shadow="none" >
+        <div id="date_graph" style="width:400px;height:400px;"></div>
+        
+      </el-card>
+      </el-col>
+      <el-col :span = "12">
+        <el-card shadow="none">
+       
+        <div id="rate_bar" style="width:400px;height:400px;"></div>
+      </el-card>
+      </el-col>
+      </el-row>
+      
+      
         <br>
         <div style="font-size: 20px; color: gray;">{{this.commentsNum}}个评价</div>
         <br>
@@ -76,8 +92,6 @@
         </el-card>
         </el-row>
     </div>
-    <div id="date_graph" style="width:600px;height:400px;"></div>
-    <div id="rate_bar" style="width:600px;height:400px;"></div>
     <div style="height:20px;"></div>
 </body>
 </template>
@@ -176,7 +190,7 @@ export default {
         this.courseName = response.data.courseName
         this.likes = response.data.likes
         this.ownerName = response.data.ownerName
-        this.score = response.data.score
+        this.score = response.data.score.toFixed(2)
         this.value = this.score
         this.avatar = response.data.avatar
         console.log(response.data.avatar)
@@ -309,18 +323,18 @@ export default {
         },
         series: [{
           label:{
-						        normal:{
-						         formatter:function(e){
-						            let data=e.data;
-						            	if(data.value==0){
-						            		data.labelLine.show=false;
-						            		data.label.show=false;
-						            	}else{
-						            		return  `${data.name}\n${e.percent}%`
-						            	}
-						            },    
-						        }       
-						    },
+					normal:{
+						formatter:function(e){
+            let data=e.data;
+            if(data.value==0){
+						data.labelLine.show=false;
+                          data.label.show=false;
+                      }else{
+                          return  `${data.name}\n${e.percent}%`
+                        }
+                      },    
+                  }       
+              },
 
           name: '评分',
           type: 'pie',
